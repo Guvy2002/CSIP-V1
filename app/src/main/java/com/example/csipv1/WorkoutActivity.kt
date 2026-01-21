@@ -64,3 +64,6 @@ class WorkoutsActivity : AppCompatActivity() {
         // TODO: Implement the logic content of your workout CardViews
 
 }
+
+class WorkoutActivity {
+}

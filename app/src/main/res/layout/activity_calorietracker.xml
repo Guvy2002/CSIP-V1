@@ -123,19 +123,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Floating Action Button to Add Food -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_food"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="80dp"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/black"
-        app:tint="@color/white"
-        android:contentDescription="Add Food Item" />
+
 
     <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
