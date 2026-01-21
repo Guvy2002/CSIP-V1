@@ -20,6 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".GoalsActivity"
+            android:parentActivityName=".DashboardActivity" />
+        <activity
+            android:name=".DashboardActivity" />
     </application>
 
 </manifest>

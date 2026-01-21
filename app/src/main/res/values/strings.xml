@@ -1,3 +1,67 @@
 <resources>
+
+    //REGISTER//
     <string name="app_name">CSIP V1</string>
+    <string name="app_title">MyDesiDietPro</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="login_account_circle_icon_description">Login account circle icon</string>
+    <string name="email_hint">Email</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="login_button">Sign In</string>
+    <string name="register_button_text">Register</string>
+    <string name="forgot_password_text">Forgot Password</string>
+    <string name="already_got_account_text">Already have an account? </string>
+    <string name="register_text">Forgot Password</string>
+
+
+    //GOALS//
+    <string name="goals_title">Your Goals</string>
+    <string name="starting_weight_hint">Starting Weight (kg)</string>
+    <string name="current_weight_hint">Current Weight (kg)</string>
+    <string name="weekly_goal_hint">Weekly Goal (e.g., lose 0.5 kg)</string>
+    <string name="save_button_text">Save</string>
+    <string name="view_goals_button_text">View Goals</string>
+    <string name="view_workouts_button_text">View Workouts</string>
+    <string name="view_recipies_button_text">View Recipies</string>
+
+
+    <string-array name="activity_levels">
+        <item>Sedentary</item>
+        <item>Lightly Active</item>
+        <item>Moderately Active</item>
+        <item>Very Active</item>
+    </string-array>
+
+
+    //HOME PAGE//
+    <string name="diary_title">Diary Log</string>
+    <string name="breakfast">BREAKFAST</string>
+    <string name="lunch">LUNCH</string>
+    <string name="dinner">DINNER</string>
+    <string name="snack">SNACK</string>
+    <string name="add_button_text">ADD</string>
+    <string name="calories_placeholder">0 kcal</string>
+
+    //Workout Page//
+    <string name="view_button_text">VIEW</string>
+    <string name="workout_content">Workouts</string>
+    <string name="Chest_workout">Chest Workout</string>
+    <string name="Back_workout">Back Workout</string>
+    <string name="Shoulder_workout">Shoulder Workout</string>
+    <string name="Leg_workout">Leg Workout</string>
+    <string name="Arms_workout">Arms Workout</string>
+
+
+    //Recipies Page//
+    <string name="view_button_text">VIEW</string>
+    <string name="workout_content">Workouts</string>
+    <string name="Breakfast_recipies">Breakfast</string>
+    <string name="Lunch_recipies">Lunch</string>
+    <string name="Dinner_recipies">Dinner</string>
+    <string name="Snack_recipies">Snack</string>
+
+
+
 </resources>
