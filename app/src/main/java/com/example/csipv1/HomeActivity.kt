@@ -1,10 +1,9 @@
-// In your HomeActivity.kt file
+package com.example.csipv1 // Make sure your package name is here
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
-import androidx.compose.ui.layout.layout
+import androidx.appcompat.app.AppCompatActivity
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

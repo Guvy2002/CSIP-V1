@@ -11,23 +11,43 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CSIPV1">
+
+        <!-- MainActivity is the first screen that opens (the launcher) -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- All other activities in your app MUST be declared here -->
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+
         <activity
             android:name=".GoalsActivity"
-            android:parentActivityName=".DashboardActivity" />
+            android:parentActivityName=".HomeActivity" /> <!-- Fixed parent activity -->
+
+
         <activity
-            android:name=".DashboardActivity" />
+            android:name=".CalorieTrackerActivity"
+            android:exported="false" />
+
+
+
+        <!-- I removed the old DashboardActivity. If you still use it, add it back. -->
+
     </application>
 
 </manifest>

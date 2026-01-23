@@ -45,6 +45,13 @@
                 android:layout_height="wrap_content"
                 android:text="450 kcal"
                 android:textColor="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/text_meal_calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="450 kcal"
+                android:textColor="@android:color/darker_gray" />
         </LinearLayout>
 
         <ImageButton
