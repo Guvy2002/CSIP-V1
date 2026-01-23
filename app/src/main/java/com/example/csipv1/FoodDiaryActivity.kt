@@ -13,7 +13,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CalorieTrackerActivity : AppCompatActivity() {
+class FoodDiaryActivity : AppCompatActivity() {
 
     // UI Components
     private lateinit var dateTextView: TextView
@@ -69,7 +69,7 @@ class CalorieTrackerActivity : AppCompatActivity() {
             showDatePicker()
         }
 
-        // Add buttons for each meal (you'll need to add these IDs to your included layouts)
+        // Add buttons for each meal (you'''ll need to add these IDs to your included layouts)
         setupMealCardClickListener(breakfastCard, "Breakfast", breakfastMeals)
         setupMealCardClickListener(lunchCard, "Lunch", lunchMeals)
         setupMealCardClickListener(dinnerCard, "Dinner", dinnerMeals)
@@ -210,7 +210,7 @@ class CalorieTrackerActivity : AppCompatActivity() {
 
     private fun updateMealCard(card: CardView, meals: MutableList<FoodItem>) {
         // Find the calorie text view in the meal card
-        // You'll need to add an ID for this in your meal card layouts
+        // You'''ll need to add an ID for this in your meal card layouts
         val caloriesTextView = card.findViewById<TextView>(R.id.text_meal_calories)
         val totalMealCalories = meals.sumOf { it.calories }
         caloriesTextView?.text = "$totalMealCalories kcal"

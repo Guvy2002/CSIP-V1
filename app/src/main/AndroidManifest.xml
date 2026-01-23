@@ -14,7 +14,7 @@
 
         <!-- MainActivity is the first screen that opens (the launcher) -->
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,7 @@
         <!-- All other activities in your app MUST be declared here -->
         <activity
             android:name=".RegisterActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".LoginActivity" />
 
         <activity
             android:name=".HomeActivity"
