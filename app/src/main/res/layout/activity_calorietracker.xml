@@ -7,7 +7,7 @@
     android:background="@drawable/pages_background"
     tools:context=".CalorieTrackerActivity">
 
-    <!-- ScrollView ensures all content is visible on any screen size -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,7 +21,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- 1. HEADER -->
+            <!-- Calorie Tracker -->
             <TextView
                 android:id="@+id/calorie_tracker_title"
                 android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="16sp" />
 
-            <!-- 2. MAIN CALORIE SUMMARY CARD -->
+            <!-- CALORIE INTAKE SUMMARY CARD -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:padding="20dp">
 
-                    <!-- Circular Progress for Calories -->
+                    <!-- Calorie Progress -->
                     <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:id="@+id/calories_progress_circle"
                         android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                         app:trackCornerRadius="8dp"
                         app:trackThickness="20dp" />
 
-                    <!-- Text inside the Circle -->
+                    <!-- Text Circle -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 3. MEAL CARDS (Breakfast, Lunch, Dinner, Snacks) -->
+            <!-- CALORIE BOXES (Breakfast, Lunch, Dinner, Snacks) -->
 
             <!-- Breakfast Card -->
             <include

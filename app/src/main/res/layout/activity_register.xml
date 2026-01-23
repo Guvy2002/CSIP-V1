@@ -16,7 +16,6 @@
         android:textColor="@color/white"
         android:textSize="24sp" />
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,22 +23,7 @@
         android:text="@string/app_title"
         android:textColor="@color/white"
         android:textSize="34sp"
-        android:textStyle="bold"
-        android:gravity="center" />
-
-    <EditText
-        android:id="@+id/email_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:autofillHints="Email"
-        android:background="@drawable/rounded_corner"
-        android:hint="@string/email_hint"
-        android:inputType="text"
-        android:padding="16dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/username_input"
@@ -48,7 +32,7 @@
         android:layout_marginTop="16dp"
         android:autofillHints="username"
         android:background="@drawable/rounded_corner"
-        android:hint="@string/username_hint"
+        android:hint="@string/username"
         android:inputType="text"
         android:padding="16dp"
         android:textColor="@color/white"
@@ -62,7 +46,7 @@
         android:layout_marginTop="16dp"
         android:autofillHints="password"
         android:background="@drawable/rounded_corner"
-        android:hint="@string/password_hint"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:padding="16dp"
         android:textColor="@color/white"
@@ -76,7 +60,7 @@
         android:layout_marginTop="16dp"
         android:autofillHints="password"
         android:background="@drawable/rounded_corner"
-        android:hint="@string/confirm_password_hint"
+        android:hint="@string/confirm_password"
         android:inputType="textPassword"
         android:padding="16dp"
         android:textColor="@color/white"
@@ -97,11 +81,12 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/sign_in_prompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/already_got_account_text"
+        android:layout_marginTop="24dp"
+        android:text="@string/login_prompt_text"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
 </LinearLayout>

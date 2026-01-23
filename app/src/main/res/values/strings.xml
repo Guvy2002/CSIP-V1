@@ -1,19 +1,28 @@
 <resources>
 
-    <!-- REGISTER -->
+    <!-- REGISTER & LOGIN -->
     <string name="app_name">CSIP V1</string>
     <string name="app_title">MyDesiDietPro</string>
     <string name="welcome_to">Welcome to</string>
     <string name="login_account_circle_icon_description">Login account circle icon</string>
     <string name="email_hint">Email</string>
-    <string name="username_hint">Username</string>
-    <string name="password_hint">Password</string>
-    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="login_button">Sign In</string>
     <string name="register_button_text">Register</string>
-    <string name="forgot_password_text">Forgot Password</string>
-    <string name="already_got_account_text">Already have an account? </string>
-    <string name="register_text">Forgot Password</string>
+    <string name="forgot_password_text"> <b>Forgot Password?</b></string>
+    <string name="login_prompt_text">Already have an account? <b>Sign In</b></string>
+
+    <!-- Change Password -->
+    <string name="change_password_title">Change Password</string>
+    <string name="change_password_email">Email</string>
+    <string name="change_password">Password</string>
+    <string name="change_password_confirm_password">Confirm Password</string>
+    <string name="change_password_button">Change Password</string>
+
+
+
 
 
     <!-- GOALS -->
@@ -26,7 +35,7 @@
     <string name="view_workouts_button_text">View Workouts</string>
     <string name="view_recipies_button_text">View Recipies</string>
 
-
+    <!-- GOALS PAGE -->
     <string-array name="activity_levels">
         <item>Sedentary</item>
         <item>Lightly Active</item>
