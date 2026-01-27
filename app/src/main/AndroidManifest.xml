@@ -41,16 +41,15 @@
 
         <activity
             android:name=".GoalsActivity"
-            android:parentActivityName=".HomeActivity" /> <!-- Fixed parent activity -->
-
+            android:parentActivityName=".HomeActivity" />
 
         <activity
             android:name=".CalorieTrackerActivity"
             android:exported="false" />
 
-
-
-        <!-- I removed the old DashboardActivity. If you still use it, add it back. -->
+        <activity
+            android:name=".WorkoutsActivity"
+            android:exported="false" />
 
     </application>
 

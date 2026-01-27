@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -26,10 +27,20 @@ class LoginActivity : AppCompatActivity() {
         forgotPasswordPrompt = findViewById(R.id.forgot_password_prompt)
 
         loginBtn.setOnClickListener {
-            // TODO: add real login validation later
-            val intent = Intent(this, WorkoutActivity::class.java)
-            startActivity(intent)
-            finish()
+            // 1. Get user input from EditText fields
+            val username = usernameInput.text.toString().trim()
+            val password = passwordInput.text.toString().trim()
+
+            // 2. Check if credentials are correct
+            if (username == "admin" && password == "admin") {
+                // 3a. On success, navigate to the HomeActivity
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+                finish() // Close the LoginActivity so the user can't navigate back to it
+            } else {
+                // 3b. On failure, show an error message
+                Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
+            }
         }
 
         registerBtn.setOnClickListener {

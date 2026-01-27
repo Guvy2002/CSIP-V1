@@ -69,7 +69,6 @@ class FoodDiaryActivity : AppCompatActivity() {
             showDatePicker()
         }
 
-        // Add buttons for each meal (you'''ll need to add these IDs to your included layouts)
         setupMealCardClickListener(breakfastCard, "Breakfast", breakfastMeals)
         setupMealCardClickListener(lunchCard, "Lunch", lunchMeals)
         setupMealCardClickListener(dinnerCard, "Dinner", dinnerMeals)
@@ -145,7 +144,7 @@ class FoodDiaryActivity : AppCompatActivity() {
     }
 
     private fun getSampleFoodDatabase(mealType: String): List<FoodItem> {
-        // Sample food items - in a real app, this would query a database
+        // database needed
         return when (mealType.lowercase()) {
             "breakfast" -> listOf(
                 FoodItem("Oatmeal with Berries", 250),
@@ -193,15 +192,12 @@ class FoodDiaryActivity : AppCompatActivity() {
         val formattedDate = dateFormat.format(currentDate.time)
         dateTextView.text = if (isToday()) "Today, ${formattedDate.split(", ")[1]}" else formattedDate
 
-        // Update calories
         caloriesConsumedTextView.text = totalCaloriesConsumed.toString()
         caloriesGoalTextView.text = "of $dailyCalorieGoal kcal"
 
-        // Update progress circle
         val progress = ((totalCaloriesConsumed.toFloat() / dailyCalorieGoal) * 100).toInt()
         caloriesProgressCircle.progress = progress.coerceIn(0, 100)
 
-        // Update meal cards (you would need to add TextViews in your included layouts to show this)
         updateMealCard(breakfastCard, breakfastMeals)
         updateMealCard(lunchCard, lunchMeals)
         updateMealCard(dinnerCard, dinnerMeals)
@@ -209,8 +205,6 @@ class FoodDiaryActivity : AppCompatActivity() {
     }
 
     private fun updateMealCard(card: CardView, meals: MutableList<FoodItem>) {
-        // Find the calorie text view in the meal card
-        // You'''ll need to add an ID for this in your meal card layouts
         val caloriesTextView = card.findViewById<TextView>(R.id.text_meal_calories)
         val totalMealCalories = meals.sumOf { it.calories }
         caloriesTextView?.text = "$totalMealCalories kcal"
@@ -223,7 +217,7 @@ class FoodDiaryActivity : AppCompatActivity() {
     }
 }
 
-// Data model for food items
+
 data class FoodItem(
     val name: String,
     val calories: Int
