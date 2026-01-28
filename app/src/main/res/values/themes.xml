@@ -1,19 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Base application theme. -->
     <style name="Base.Theme.CSIPV1" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="bottomNavigationStyle" >@style/MyBottomNavigationView</item>
+        <item name="bottomNavigationStyle">@style/MyBottomNavigationView</item>
     </style>
 
     <style name="Theme.CSIPV1" parent="Base.Theme.CSIPV1" />
 
-
-    <!-- ADD THIS NEW STYLE BLOCK -->
     <!-- Custom Style for the Bottom Navigation View -->
-<style name="MyBottomNavigationView" parent="Widget.Material3.BottomNavigationView">
-<item name="itemIconTint">@color/bottom_nav_tint</item>
-<item name="itemTextColor">@color/bottom_nav_tint</item>
-</style>
+    <style name="MyBottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemIconTint">@color/bottom_nav_tint</item>
+        <item name="itemTextColor">@color/bottom_nav_tint</item>
+    </style>
 
 </resources>

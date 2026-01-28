@@ -11,8 +11,10 @@
 
 
     <item
-        android:id="@+id/navigation_me"
-        android:icon="@drawable/ic_me"
-        android:title="Me" />
+        android:id="@+id/navigation_exercise"
+        android:icon="@drawable/fitness_24"
+        android:title="Exercise" />
+
+
 
 </menu>

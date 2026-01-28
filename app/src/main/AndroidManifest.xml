@@ -48,7 +48,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".WorkoutsActivity"
+            android:name=".WorkoutActivity"
             android:exported="false" />
 
     </application>

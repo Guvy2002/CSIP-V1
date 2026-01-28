@@ -1,3 +1,4 @@
+
 package com.example.csipv1
 
 import android.content.Intent
@@ -6,9 +7,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : ComponentActivity() {
 
     private lateinit var usernameInput: EditText
     private lateinit var passwordInput: EditText
@@ -18,7 +19,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Toast.makeText(this, "LoginActivity started", Toast.LENGTH_SHORT).show()
+
         setContentView(R.layout.activity_login)
+        // Initialize views
+
 
         usernameInput = findViewById(R.id.username_input)
         passwordInput = findViewById(R.id.password_input)
@@ -27,30 +33,23 @@ class LoginActivity : AppCompatActivity() {
         forgotPasswordPrompt = findViewById(R.id.forgot_password_prompt)
 
         loginBtn.setOnClickListener {
-            // 1. Get user input from EditText fields
             val username = usernameInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
 
-            // 2. Check if credentials are correct
             if (username == "admin" && password == "admin") {
-                // 3a. On success, navigate to the HomeActivity
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
-                finish() // Close the LoginActivity so the user can't navigate back to it
+                startActivity(Intent(this, HomeActivity::class.java))
+                finish()
             } else {
-                // 3b. On failure, show an error message
                 Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
             }
         }
 
         registerBtn.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
 
         forgotPasswordPrompt.setOnClickListener {
-            val intent = Intent(this, ChangePasswordActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ChangePasswordActivity::class.java))
         }
     }
 }

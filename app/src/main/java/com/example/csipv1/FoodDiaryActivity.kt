@@ -1,11 +1,9 @@
 package com.example.csipv1
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -75,22 +73,22 @@ class FoodDiaryActivity : AppCompatActivity() {
         setupMealCardClickListener(snacksCard, "Snacks", snackMeals)
 
         // Bottom navigation
+        bottomNavigation.selectedItemId = R.id.navigation_diary
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_home -> {
-                    // Navigate to home
+                R.id.navigation_home -> {
+                    startActivity(Intent(this, HomeActivity::class.java))
                     true
                 }
-                R.id.nav_tracker -> {
-                    // Already on tracker
+                R.id.navigation_diary -> {
+                    true // Already here
+                }
+                R.id.navigation_exercise -> {
+                    startActivity(Intent(this, WorkoutActivity::class.java))
                     true
                 }
-                R.id.nav_progress -> {
-                    // Navigate to progress
-                    true
-                }
-                R.id.nav_profile -> {
-                    // Navigate to profile
+                R.id.navigation_exercise -> {
+                    startActivity(Intent(this, WorkoutActivity::class.java))
                     true
                 }
                 else -> false
@@ -123,67 +121,11 @@ class FoodDiaryActivity : AppCompatActivity() {
     }
 
     private fun showFoodSelectionDialog(mealType: String, mealList: MutableList<FoodItem>) {
-        // Sample food database (In production, this would come from a real database)
-        val availableFoods = getSampleFoodDatabase(mealType)
-
-        val foodNames = availableFoods.map { "${it.name} (${it.calories} kcal)" }.toTypedArray()
-
-        AlertDialog.Builder(this)
-            .setTitle("Add $mealType")
-            .setItems(foodNames) { dialog, which ->
-                val selectedFood = availableFoods[which]
-                mealList.add(selectedFood)
-                totalCaloriesConsumed += selectedFood.calories
-                updateUI()
-                dialog.dismiss()
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
-    }
-
-    private fun getSampleFoodDatabase(mealType: String): List<FoodItem> {
-        // database needed
-        return when (mealType.lowercase()) {
-            "breakfast" -> listOf(
-                FoodItem("Oatmeal with Berries", 250),
-                FoodItem("Scrambled Eggs (2)", 180),
-                FoodItem("Greek Yogurt with Honey", 150),
-                FoodItem("Avocado Toast", 300),
-                FoodItem("Protein Smoothie", 220),
-                FoodItem("Pancakes (3)", 350),
-                FoodItem("Cereal with Milk", 200)
-            )
-            "lunch" -> listOf(
-                FoodItem("Grilled Chicken Salad", 350),
-                FoodItem("Turkey Sandwich", 400),
-                FoodItem("Quinoa Bowl", 450),
-                FoodItem("Pasta with Vegetables", 500),
-                FoodItem("Sushi Roll (8 pieces)", 300),
-                FoodItem("Chicken Wrap", 380),
-                FoodItem("Vegetable Soup", 200)
-            )
-            "dinner" -> listOf(
-                FoodItem("Grilled Salmon with Rice", 550),
-                FoodItem("Steak with Vegetables", 600),
-                FoodItem("Chicken Stir Fry", 480),
-                FoodItem("Vegetarian Pizza (2 slices)", 500),
-                FoodItem("Beef Tacos (2)", 450),
-                FoodItem("Pasta Carbonara", 650),
-                FoodItem("Roasted Chicken Breast", 400)
-            )
-            "snacks" -> listOf(
-                FoodItem("Apple", 95),
-                FoodItem("Protein Bar", 200),
-                FoodItem("Mixed Nuts (handful)", 170),
-                FoodItem("String Cheese", 80),
-                FoodItem("Baby Carrots with Hummus", 120),
-                FoodItem("Dark Chocolate (2 squares)", 100),
-                FoodItem("Rice Cakes (2)", 70)
-            )
-            else -> emptyList()
-        }
+        // In a real app, you'd show a more complex dialog to add/edit food
+        val newFood = FoodItem("Sample Food", 250) // Placeholder
+        mealList.add(newFood)
+        totalCaloriesConsumed += newFood.calories
+        updateUI()
     }
 
     private fun updateUI() {
