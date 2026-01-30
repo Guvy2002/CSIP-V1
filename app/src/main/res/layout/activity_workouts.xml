@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pages_background"
-    tools:context=".SettingsActivity">
+    tools:context=".WorkoutActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,16 +31,17 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="50dp"/>
 
-
-
-            <!-- Workout 1 -->
+            <!-- Workout 1 - Chest -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/workout_1_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -53,34 +54,38 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:orientation="vertical">
-                        <!-- FIX: Removed duplicate ID from this LinearLayout -->
+
                         <TextView
                             android:id="@+id/workout_1_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/Chest_workout"
+                            android:text="Chest Workout"
                             android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/btn_view_chest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:backgroundTint="@color/black"
-                        android:text="@string/view_button_text" />
+                        android:text="View" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Workout 2 -->
+            <!-- Workout 2 - Back -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/workout_2_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -96,28 +101,32 @@
                             android:id="@+id/workout_2_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/Back_workout"
+                            android:text="Back Workout"
                             android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/btn_view_back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:backgroundTint="@color/black"
-                        android:text="@string/view_button_text" />
+                        android:text="View" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Workout 3 -->
+            <!-- Workout 3 - Legs -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/workout_3_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -133,28 +142,32 @@
                             android:id="@+id/workout_3_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/Leg_workout"
+                            android:text="Leg Workout"
                             android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/btn_view_leg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:backgroundTint="@color/black"
-                        android:text="@string/view_button_text" />
+                        android:text="View" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Workout 4  -->
+            <!-- Workout 4 - Shoulders -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/workout_4_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -170,28 +183,32 @@
                             android:id="@+id/workout_4_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/Shoulder_workout"
+                            android:text="Shoulder Workout"
                             android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/btn_view_shoulder"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:backgroundTint="@color/black"
-                        android:text="@string/view_button_text" />
+                        android:text="View" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Workout 5  -->
+            <!-- Workout 5 - Arms -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/workout_5_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -207,17 +224,18 @@
                             android:id="@+id/workout_5_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/Arms_workout"
+                            android:text="Arms Workout"
                             android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/btn_view_arms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:backgroundTint="@color/black"
-                        android:text="@string/view_button_text" />
+                        android:text="View" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 

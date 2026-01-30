@@ -51,7 +51,6 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- THIS IS THE NEW SETTINGS ICON -->
                 <ImageButton
                     android:id="@+id/btn_settings"
                     android:layout_width="50dp"
@@ -116,7 +115,6 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <!-- Divider -->
                         <View
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
@@ -185,7 +183,7 @@
                     android:backgroundTint="@color/black" />
             </LinearLayout>
 
-            <!-- 4. RECENT ACTIVITY / TIPS -->
+            <!-- 4. TIP OF THE DAY -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -200,7 +198,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="16dp"
                 app:cardBackgroundColor="#2C2C2C"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -210,6 +208,7 @@
                     android:gravity="center_vertical">
 
                     <TextView
+                        android:id="@+id/text_tip_of_the_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Stay hydrated! Drink at least 8 glasses of water today."
@@ -217,6 +216,49 @@
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <!-- RECIPE SLIDESHOW -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Featured Recipes"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
+
+            <ViewFlipper
+                android:id="@+id/recipe_flipper"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/recipe_placeholder_1"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/recipe_placeholder_2"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/recipe_placeholder_3"
+                    android:scaleType="centerCrop" />
+
+            </ViewFlipper>
+
+            <Button
+                android:id="@+id/btn_view_recipes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View All Recipes"
+                android:backgroundTint="@color/black" />
 
         </LinearLayout>
     </ScrollView>

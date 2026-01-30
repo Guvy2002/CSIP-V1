@@ -53,6 +53,20 @@
     <string name="add_button_text">ADD</string>
     <string name="calories_placeholder">0 kcal</string>
 
+    <!-- Health Tips -->
+    <string-array name="health_tips">
+        <item>Stay hydrated! Drink at least 8 glasses of water today.</item>
+        <item>Aim for 30 minutes of moderate exercise most days of the week.</item>
+        <item>Fill half your plate with fruits and vegetables.</item>
+        <item>Get at least 7-8 hours of quality sleep per night.</item>
+        <item>Practice mindfulness or meditation for a few minutes each day.</item>
+        <item>Incorporate strength training into your routine at least twice a week.</item>
+        <item>Limit processed foods and sugary drinks.</item>
+        <item>Take short breaks to stretch and move around if you sit for long periods.</item>
+        <item>Eat a balanced breakfast to kickstart your metabolism.</item>
+        <item>Listen to your body and rest when you need to.</item>
+    </string-array>
+
     <!-- Workout Page -->
     <string name="Chest_workout">Chest Workout</string>
     <string name="Back_workout">Back Workout</string>

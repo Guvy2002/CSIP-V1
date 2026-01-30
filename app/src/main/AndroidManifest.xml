@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 1. The INTERNET permission MUST be a direct child of the <manifest> tag -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 2. Set 'usesCleartextTraffic' to true inside the <application> tag -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,7 +14,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CSIPV1">
+        android:theme="@style/Theme.CSIPV1"
+        android:usesCleartextTraffic="true">  <!-- This allows non-HTTPS traffic -->
 
         <!-- MainActivity is the first screen that opens (the launcher) -->
         <activity
@@ -25,7 +30,7 @@
         <!-- All other activities in your app MUST be declared here -->
         <activity
             android:name=".RegisterActivity"
-            android:parentActivityName=".LoginActivity" />
+            android:exported="false" />
 
         <activity
             android:name=".HomeActivity"
@@ -37,11 +42,11 @@
 
         <activity
             android:name=".ChangePasswordActivity"
-            android:parentActivityName=".LoginActivity" />
+            android:exported="false" />
 
         <activity
             android:name=".GoalsActivity"
-            android:parentActivityName=".HomeActivity" />
+            android:exported="false" />
 
         <activity
             android:name=".CalorieTrackerActivity"
@@ -49,6 +54,22 @@
 
         <activity
             android:name=".WorkoutActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".RecipiesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".FoodDiaryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".WorkoutDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ExerciseDetailActivity"
             android:exported="false" />
 
     </application>

@@ -180,15 +180,26 @@
                     android:textStyle="bold"/>
             </RadioGroup>
 
-        </LinearLayout>
-    </ScrollView>
 
-    <com.google.android.material.button.MaterialButton
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/change_password_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/logout_button"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@android:color/black"
+                android:text="My Details"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
         android:id="@+id/change_password_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/logout_button"
         android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@android:color/black"
         android:text="Change Password"
@@ -206,6 +217,9 @@
         android:backgroundTint="@android:color/black"
         android:text="Log Out"
         android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

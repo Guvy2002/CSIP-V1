@@ -87,10 +87,6 @@ class FoodDiaryActivity : AppCompatActivity() {
                     startActivity(Intent(this, WorkoutActivity::class.java))
                     true
                 }
-                R.id.navigation_exercise -> {
-                    startActivity(Intent(this, WorkoutActivity::class.java))
-                    true
-                }
                 else -> false
             }
         }
