@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "269846468278",
+    "project_id": "mydesidietpro",
+    "storage_bucket": "mydesidietpro.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:269846468278:android:2d4f93d3e359c7c7633817",
+        "android_client_info": {
+          "package_name": "com.example.csipv1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtG4twRN3dqGNyMi7hA532TC6Im_h3TEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
