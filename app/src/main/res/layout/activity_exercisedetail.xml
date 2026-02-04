@@ -54,7 +54,8 @@
                 <VideoView
                     android:id="@+id/exercise_video"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
 
                 <ImageButton
                     android:id="@+id/btn_play_video"

@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import kotlin.random.Random
 
 class HomeActivity : AppCompatActivity() {
@@ -24,6 +25,33 @@ class HomeActivity : AppCompatActivity() {
         val tipTextView: TextView = findViewById(R.id.text_tip_of_the_day)
         val recipeFlipper: ViewFlipper = findViewById(R.id.recipe_flipper)
         val viewRecipesButton: Button = findViewById(R.id.btn_view_recipes)
+        val usernameTextView: TextView = findViewById(R.id.text_username)
+
+        // --- Get Username and Welcome User ---
+        val newUsername = intent.getStringExtra("USER_NAME")
+        val isAdmin = intent.getBooleanExtra("IS_ADMIN", false)
+
+        when {
+            newUsername != null -> {
+                // Case 1: Just registered, username is in the intent
+                usernameTextView.text = newUsername
+            }
+            isAdmin -> {
+                // Case 2: Logged in as admin
+                usernameTextView.text = "Admin"
+            }
+            else -> {
+                // Case 3: Regular login, get from Firebase Auth
+                val user = FirebaseAuth.getInstance().currentUser
+                val username = user?.displayName
+                if (username != null && username.isNotEmpty()) {
+                    usernameTextView.text = username
+                } else {
+                    // Fallback if the display name is not set
+                    usernameTextView.text = "User"
+                }
+            }
+        }
 
         // --- Setup Recipe Slideshow ---
         recipeFlipper.flipInterval = 3000 // 3 seconds

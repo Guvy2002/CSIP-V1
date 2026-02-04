@@ -6,12 +6,14 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class GoalsActivity : AppCompatActivity() {
 
     private lateinit var startingWeightInput: EditText
     private lateinit var currentWeightInput: EditText
+    private lateinit var heightInput: EditText
     private lateinit var weeklyGoalInput: EditText
     private lateinit var activityLevelSpinner: Spinner
     private lateinit var saveButton: Button
@@ -22,25 +24,43 @@ class GoalsActivity : AppCompatActivity() {
 
         startingWeightInput = findViewById(R.id.starting_weight_input)
         currentWeightInput = findViewById(R.id.current_weight_input)
+        heightInput = findViewById(R.id.height_input)
         weeklyGoalInput = findViewById(R.id.weekly_goal_input)
         activityLevelSpinner = findViewById(R.id.activity_level_spinner)
         saveButton = findViewById(R.id.save_goals_btn)
 
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
             this,
             R.array.activity_levels,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
             activityLevelSpinner.adapter = adapter
         }
 
         saveButton.setOnClickListener {
-            val intent = Intent(this, DashboardActivity::class.java)
+            val startingWeight = startingWeightInput.text.toString().trim()
+            val currentWeight = currentWeightInput.text.toString().trim()
+            val height = heightInput.text.toString().trim()
+            val weeklyGoal = weeklyGoalInput.text.toString().trim()
+
+            if (startingWeight.isEmpty() || currentWeight.isEmpty() || height.isEmpty() || weeklyGoal.isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // In a real app, you would save the goal data to Firebase here.
+            Toast.makeText(this, "Goals saved successfully!", Toast.LENGTH_SHORT).show()
+
+            // Get the username passed from the previous activity
+            val username = intent.getStringExtra("USER_NAME")
+
+            // Navigate to the HomeActivity
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("USER_NAME", username) // Pass the username along
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+            finish()
         }
     }
 }

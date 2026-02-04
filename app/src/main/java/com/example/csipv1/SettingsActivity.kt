@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.FirebaseAuth
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -21,6 +22,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var iconSizeSmall: RadioButton
     private lateinit var iconSizeMedium: RadioButton
     private lateinit var iconSizeLarge: RadioButton
+    private lateinit var myDetailsButton: MaterialButton
     private lateinit var changePasswordButton: MaterialButton
     private lateinit var logoutButton: MaterialButton
     private lateinit var bottomNavigation: BottomNavigationView
@@ -69,6 +71,7 @@ class SettingsActivity : AppCompatActivity() {
         iconSizeMedium = findViewById(R.id.icon_size_medium)
         iconSizeLarge = findViewById(R.id.icon_size_large)
 
+        myDetailsButton = findViewById(R.id.my_details_button)
         changePasswordButton = findViewById(R.id.change_password_button)
         logoutButton = findViewById(R.id.logout_button)
         bottomNavigation = findViewById(R.id.bottom_navigation)
@@ -108,11 +111,16 @@ class SettingsActivity : AppCompatActivity() {
         iconSizeMedium.setOnClickListener { saveIconSize(ICON_SIZE_MEDIUM) }
         iconSizeLarge.setOnClickListener { saveIconSize(ICON_SIZE_LARGE) }
 
+        myDetailsButton.setOnClickListener {
+            startActivity(Intent(this, MyDetailsActivity::class.java))
+        }
+
         changePasswordButton.setOnClickListener {
             startActivity(Intent(this, ChangePasswordActivity::class.java))
         }
 
         logoutButton.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
