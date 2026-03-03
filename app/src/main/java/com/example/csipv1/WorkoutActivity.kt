@@ -3,15 +3,27 @@ package com.example.csipv1
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlin.random.Random
 
-class WorkoutActivity : AppCompatActivity() {
+/**
+ * Optimized Workout Activity extending BaseActivity for faster theme/setting application.
+ */
+class WorkoutActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workouts)
 
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        val tipTextView: TextView = findViewById(R.id.text_workout_tip)
+
+        // --- Set Random Workout Tip ---
+        val workoutTips = resources.getStringArray(R.array.workout_tips)
+        if (workoutTips.isNotEmpty()) {
+            val randomTip = workoutTips[Random.nextInt(workoutTips.size)]
+            tipTextView.text = randomTip
+        }
 
         // Find all workout buttons
         val btnViewChest = findViewById<Button>(R.id.btn_view_chest)
@@ -43,12 +55,14 @@ class WorkoutActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> {
                     startActivity(Intent(this, HomeActivity::class.java))
-                    finish()
                     true
                 }
                 R.id.navigation_diary -> {
-                    startActivity(Intent(this, FoodDiaryActivity::class.java))
-                    finish()
+                    startActivity(Intent(this, CalorieTrackerActivity::class.java))
+                    true
+                }
+                R.id.navigation_community -> {
+                    startActivity(Intent(this, CommunityActivity::class.java))
                     true
                 }
                 R.id.navigation_exercise -> {

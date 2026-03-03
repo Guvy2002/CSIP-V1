@@ -21,10 +21,6 @@
     <string name="change_password_confirm_password">Confirm Password</string>
     <string name="change_password_button">Change Password</string>
 
-
-
-
-
     <!-- GOALS -->
     <string name="goals_title">Your Goals</string>
     <string name="starting_weight_hint">Starting Weight (kg)</string>
@@ -34,13 +30,25 @@
     <string name="view_goals_button_text">View Goals</string>
     <string name="view_workouts_button_text">View Workouts</string>
     <string name="view_recipies_button_text">View Recipies</string>
+    
+    <!-- Goal Results Format -->
+    <string name="calories_format">%1$d kcal / day</string>
+    <string name="protein_format">Protein: %1$dg</string>
+    <string name="carbs_format">Carbs: %1$dg</string>
+    <string name="fat_format">Fat: %1$dg</string>
 
-    <!-- GOALS PAGE -->
+    <!-- GOALS PAGE ARRAYS -->
     <string-array name="activity_levels">
         <item>Sedentary</item>
         <item>Lightly Active</item>
         <item>Moderately Active</item>
         <item>Very Active</item>
+    </string-array>
+
+    <string-array name="fitness_goals">
+        <item>Lose Weight</item>
+        <item>Maintain Weight</item>
+        <item>Gain Weight</item>
     </string-array>
 
 
@@ -65,6 +73,20 @@
         <item>Take short breaks to stretch and move around if you sit for long periods.</item>
         <item>Eat a balanced breakfast to kickstart your metabolism.</item>
         <item>Listen to your body and rest when you need to.</item>
+    </string-array>
+
+    <!-- Workout Tips -->
+    <string-array name="workout_tips">
+        <item>Don\'t forget to warm up for 5-10 minutes before every workout.</item>
+        <item>Focus on form over weight to prevent injuries and get better results.</item>
+        <item>Consistency is key! Stick to your training plan even on busy days.</item>
+        <item>Stay hydrated during your training session.</item>
+        <item>Breath control: exhale during exertion, inhale during release.</item>
+        <item>Rest is just as important as training—allow 48 hours for muscle groups to recover.</item>
+        <item>Track your progress: log your sets, reps, and weights.</item>
+        <item>Fuel your body with a small snack 30-60 minutes before training.</item>
+        <item>Stretching after a workout helps reduce muscle soreness.</item>
+        <item>Listen to your body—stop if you feel sharp pain.</item>
     </string-array>
 
     <!-- Workout Page -->

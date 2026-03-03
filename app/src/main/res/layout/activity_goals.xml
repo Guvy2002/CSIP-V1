@@ -1,95 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pages_background"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".GoalsActivity">
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/goals_title"
-        android:textColor="@color/white"
-        android:textSize="34sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/starting_weight_input"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_corner"
-        android:hint="@string/starting_weight_hint"
-        android:inputType="numberDecimal"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:padding="16dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
+        tools:context=".GoalsActivity">
 
-    <EditText
-        android:id="@+id/current_weight_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_corner"
-        android:hint="@string/current_weight_hint"
-        android:inputType="numberDecimal"
-        android:padding="16dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/goals_title"
+            android:textColor="@color/white"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/height_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_corner"
-        android:hint="Height (cm)"
-        android:inputType="numberDecimal"
-        android:padding="16dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
+        <!-- Input Section -->
+        <EditText
+            android:id="@+id/age_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:hint="Age"
+            android:inputType="number"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/weekly_goal_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_corner"
-        android:hint="@string/weekly_goal_hint"
-        android:inputType="text"
-        android:padding="16dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Gender"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
-    <Spinner
-        android:id="@+id/activity_level_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_corner"
-        android:entries="@array/activity_levels"
-        android:padding="16dp" />
+        <RadioGroup
+            android:id="@+id/gender_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/save_goals_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="20dp"
-        android:backgroundTint="@color/white"
-        android:padding="18dp"
-        android:text="@string/save_button_text"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
+            <RadioButton
+                android:id="@+id/gender_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Male"
+                android:textColor="@color/white" />
 
-</LinearLayout>
+            <RadioButton
+                android:id="@+id/gender_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
+                android:textColor="@color/white" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/current_weight_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_corner"
+            android:hint="Current Weight (kg)"
+            android:inputType="numberDecimal"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/height_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_corner"
+            android:hint="Height (cm)"
+            android:inputType="numberDecimal"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Fitness Goal"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/fitness_goal_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_corner"
+            android:padding="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Activity Level"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/activity_level_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_corner"
+            android:padding="16dp" />
+
+        <!-- Result Section (Calculated targets) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/results_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="#2C2C2C"
+            app:cardCornerRadius="16dp"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Daily Targets"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_calc_calories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:text="2,150 kcal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_calc_protein"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/darker_gray"
+                        tools:text="P: 160g" />
+
+                    <TextView
+                        android:id="@+id/text_calc_carbs"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/darker_gray"
+                        tools:text="C: 215g" />
+
+                    <TextView
+                        android:id="@+id/text_calc_fat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/darker_gray"
+                        tools:text="F: 72g" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/save_goals_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="32dp"
+            android:backgroundTint="@color/white"
+            android:padding="18dp"
+            android:text="@string/save_button_text"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+</ScrollView>

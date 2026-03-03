@@ -51,10 +51,16 @@ dependencies {
 
     // FIX: Let the BOM manage the version of firebase-auth. Use the -ktx version.
     implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
 
     // Other Firebase and Google dependencies
     implementation("com.google.firebase:firebase-storage-ktx")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+
+    // Networking for Nutrition API
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
     // Your other existing dependencies
     implementation(libs.androidx.core.ktx)

@@ -1,4 +1,4 @@
-package com.yourpackage.app
+package com.example.csipv1
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -6,31 +6,41 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.csipv1.SettingsActivity
 
 /**
- * Base activity that all other activities should extend to automatically
- * apply theme, text size, and icon size settings
+ * Optimized Base activity that automatically applies user preferences.
  */
 abstract class BaseActivity : AppCompatActivity() {
 
-    protected lateinit var sharedPreferences: SharedPreferences
+    protected val sharedPreferences: SharedPreferences by lazy {
+        getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        sharedPreferences = getSharedPreferences(
-            SettingsActivity.PREFS_NAME,
-            Context.MODE_PRIVATE
-        )
-
-        // Apply theme
+        // Apply theme settings
         applyTheme()
+        super.onCreate(savedInstanceState)
     }
 
     override fun attachBaseContext(newBase: Context) {
-        // Apply text size configuration
-        super.attachBaseContext(applyTextSizeConfiguration(newBase))
+        // Use the passed context to read preferences during early startup
+        val prefs = newBase.getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE)
+        val textSize = prefs.getString(
+            SettingsActivity.KEY_TEXT_SIZE,
+            SettingsActivity.TEXT_SIZE_MEDIUM
+        ) ?: SettingsActivity.TEXT_SIZE_MEDIUM
+
+        val fontScale = when (textSize) {
+            SettingsActivity.TEXT_SIZE_SMALL -> 0.85f
+            SettingsActivity.TEXT_SIZE_LARGE -> 1.15f
+            else -> 1.0f
+        }
+
+        val configuration = Configuration(newBase.resources.configuration)
+        configuration.fontScale = fontScale
+        
+        val context = newBase.createConfigurationContext(configuration)
+        super.attachBaseContext(context)
     }
 
     private fun applyTheme() {
@@ -39,44 +49,17 @@ abstract class BaseActivity : AppCompatActivity() {
             SettingsActivity.THEME_DARK
         ) ?: SettingsActivity.THEME_DARK
 
-        when (savedTheme) {
-            SettingsActivity.THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_NO
-            )
-            SettingsActivity.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_YES
-            )
+        val mode = if (savedTheme == SettingsActivity.THEME_LIGHT) {
+            AppCompatDelegate.MODE_NIGHT_NO
+        } else {
+            AppCompatDelegate.MODE_NIGHT_YES
+        }
+
+        if (AppCompatDelegate.getDefaultNightMode() != mode) {
+            AppCompatDelegate.setDefaultNightMode(mode)
         }
     }
 
-    private fun applyTextSizeConfiguration(context: Context): Context {
-        val prefs = context.getSharedPreferences(
-            SettingsActivity.PREFS_NAME,
-            Context.MODE_PRIVATE
-        )
-
-        val textSize = prefs.getString(
-            SettingsActivity.KEY_TEXT_SIZE,
-            SettingsActivity.TEXT_SIZE_MEDIUM
-        ) ?: SettingsActivity.TEXT_SIZE_MEDIUM
-
-        val fontScale = when (textSize) {
-            SettingsActivity.TEXT_SIZE_SMALL -> 0.85f
-            SettingsActivity.TEXT_SIZE_MEDIUM -> 1.0f
-            SettingsActivity.TEXT_SIZE_LARGE -> 1.15f
-            else -> 1.0f
-        }
-
-        val configuration = Configuration(context.resources.configuration)
-        configuration.fontScale = fontScale
-
-        return context.createConfigurationContext(configuration)
-    }
-
-    /**
-     * Get the icon size in dp based on user settings
-     * Use this method to set icon sizes dynamically
-     */
     protected fun getIconSizeDp(): Int {
         val iconSize = sharedPreferences.getString(
             SettingsActivity.KEY_ICON_SIZE,
@@ -85,23 +68,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
         return when (iconSize) {
             SettingsActivity.ICON_SIZE_SMALL -> 20
-            SettingsActivity.ICON_SIZE_MEDIUM -> 24
             SettingsActivity.ICON_SIZE_LARGE -> 28
             else -> 24
         }
     }
 
-    /**
-     * Get icon size in pixels
-     */
-    protected fun getIconSizePx(): Int {
-        val dp = getIconSizeDp()
-        return (dp * resources.displayMetrics.density).toInt()
-    }
-
-    /**
-     * Helper method to convert dp to pixels
-     */
     protected fun dpToPx(dp: Int): Int {
         return (dp * resources.displayMetrics.density).toInt()
     }

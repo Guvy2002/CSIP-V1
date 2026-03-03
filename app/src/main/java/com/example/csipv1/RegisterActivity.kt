@@ -145,8 +145,8 @@ class RegisterActivity : AppCompatActivity() {
                     user?.updateProfile(profileUpdates)
 
                     Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
-                    // Go to GoalsActivity instead of HomeActivity
                     val intent = Intent(this, GoalsActivity::class.java)
+                    intent.putExtra("SOURCE_ACTIVITY", "REGISTER")
                     intent.putExtra("USER_NAME", username)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)

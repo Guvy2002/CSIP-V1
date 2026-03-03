@@ -2,108 +2,137 @@ package com.example.csipv1
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.ViewFlipper
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.random.Random
 
-class HomeActivity : AppCompatActivity() {
+/**
+ * Optimized Home Activity extending BaseActivity for faster theme/setting application.
+ * Now displays real-time progress for calories.
+ */
+class HomeActivity : BaseActivity() {
+
+    private lateinit var usernameTextView: TextView
+    private lateinit var caloriesConsumedText: TextView
+    private lateinit var caloriesGoalText: TextView
+    
+    private lateinit var firestore: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private var mealsListener: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // --- Find All Views ---
-        val settingsButton: ImageButton = findViewById(R.id.btn_settings)
-        val addMealButton: Button = findViewById(R.id.btn_add_meal)
-        val viewWorkoutsButton: Button = findViewById(R.id.btn_log_workout)
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
-        val tipTextView: TextView = findViewById(R.id.text_tip_of_the_day)
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
+
+        initializeViews()
+        setupListeners()
+        loadWelcomeData()
+        startRealTimeProgressUpdate()
+    }
+
+    private fun initializeViews() {
+        usernameTextView = findViewById(R.id.text_username)
+        caloriesConsumedText = findViewById(R.id.text_home_calories)
+        caloriesGoalText = findViewById(R.id.text_home_goal)
+        
         val recipeFlipper: ViewFlipper = findViewById(R.id.recipe_flipper)
-        val viewRecipesButton: Button = findViewById(R.id.btn_view_recipes)
-        val usernameTextView: TextView = findViewById(R.id.text_username)
-
-        // --- Get Username and Welcome User ---
-        val newUsername = intent.getStringExtra("USER_NAME")
-        val isAdmin = intent.getBooleanExtra("IS_ADMIN", false)
-
-        when {
-            newUsername != null -> {
-                // Case 1: Just registered, username is in the intent
-                usernameTextView.text = newUsername
-            }
-            isAdmin -> {
-                // Case 2: Logged in as admin
-                usernameTextView.text = "Admin"
-            }
-            else -> {
-                // Case 3: Regular login, get from Firebase Auth
-                val user = FirebaseAuth.getInstance().currentUser
-                val username = user?.displayName
-                if (username != null && username.isNotEmpty()) {
-                    usernameTextView.text = username
-                } else {
-                    // Fallback if the display name is not set
-                    usernameTextView.text = "User"
-                }
-            }
-        }
-
-        // --- Setup Recipe Slideshow ---
-        recipeFlipper.flipInterval = 3000 // 3 seconds
+        recipeFlipper.flipInterval = 3000
         recipeFlipper.isAutoStart = true
 
-        // --- Set Random Health Tip ---
+        val tipTextView: TextView = findViewById(R.id.text_tip_of_the_day)
         val healthTips = resources.getStringArray(R.array.health_tips)
-        val randomTip = healthTips[Random.nextInt(healthTips.size)]
-        tipTextView.text = randomTip
+        if (healthTips.isNotEmpty()) {
+            tipTextView.text = healthTips[Random.nextInt(healthTips.size)]
+        }
+    }
 
-        // --- Set Click Listeners ---
-
-        // Top-right Settings Button
-        settingsButton.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
+    private fun setupListeners() {
+        findViewById<ImageButton>(R.id.btn_settings).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
-        // "Add Meal" Button
-        addMealButton.setOnClickListener {
-            val intent = Intent(this, FoodDiaryActivity::class.java)
-            startActivity(intent)
+        findViewById<Button>(R.id.btn_add_meal).setOnClickListener {
+            startActivity(Intent(this, CalorieTrackerActivity::class.java))
         }
 
-        // "View Workouts" Button
-        viewWorkoutsButton.setOnClickListener {
-            val intent = Intent(this, WorkoutActivity::class.java)
-            startActivity(intent)
+        findViewById<Button>(R.id.btn_log_workout).setOnClickListener {
+            startActivity(Intent(this, WorkoutActivity::class.java))
         }
 
-        // "View All Recipes" Button
-        viewRecipesButton.setOnClickListener {
-            val intent = Intent(this, RecipiesActivity::class.java)
-            startActivity(intent)
+        findViewById<TextView>(R.id.btn_view_recipes).setOnClickListener {
+            startActivity(Intent(this, RecipiesActivity::class.java))
         }
 
-        // --- Bottom Navigation ---
-        bottomNavigationView.selectedItemId = R.id.navigation_home
-        bottomNavigationView.setOnItemSelectedListener { item ->
+        val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigation.selectedItemId = R.id.navigation_home
+        bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.navigation_home -> true // Do nothing, already here
+                R.id.navigation_home -> true
                 R.id.navigation_diary -> {
-                    startActivity(Intent(this, FoodDiaryActivity::class.java))
+                    startActivity(Intent(this, CalorieTrackerActivity::class.java))
+                    true
+                }
+                R.id.navigation_community -> {
+                    startActivity(Intent(this, CommunityActivity::class.java))
                     true
                 }
                 R.id.navigation_exercise -> {
                     startActivity(Intent(this, WorkoutActivity::class.java))
                     true
                 }
-
                 else -> false
             }
         }
+    }
+
+    private fun loadWelcomeData() {
+        val newUsername = intent.getStringExtra("USER_NAME")
+        if (newUsername != null) {
+            usernameTextView.text = newUsername
+        } else {
+            val user = auth.currentUser
+            usernameTextView.text = if (user?.displayName.isNullOrEmpty()) "User" else user?.displayName
+        }
+    }
+
+    private fun startRealTimeProgressUpdate() {
+        val userId = auth.currentUser?.uid ?: return
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+
+        // 1. Fetch User Goal
+        firestore.collection("users").document(userId)
+            .collection("goals").document("current")
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc.exists()) {
+                    val goal = doc.getLong("dailyCalories") ?: 2000
+                    caloriesGoalText.text = goal.toString()
+                }
+            }
+
+        // 2. Listen for today's calories
+        mealsListener?.remove()
+        mealsListener = firestore.collection("users").document(userId)
+            .collection("meals")
+            .whereEqualTo("date", today)
+            .addSnapshotListener { snapshots, _ ->
+                if (snapshots != null) {
+                    val total = snapshots.sumOf { it.getLong("calories") ?: 0 }
+                    caloriesConsumedText.text = total.toString()
+                }
+            }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mealsListener?.remove()
     }
 }

@@ -57,6 +57,14 @@
             android:exported="false" />
 
         <activity
+            android:name=".AddFoodActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CommunityActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".WorkoutActivity"
             android:exported="false" />
 

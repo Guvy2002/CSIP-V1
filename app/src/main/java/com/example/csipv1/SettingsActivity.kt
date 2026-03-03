@@ -112,7 +112,9 @@ class SettingsActivity : AppCompatActivity() {
         iconSizeLarge.setOnClickListener { saveIconSize(ICON_SIZE_LARGE) }
 
         myDetailsButton.setOnClickListener {
-            startActivity(Intent(this, MyDetailsActivity::class.java))
+            val intent = Intent(this, GoalsActivity::class.java)
+            intent.putExtra("SOURCE_ACTIVITY", "SETTINGS")
+            startActivity(intent)
         }
 
         changePasswordButton.setOnClickListener {
