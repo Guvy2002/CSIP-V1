@@ -11,46 +11,77 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_navigation"
-        android:clipToPadding="false"
-        android:padding="16dp">
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <!-- TITLE -->
+            <!-- HEADER with centered date -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text_detail_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:background="?attr/selectableItemBackground"
+                    tools:text="Monday, Oct 28" />
+
+                <ImageButton
+                    android:id="@+id/btn_detail_calendar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_my_calendar"
+                    app:tint="@color/white" />
+            </RelativeLayout>
+
+            <!-- Underline for the date -->
+            <View
+                android:layout_width="160dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/white"
+                android:layout_marginBottom="16dp"/>
+
             <TextView
-                android:id="@+id/workout_detail_title"
+                android:id="@+id/text_workout_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="TRAINING"
+                android:text="Workout Plan"
                 android:textColor="@color/white"
                 android:textSize="34sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- Exercise List Container -->
-            <LinearLayout
-                android:id="@+id/exercise_list_container"
+            <!-- List of Exercises (Dynamically populated) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_exercises"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <!-- Exercise cards will be added here programmatically -->
-            </LinearLayout>
+                tools:listitem="@layout/activity_workouts_exercises" />
 
         </LinearLayout>
     </ScrollView>
 
+    <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@android:color/black"
-        app:itemIconTint="@color/bottom_nav_tint"
-        app:itemTextColor="@color/bottom_nav_tint"
         app:menu="@menu/bottom_navigation_menu" />
 
 </RelativeLayout>

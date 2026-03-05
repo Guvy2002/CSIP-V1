@@ -12,14 +12,14 @@ import java.util.*
 import kotlin.random.Random
 
 /**
- * Optimized Home Activity extending BaseActivity for faster theme/setting application.
- * Now displays real-time progress for calories.
+ * Optimized Home Activity with Instant-Response navigation and real-time data sync.
  */
 class HomeActivity : BaseActivity() {
 
     private lateinit var usernameTextView: TextView
     private lateinit var caloriesConsumedText: TextView
     private lateinit var caloriesGoalText: TextView
+    private lateinit var bottomNavigation: BottomNavigationView
     
     private lateinit var firestore: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -38,10 +38,24 @@ class HomeActivity : BaseActivity() {
         startRealTimeProgressUpdate()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Ensure the correct icon is highlighted when returning to this page
+        bottomNavigation.selectedItemId = R.id.navigation_home
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        // Refresh data if needed when activity is brought to front
+        loadWelcomeData()
+    }
+
     private fun initializeViews() {
         usernameTextView = findViewById(R.id.text_username)
         caloriesConsumedText = findViewById(R.id.text_home_calories)
         caloriesGoalText = findViewById(R.id.text_home_goal)
+        bottomNavigation = findViewById(R.id.bottom_navigation)
         
         val recipeFlipper: ViewFlipper = findViewById(R.id.recipe_flipper)
         recipeFlipper.flipInterval = 3000
@@ -56,41 +70,45 @@ class HomeActivity : BaseActivity() {
 
     private fun setupListeners() {
         findViewById<ImageButton>(R.id.btn_settings).setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
+            navigateTo(SettingsActivity::class.java)
         }
 
         findViewById<Button>(R.id.btn_add_meal).setOnClickListener {
-            startActivity(Intent(this, CalorieTrackerActivity::class.java))
+            navigateTo(CalorieTrackerActivity::class.java)
         }
 
         findViewById<Button>(R.id.btn_log_workout).setOnClickListener {
-            startActivity(Intent(this, WorkoutActivity::class.java))
+            navigateTo(WorkoutActivity::class.java)
         }
 
         findViewById<TextView>(R.id.btn_view_recipes).setOnClickListener {
-            startActivity(Intent(this, RecipiesActivity::class.java))
+            navigateTo(RecipiesActivity::class.java)
         }
 
-        val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
-        bottomNavigation.selectedItemId = R.id.navigation_home
+        // --- Instant-Response Bottom Navigation ---
         bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_home -> true
-                R.id.navigation_diary -> {
-                    startActivity(Intent(this, CalorieTrackerActivity::class.java))
-                    true
-                }
-                R.id.navigation_community -> {
-                    startActivity(Intent(this, CommunityActivity::class.java))
-                    true
-                }
-                R.id.navigation_exercise -> {
-                    startActivity(Intent(this, WorkoutActivity::class.java))
-                    true
-                }
-                else -> false
+            if (item.itemId == R.id.navigation_home) return@setOnItemSelectedListener true
+
+            val target = when (item.itemId) {
+                R.id.navigation_diary -> CalorieTrackerActivity::class.java
+                R.id.navigation_community -> CommunityActivity::class.java
+                R.id.navigation_exercise -> WorkoutActivity::class.java
+                else -> null
             }
+
+            target?.let {
+                navigateTo(it)
+                true
+            } ?: false
         }
+    }
+
+    private fun navigateTo(activityClass: Class<*>) {
+        if (this::class.java == activityClass) return
+        val intent = Intent(this, activityClass)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
     }
 
     private fun loadWelcomeData() {
@@ -107,7 +125,6 @@ class HomeActivity : BaseActivity() {
         val userId = auth.currentUser?.uid ?: return
         val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
-        // 1. Fetch User Goal
         firestore.collection("users").document(userId)
             .collection("goals").document("current")
             .get()
@@ -118,7 +135,6 @@ class HomeActivity : BaseActivity() {
                 }
             }
 
-        // 2. Listen for today's calories
         mealsListener?.remove()
         mealsListener = firestore.collection("users").document(userId)
             .collection("meals")

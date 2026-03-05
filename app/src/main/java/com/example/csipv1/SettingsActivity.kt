@@ -1,19 +1,18 @@
 package com.example.csipv1
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.RadioButton
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 
-class SettingsActivity : AppCompatActivity() {
+/**
+ * Optimized Settings Activity with instant-response navigation and base theme integration.
+ */
+class SettingsActivity : BaseActivity() {
 
-    // UI Components
     private lateinit var lightModeRadio: RadioButton
     private lateinit var darkModeRadio: RadioButton
     private lateinit var textSizeSmall: RadioButton
@@ -26,9 +25,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var changePasswordButton: MaterialButton
     private lateinit var logoutButton: MaterialButton
     private lateinit var bottomNavigation: BottomNavigationView
-
-    // SharedPreferences for saving settings
-    private lateinit var sharedPreferences: SharedPreferences
 
     companion object {
         const val PREFS_NAME = "AppPreferences"
@@ -51,8 +47,6 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
         initializeViews()
         loadSavedSettings()
@@ -112,13 +106,11 @@ class SettingsActivity : AppCompatActivity() {
         iconSizeLarge.setOnClickListener { saveIconSize(ICON_SIZE_LARGE) }
 
         myDetailsButton.setOnClickListener {
-            val intent = Intent(this, GoalsActivity::class.java)
-            intent.putExtra("SOURCE_ACTIVITY", "SETTINGS")
-            startActivity(intent)
+            navigateTo(MyDetailsActivity::class.java)
         }
 
         changePasswordButton.setOnClickListener {
-            startActivity(Intent(this, ChangePasswordActivity::class.java))
+            navigateTo(ChangePasswordActivity::class.java)
         }
 
         logoutButton.setOnClickListener {
@@ -126,38 +118,46 @@ class SettingsActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+            finish()
         }
 
         bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_home -> {
-                    startActivity(Intent(this, HomeActivity::class.java))
-                    true
-                }
-                R.id.navigation_diary -> {
-                    startActivity(Intent(this, CalorieTrackerActivity::class.java))
-                    true
-                }
-                R.id.navigation_exercise -> true
-                else -> false
+            val target = when (item.itemId) {
+                R.id.navigation_home -> HomeActivity::class.java
+                R.id.navigation_diary -> CalorieTrackerActivity::class.java
+                R.id.navigation_community -> CommunityActivity::class.java
+                R.id.navigation_exercise -> WorkoutActivity::class.java
+                else -> null
             }
+
+            target?.let {
+                navigateTo(it)
+                true
+            } ?: false
         }
+    }
+
+    private fun navigateTo(activityClass: Class<*>) {
+        val intent = Intent(this, activityClass)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
     }
 
     private fun saveTheme(theme: String) {
         sharedPreferences.edit().putString(KEY_THEME, theme).apply()
-        AppCompatDelegate.setDefaultNightMode(
-            if (theme == THEME_LIGHT) AppCompatDelegate.MODE_NIGHT_NO
-            else AppCompatDelegate.MODE_NIGHT_YES
-        )
+        val mode = if (theme == THEME_LIGHT) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES
+        AppCompatDelegate.setDefaultNightMode(mode)
         recreate()
     }
 
     private fun saveTextSize(size: String) {
         sharedPreferences.edit().putString(KEY_TEXT_SIZE, size).apply()
+        recreate() // Required to apply font scale immediately
     }
 
     private fun saveIconSize(size: String) {
         sharedPreferences.edit().putString(KEY_ICON_SIZE, size).apply()
+        recreate()
     }
 }

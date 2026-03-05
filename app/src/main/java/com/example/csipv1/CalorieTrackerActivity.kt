@@ -32,7 +32,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
- * Optimized Calorie Tracker Activity extending BaseActivity for faster theme/setting application.
+ * Optimized Calorie Tracker Activity with Instant-Response navigation and real-time data sync.
  */
 class CalorieTrackerActivity : BaseActivity() {
 
@@ -91,6 +91,17 @@ class CalorieTrackerActivity : BaseActivity() {
         loadUserGoals()
         startRealTimeMealsListener()
         setupBottomNavigation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Ensure the correct icon is highlighted when returning to this page
+        bottomNavigation.selectedItemId = R.id.navigation_diary
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
     }
 
     private fun setupRetrofit() {
@@ -348,15 +359,29 @@ class CalorieTrackerActivity : BaseActivity() {
 
     private fun setupBottomNavigation() {
         bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_home -> { startActivity(Intent(this, HomeActivity::class.java)); true }
-                R.id.navigation_diary -> true
-                R.id.navigation_community -> { startActivity(Intent(this, CommunityActivity::class.java)); true }
-                R.id.navigation_exercise -> { startActivity(Intent(this, WorkoutActivity::class.java)); true }
-                else -> false
+            if (item.itemId == R.id.navigation_diary) return@setOnItemSelectedListener true
+
+            val target = when (item.itemId) {
+                R.id.navigation_home -> HomeActivity::class.java
+                R.id.navigation_community -> CommunityActivity::class.java
+                R.id.navigation_exercise -> WorkoutActivity::class.java
+                else -> null
             }
+
+            target?.let {
+                navigateTo(it)
+                true
+            } ?: false
         }
         bottomNavigation.selectedItemId = R.id.navigation_diary
+    }
+
+    private fun navigateTo(activityClass: Class<*>) {
+        if (this::class.java == activityClass) return
+        val intent = Intent(this, activityClass)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
     }
 
     override fun onDestroy() {
