@@ -98,12 +98,9 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Workout Cards -->
-            <!-- We ensure cards are clickable and focusable, but buttons inside are NOT (so card handles touch) -->
-            
-            <!-- Chest -->
+            <!-- Chest Card -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/workout_1_card"
+                android:id="@+id/card_chest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -129,7 +126,7 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_view_chest"
+                        android:id="@+id/btn_chest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -137,15 +134,15 @@
                         android:text="View"
                         android:textColor="@color/black"
                         android:textAllCaps="false"
-                        app:cornerRadius="8dp"
-                        android:clickable="false"
-                        android:focusable="false" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cornerRadius="8dp" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Back -->
+            <!-- Back Card -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/workout_2_card"
+                android:id="@+id/card_back"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -171,7 +168,7 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_view_back"
+                        android:id="@+id/btn_back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -179,15 +176,15 @@
                         android:text="View"
                         android:textColor="@color/black"
                         android:textAllCaps="false"
-                        app:cornerRadius="8dp"
-                        android:clickable="false"
-                        android:focusable="false" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cornerRadius="8dp" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Legs -->
+            <!-- Leg Card -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/workout_3_card"
+                android:id="@+id/card_legs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -213,7 +210,7 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_view_leg"
+                        android:id="@+id/btn_legs"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -221,15 +218,15 @@
                         android:text="View"
                         android:textColor="@color/black"
                         android:textAllCaps="false"
-                        app:cornerRadius="8dp"
-                        android:clickable="false"
-                        android:focusable="false" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cornerRadius="8dp" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Shoulders -->
+            <!-- Shoulder Card -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/workout_4_card"
+                android:id="@+id/card_shoulders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -255,7 +252,7 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_view_shoulder"
+                        android:id="@+id/btn_shoulders"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -263,15 +260,14 @@
                         android:text="View"
                         android:textColor="@color/black"
                         android:textAllCaps="false"
-                        app:cornerRadius="8dp"
-                        android:clickable="false"
-                        android:focusable="false" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cornerRadius="8dp" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Arms -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/workout_5_card"
+                android:id="@+id/card_arms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -297,20 +293,17 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_view_arms"
+                        android:id="@+id/btn_arms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:backgroundTint="@color/white"
                         android:text="View"
-                        android:textColor="@color/black"
                         android:textAllCaps="false"
-                        app:cornerRadius="8dp"
-                        android:clickable="false"
-                        android:focusable="false" />
+                        android:textColor="@color/black"
+                        app:cornerRadius="8dp" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
-
         </LinearLayout>
     </ScrollView>
 

@@ -3,7 +3,7 @@ package com.example.csipv1
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.widget.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
@@ -12,7 +12,7 @@ import java.util.*
 import kotlin.random.Random
 
 /**
- * Finalized Workout Activity with direct card-based navigation.
+ * Optimized Workout Activity with robust card-based navigation.
  * Clicking anywhere on a workout card will now open the breakout pages.
  */
 class WorkoutActivity : BaseActivity() {
@@ -33,6 +33,7 @@ class WorkoutActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        // Ensure the correct icon is highlighted when returning to this page
         bottomNavigation.selectedItemId = R.id.navigation_exercise
     }
 
@@ -57,49 +58,40 @@ class WorkoutActivity : BaseActivity() {
         textDate.setOnClickListener { showDatePicker() }
         btnCalendar.setOnClickListener { showDatePicker() }
 
-        // --- DIRECT CARD NAVIGATION ---
-        // We attach listeners only to the cards. Buttons are set to non-clickable in XML.
+        // --- Robust Navigation: Attach listeners to the entire CARDS ---
+        // This solves the conflict where cards were stealing clicks from the buttons.
         
-        findViewById<MaterialCardView>(R.id.workout_1_card).setOnClickListener { 
-            Log.d("WORKOUT_CLICK", "Chest Card Clicked")
-            openWorkoutDetail("Chest") 
-        }
-        
-        findViewById<MaterialCardView>(R.id.workout_2_card).setOnClickListener { 
-            Log.d("WORKOUT_CLICK", "Back Card Clicked")
-            openWorkoutDetail("Back") 
-        }
-        
-        findViewById<MaterialCardView>(R.id.workout_3_card).setOnClickListener { 
-            Log.d("WORKOUT_CLICK", "Leg Card Clicked")
-            openWorkoutDetail("Leg") 
-        }
-        
-        findViewById<MaterialCardView>(R.id.workout_4_card).setOnClickListener { 
-            Log.d("WORKOUT_CLICK", "Shoulder Card Clicked")
-            openWorkoutDetail("Shoulder") 
-        }
-        
-        findViewById<MaterialCardView>(R.id.workout_5_card).setOnClickListener { 
-            Log.d("WORKOUT_CLICK", "Arms Card Clicked")
-            openWorkoutDetail("Arms") 
-        }
+        setupCardNavigation(R.id.card_chest, R.id.btn_chest, "Chest")
+        setupCardNavigation(R.id.card_back, R.id.btn_back, "Back")
+        setupCardNavigation(R.id.card_legs, R.id.btn_legs, "Leg")
+        setupCardNavigation(R.id.card_shoulders, R.id.btn_shoulders, "Shoulder")
+        setupCardNavigation(R.id.card_arms, R.id.btn_arms, "Arms")
 
         bottomNavigation.setOnItemSelectedListener { item ->
             if (item.itemId == R.id.navigation_exercise) return@setOnItemSelectedListener true
-            
             val target = when (item.itemId) {
                 R.id.navigation_home -> HomeActivity::class.java
                 R.id.navigation_diary -> CalorieTrackerActivity::class.java
                 R.id.navigation_community -> CommunityActivity::class.java
                 else -> null
             }
-
             target?.let {
                 navigateTo(it)
                 true
             } ?: false
         }
+    }
+
+    /**
+     * Helper to ensure both the card and button respond to navigation.
+     */
+    private fun setupCardNavigation(cardId: Int, buttonId: Int, category: String) {
+        val clickAction = View.OnClickListener {
+            openWorkoutDetail(category)
+        }
+        
+        findViewById<MaterialCardView>(cardId).setOnClickListener(clickAction)
+        findViewById<Button>(buttonId).setOnClickListener(clickAction)
     }
 
     private fun navigateTo(activityClass: Class<*>) {
@@ -123,7 +115,9 @@ class WorkoutActivity : BaseActivity() {
     }
 
     private fun openWorkoutDetail(category: String) {
+        // Confirmation Toast to verify the tap worked
         Toast.makeText(this, "Opening $category Plan...", Toast.LENGTH_SHORT).show()
+        
         val intent = Intent(this, WorkoutDetailActivity::class.java)
         intent.putExtra("WORKOUT_CATEGORY", category)
         intent.putExtra("SELECTED_DATE", SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time))

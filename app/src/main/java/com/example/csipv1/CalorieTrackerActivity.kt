@@ -95,7 +95,7 @@ class CalorieTrackerActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Ensure the correct icon is highlighted when returning to this page
+        // Force the correct icon selection every time the page appears
         bottomNavigation.selectedItemId = R.id.navigation_diary
     }
 
