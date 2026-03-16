@@ -7,9 +7,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 
-/**
- * Optimized Base activity that automatically applies user preferences.
- */
 abstract class BaseActivity : AppCompatActivity() {
 
     protected val sharedPreferences: SharedPreferences by lazy {
@@ -17,13 +14,13 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Apply theme settings
-        applyTheme()
         super.onCreate(savedInstanceState)
+        // Do NOT call applyTheme() here — it triggers setDefaultNightMode()
+        // which causes ALL activities to recreate, making pages appear to not open.
+        // Theme is applied once at app startup in the Application class instead.
     }
 
     override fun attachBaseContext(newBase: Context) {
-        // Use the passed context to read preferences during early startup
         val prefs = newBase.getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE)
         val textSize = prefs.getString(
             SettingsActivity.KEY_TEXT_SIZE,
@@ -38,26 +35,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
         val configuration = Configuration(newBase.resources.configuration)
         configuration.fontScale = fontScale
-        
+
         val context = newBase.createConfigurationContext(configuration)
         super.attachBaseContext(context)
-    }
-
-    private fun applyTheme() {
-        val savedTheme = sharedPreferences.getString(
-            SettingsActivity.KEY_THEME,
-            SettingsActivity.THEME_DARK
-        ) ?: SettingsActivity.THEME_DARK
-
-        val mode = if (savedTheme == SettingsActivity.THEME_LIGHT) {
-            AppCompatDelegate.MODE_NIGHT_NO
-        } else {
-            AppCompatDelegate.MODE_NIGHT_YES
-        }
-
-        if (AppCompatDelegate.getDefaultNightMode() != mode) {
-            AppCompatDelegate.setDefaultNightMode(mode)
-        }
     }
 
     protected fun getIconSizeDp(): Int {

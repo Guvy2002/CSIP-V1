@@ -20,11 +20,11 @@ object WorkoutData {
                     4,
                     "8-12",
                     listOf(
-                        "Lie on the bench and grip the bar slightly wider than shoulder-width.",
+                        "Lie on the bench, grip the bar slightly wider than shoulder-width.",
                         "Lower the bar to your mid-chest.",
                         "Push the bar back up until your arms are fully extended."
                     ),
-                    "https://firebasestorage.googleapis.com/v0/b/mydesidietpro.firebasestorage.app/o/Videos%2Fshoulders%2FBarbell_Shoulder_Press.mp4?alt=media&token=e5446810-0a62-4e63-93e7-88bb910fd5d2",
+                    "https://www.youtube.com/watch?v=vcBig73ojpE",
                     0
                 ),
                 Exercise(
@@ -35,8 +35,7 @@ object WorkoutData {
                     "10-15",
                     listOf(
                         "Lie on an incline bench with a dumbbell in each hand.",
-                        "Press the dumbbells upward until your arms are extended.",
-                        "Lower them slowly back to the starting position."
+                        "Push the dumbbells up and together."
                     ),
                     "",
                     0
@@ -49,8 +48,7 @@ object WorkoutData {
                     "12-15",
                     listOf(
                         "Stand between two cable machines.",
-                        "Hold the handles with a slight bend in your elbows.",
-                        "Bring your hands together in front of your chest in a wide arc."
+                        "Pull the handles forward and together in a wide arc motion."
                     ),
                     "",
                     0
@@ -69,8 +67,7 @@ object WorkoutData {
                     "As many as possible",
                     listOf(
                         "Hang from a pull-up bar with an overhand grip.",
-                        "Pull your body upward until your chin is above the bar.",
-                        "Lower yourself back down with control."
+                        "Pull your body up until your chin is over the bar."
                     ),
                     "",
                     0
@@ -82,9 +79,8 @@ object WorkoutData {
                     4,
                     "8-12",
                     listOf(
-                        "Hold a barbell with your hands shoulder-width apart.",
-                        "Bend at the hips and keep your back straight.",
-                        "Pull the barbell toward your lower chest, then lower it slowly."
+                        "Hold a barbell with a wide grip, bend your knees slightly and your torso forward.",
+                        "Pull the barbell towards your lower chest."
                     ),
                     "",
                     0
@@ -96,9 +92,8 @@ object WorkoutData {
                     3,
                     "10-15",
                     listOf(
-                        "Sit at the machine and grip the bar wide.",
-                        "Pull the bar down toward your upper chest.",
-                        "Return the bar slowly to the top."
+                        "Sit at a lat pulldown machine and grab the bar.",
+                        "Pull the bar down to your upper chest."
                     ),
                     "",
                     0
@@ -107,7 +102,7 @@ object WorkoutData {
         ),
         Workout(
             id = 3,
-            name = "Leg Workout",
+            name = "Legs Workout",
             exercises = listOf(
                 Exercise(
                     7,
@@ -117,8 +112,7 @@ object WorkoutData {
                     "8-12",
                     listOf(
                         "Stand with your feet shoulder-width apart.",
-                        "Lower your hips as if sitting into a chair.",
-                        "Drive back up through your heels."
+                        "Lower your hips as if sitting in a chair."
                     ),
                     "",
                     0
@@ -130,9 +124,8 @@ object WorkoutData {
                     3,
                     "10-15",
                     listOf(
-                        "Sit in the leg press machine with your feet on the platform.",
-                        "Push the platform away until your legs are nearly straight.",
-                        "Lower it back down slowly."
+                        "Sit on the machine and place your feet on the platform.",
+                        "Push the platform away from you."
                     ),
                     "",
                     0
@@ -144,9 +137,8 @@ object WorkoutData {
                     3,
                     "12 per leg",
                     listOf(
-                        "Step forward with one leg.",
-                        "Lower your body until both knees are bent.",
-                        "Push back to the starting position and repeat on the other side."
+                        "Step forward with one leg and lower your hips.",
+                        "Return to the starting position."
                     ),
                     "",
                     0
@@ -155,7 +147,7 @@ object WorkoutData {
         ),
         Workout(
             id = 4,
-            name = "Shoulder Workout",
+            name = "Shoulders Workout",
             exercises = listOf(
                 Exercise(
                     10,
@@ -164,11 +156,10 @@ object WorkoutData {
                     4,
                     "8-12",
                     listOf(
-                        "Hold the barbell or dumbbells at shoulder height.",
-                        "Press the weight straight overhead.",
-                        "Lower it back down with control."
+                        "Sit or stand with a barbell at shoulder height.",
+                        "Press the bar directly overhead."
                     ),
-                    "https://firebasestorage.googleapis.com/v0/b/mydesidietpro.firebasestorage.app/o/Videos%2Fshoulders%2FBarbell_Shoulder_Press.mp4?alt=media&token=e5446810-0a62-4e63-93e7-88bb910fd5d2",
+                    "https://www.youtube.com/watch?v=2yjwxt_4S28",
                     0
                 ),
                 Exercise(
@@ -178,9 +169,8 @@ object WorkoutData {
                     3,
                     "12-15",
                     listOf(
-                        "Hold a dumbbell in each hand at your sides.",
-                        "Raise your arms out to shoulder height.",
-                        "Lower them slowly back down."
+                        "Hold dumbbells at your sides.",
+                        "Lift the dumbbells out to the sides until they are at shoulder height."
                     ),
                     "",
                     0
@@ -193,8 +183,7 @@ object WorkoutData {
                     "15-20",
                     listOf(
                         "Use a rope attachment on a cable machine.",
-                        "Pull the rope toward your face.",
-                        "Separate your hands as you finish the movement."
+                        "Pull the rope towards your face, separating your hands."
                     ),
                     "",
                     0
@@ -212,9 +201,8 @@ object WorkoutData {
                     3,
                     "10-15",
                     listOf(
-                        "Stand holding dumbbells with palms facing forward.",
-                        "Curl the weights up toward your shoulders.",
-                        "Lower them slowly."
+                        "Stand holding dumbbells with an underhand grip.",
+                        "Curl the weights up towards your shoulders."
                     ),
                     "",
                     0
@@ -226,9 +214,8 @@ object WorkoutData {
                     3,
                     "10-15",
                     listOf(
-                        "Stand at a cable machine with a rope or bar attachment.",
-                        "Push the handle down until your arms are fully extended.",
-                        "Return slowly to the starting position."
+                        "Use a bar or rope attachment on a cable machine.",
+                        "Push the bar down until your arms are fully extended."
                     ),
                     "",
                     0
@@ -240,9 +227,8 @@ object WorkoutData {
                     3,
                     "10-15",
                     listOf(
-                        "Hold dumbbells with palms facing each other.",
-                        "Curl the weights upward.",
-                        "Lower them back down slowly."
+                        "Hold dumbbells with a neutral (hammer) grip.",
+                        "Curl the weights up, keeping your palms facing each other."
                     ),
                     "",
                     0
@@ -264,6 +250,8 @@ object WorkoutData {
     }
 
     fun getExercisesByCategory(category: String): List<Exercise> {
-        return allWorkouts.find { it.name.startsWith(category, ignoreCase = true) }?.exercises ?: emptyList()
+        return allWorkouts.find {
+            it.name.equals("$category Workout", ignoreCase = true)
+        }?.exercises ?: emptyList()
     }
 }

@@ -1,118 +1,130 @@
 package com.example.csipv1
 
-import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import com.google.android.material.button.MaterialButton
+import java.util.*
 
+/**
+ * Professional Detail Activity to show exercise instructions, play videos,
+ * and track rest time with a 1:30 set timer.
+ */
 class ExerciseDetailActivity : BaseActivity() {
 
     private lateinit var exercise: Exercise
+    private lateinit var timerText: TextView
+    private lateinit var timerButton: MaterialButton
+    
+    private var countDownTimer: CountDownTimer? = null
+    private var isTimerRunning = false
+    private val startTimeInMillis: Long = 90000 // 1 minute 30 seconds
 
-    @SuppressLint("SetJavaScriptEnabled", "InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_exercise_detail)
+        setContentView(R.layout.activity_exercisedetail)
 
         val exerciseId = intent.getIntExtra("EXERCISE_ID", -1)
-        if (exerciseId == -1) {
-            Toast.makeText(this, "Exercise not found", Toast.LENGTH_SHORT).show()
-            finish()
-            return
-        }
-
         val fetchedExercise = WorkoutData.getExerciseById(exerciseId)
+
         if (fetchedExercise == null) {
             Toast.makeText(this, "Exercise not found", Toast.LENGTH_SHORT).show()
             finish()
             return
         }
-
         exercise = fetchedExercise
 
-        val titleTextView = findViewById<TextView>(R.id.tv_exercise_detail_name)
-        val muscleTextView = findViewById<TextView>(R.id.tv_exercise_detail_muscle)
-        val setsRepsTextView = findViewById<TextView>(R.id.tv_exercise_detail_sets_reps)
-        val instructionsContainer = findViewById<LinearLayout>(R.id.steps_container)
-        val closeButton = findViewById<ImageButton>(R.id.btn_back_exercise)
-        val playButton = findViewById<ImageButton>(R.id.btn_play_video)
-        val videoView = findViewById<WebView>(R.id.webview_exercise_video)
-        val videoContainer = findViewById<View>(R.id.video_container)
+        initializeViews()
+        populateData()
+        setupListeners()
+    }
 
-        titleTextView.text = exercise.name
-        muscleTextView.text = exercise.muscleGroup
-        setsRepsTextView.text = "${exercise.sets} Sets × ${exercise.reps} Reps"
+    private fun initializeViews() {
+        timerText = findViewById(R.id.tv_timer_display)
+        timerButton = findViewById(R.id.btn_timer_control)
+    }
 
+    private fun populateData() {
+        findViewById<TextView>(R.id.exercise_title).text = exercise.name
+        findViewById<TextView>(R.id.set_info).text = "GOAL: ${exercise.sets} SETS"
+        findViewById<TextView>(R.id.reps_count).text = "${exercise.reps} REPS"
+        
+        val instructionsContainer = findViewById<LinearLayout>(R.id.instructions_container)
         populateInstructions(instructionsContainer, exercise.instructions)
+    }
 
-        closeButton.setOnClickListener {
-            finish()
-        }
+    private fun setupListeners() {
+        findViewById<ImageButton>(R.id.btn_close).setOnClickListener { finish() }
 
-        playButton.setOnClickListener {
-            val url = exercise.videoUrl
-
-            if (url.isBlank()) {
+        findViewById<ImageButton>(R.id.btn_play_video).setOnClickListener { view ->
+            val videoView = findViewById<VideoView>(R.id.exercise_video)
+            if (exercise.videoUrl.isBlank()) {
                 Toast.makeText(this, "Video coming soon", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            videoContainer.visibility = View.VISIBLE
-
-            videoView.settings.javaScriptEnabled = true
-            videoView.settings.loadWithOverviewMode = true
-            videoView.settings.useWideViewPort = true
-            videoView.webChromeClient = WebChromeClient()
-
-            val videoId = extractYouTubeId(url)
-            if (videoId != null) {
-                val html = getYouTubeEmbedHtml(videoId)
-                videoView.loadData(html, "text/html", "utf-8")
-                playButton.visibility = View.GONE
             } else {
-                Toast.makeText(this, "Could not load video", Toast.LENGTH_SHORT).show()
+                videoView.visibility = View.VISIBLE
+                videoView.setVideoURI(Uri.parse(exercise.videoUrl))
+                videoView.setOnPreparedListener { mp ->
+                    mp.isLooping = true
+                    videoView.start()
+                    view.visibility = View.GONE
+                }
             }
         }
+
+        timerButton.setOnClickListener {
+            if (isTimerRunning) {
+                resetTimer()
+            } else {
+                startTimer()
+            }
+        }
+    }
+
+    private fun startTimer() {
+        countDownTimer = object : CountDownTimer(startTimeInMillis, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                updateTimerText(millisUntilFinished)
+            }
+
+            override fun onFinish() {
+                isTimerRunning = false
+                timerButton.text = "Start"
+                Toast.makeText(this@ExerciseDetailActivity, "Rest Over! Next Set!", Toast.LENGTH_LONG).show()
+            }
+        }.start()
+
+        isTimerRunning = true
+        timerButton.text = "Reset"
+    }
+
+    private fun resetTimer() {
+        countDownTimer?.cancel()
+        isTimerRunning = false
+        timerButton.text = "Start"
+        updateTimerText(startTimeInMillis)
+    }
+
+    private fun updateTimerText(millis: Long) {
+        val minutes = (millis / 1000) / 60
+        val seconds = (millis / 1000) % 60
+        timerText.text = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
     }
 
     private fun populateInstructions(container: LinearLayout, instructions: List<String>) {
         container.removeAllViews()
-
-        instructions.forEachIndexed { index, instructionText ->
-            val stepView = LayoutInflater.from(this)
-                .inflate(R.layout.item_exercise_step, container, false)
-
+        instructions.forEachIndexed { index, text ->
+            val stepView = LayoutInflater.from(this).inflate(R.layout.item_exercise_step, container, false)
             stepView.findViewById<TextView>(R.id.tv_step_number).text = "Step ${index + 1}"
-            stepView.findViewById<TextView>(R.id.tv_step_text).text = instructionText
-
+            stepView.findViewById<TextView>(R.id.tv_step_text).text = text
             container.addView(stepView)
         }
     }
 
-    private fun getYouTubeEmbedHtml(videoId: String): String {
-        return """
-            <html>
-                <body style="margin:0;padding:0;background-color:black;">
-                    <iframe
-                        width="100%"
-                        height="100%"
-                        src="https://www.youtube.com/embed/$videoId?autoplay=1&rel=0"
-                        frameborder="0"
-                        allowfullscreen>
-                    </iframe>
-                </body>
-            </html>
-        """.trimIndent()
-    }
-
-    private fun extractYouTubeId(url: String): String? {
-        val pattern = "(?<=v=|v/|vi=|vi/|youtu.be/|embed/|live/|shorts/)[a-zA-Z0-9_-]{11}"
-        return Regex(pattern).find(url)?.value
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer?.cancel()
     }
 }

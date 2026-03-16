@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="#33FFFFFF"
     app:cardCornerRadius="12dp"
     app:strokeWidth="0dp">
@@ -14,12 +17,13 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
+        <!-- Left side: exercise info -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/layout_controls"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/exercise_check_container"
             android:orientation="vertical">
 
             <TextView
@@ -27,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="Bench Press" />
 
@@ -35,14 +39,16 @@
                 android:id="@+id/text_exercise_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="14sp"
-                tools:text="3 sets x 10 reps" />
+                android:layout_marginTop="2dp"
+                android:textColor="#AAFFFFFF"
+                android:textSize="13sp"
+                tools:text="3 Sets × 12 Reps" />
+
         </LinearLayout>
 
+        <!-- Right side: View button and Checkbox -->
         <LinearLayout
-            android:id="@+id/exercise_check_container"
+            android:id="@+id/layout_controls"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -50,22 +56,28 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_how_to"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="How-to"
-                android:textColor="@android:color/holo_blue_light"
+                android:minWidth="60dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:backgroundTint="@color/white"
+                android:text="View"
                 android:textAllCaps="false"
-                android:textSize="12sp" />
+                android:textColor="@color/black"
+                app:cornerRadius="8dp" />
 
             <CheckBox
                 android:id="@+id/check_exercise_complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:buttonTint="@color/white" />
+                android:layout_marginStart="8dp"
+                android:buttonTint="@color/white" />
+
         </LinearLayout>
 
     </RelativeLayout>
+
 </com.google.android.material.card.MaterialCardView>
