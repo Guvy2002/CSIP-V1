@@ -39,6 +39,8 @@
         <activity android:name=".FoodDiaryActivity" android:exported="false" />
         <activity android:name=".WorkoutDetailActivity" android:exported="false" />
         <activity android:name=".ExerciseDetailActivity" android:exported="false" />
+        <activity android:name=".RecipeListActivity" android:exported="false" />
+        <activity android:name=".RecipeDetailActivity" android:exported="false" />
 
     </application>
 

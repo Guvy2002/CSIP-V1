@@ -13,10 +13,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
     private lateinit var usernameInput: EditText
     private lateinit var emailInput: EditText
     private lateinit var passwordInput: EditText
@@ -32,6 +34,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         usernameInput = findViewById(R.id.username_input)
         emailInput = findViewById(R.id.email_input)
@@ -64,8 +67,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         signInPrompt.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            finish()
         }
     }
 
@@ -114,7 +116,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun performRegistration() {
-        val email = emailInput.text.toString().trim()
+        val email = emailInput.text.toString().trim().lowercase() // Store as lowercase
         val username = usernameInput.text.toString().trim()
         val password = passwordInput.text.toString().trim()
         val confirmPassword = confirmPasswordInput.text.toString().trim()
@@ -129,11 +131,6 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
-        if (calculatePasswordStrength(password) < 66) { // Require at least moderate strength
-            Toast.makeText(this, "Password is not strong enough.", Toast.LENGTH_LONG).show()
-            return
-        }
-
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -144,16 +141,31 @@ class RegisterActivity : AppCompatActivity() {
 
                     user?.updateProfile(profileUpdates)
 
-                    Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, GoalsActivity::class.java)
-                    intent.putExtra("SOURCE_ACTIVITY", "REGISTER")
-                    intent.putExtra("USER_NAME", username)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
-                    finish()
+                    val userData = User(
+                        uid = user?.uid ?: "",
+                        username = username,
+                        email = email,
+                        points = 0,
+                        friends = listOf()
+                    )
+
+                    firestore.collection("users").document(user?.uid ?: "")
+                        .set(userData)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "User data saved to Firestore", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, GoalsActivity::class.java)
+                            intent.putExtra("SOURCE_ACTIVITY", "REGISTER")
+                            intent.putExtra("USER_NAME", username)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                            finish()
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(this, "Firestore Error: ${e.message}", Toast.LENGTH_LONG).show()
+                        }
 
                 } else {
-                    Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Auth Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }
             }
     }

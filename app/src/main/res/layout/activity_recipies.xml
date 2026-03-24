@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
             <!-- HEADER -->
             <TextView
@@ -27,8 +27,100 @@
                 android:textColor="@color/white"
                 android:textSize="34sp"
                 android:textStyle="bold"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fuel your body with professional alternatives"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp"
                 android:layout_marginBottom="24dp"/>
+
+            <!-- SEARCH BAR (New Feature) -->
+            <EditText
+                android:id="@+id/edit_search_recipes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="#33FFFFFF"
+                android:drawableStart="@android:drawable/ic_menu_search"
+                android:drawablePadding="12dp"
+                android:hint="Search recipes (e.g. Paneer)"
+                android:padding="14dp"
+                android:textColor="@color/white"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="16sp" />
+
+            <!-- RECIPE OF THE DAY (New Feature) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recipe of the Day"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_recipe_of_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="28dp"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="0dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/recipe_placeholder_1" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gradient_overlay" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/text_rod_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Paneer &amp; Spinach Scramble"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="High Protein • 280 kcal"
+                            android:textColor="@android:color/holo_green_light"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- CATEGORIES -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Browse Categories"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
 
             <!-- Breakfast Category -->
             <com.google.android.material.card.MaterialCardView
@@ -37,31 +129,56 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:strokeWidth="0dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp">
+                    android:padding="16dp">
 
-                    <TextView
+                    <ImageView
+                        android:id="@+id/icon_breakfast"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:src="@android:drawable/ic_menu_today"
+                        app:tint="@android:color/holo_orange_light" />
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="Breakfast"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_marginStart="16dp"
+                        android:layout_toEndOf="@id/icon_breakfast"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Breakfast"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Start your day right"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/btn_breakfast_recipes"
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:backgroundTint="@color/white"
+                        android:layout_centerVertical="true"
                         android:text="View"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
+                        app:strokeColor="@color/white"
                         android:textAllCaps="false" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -73,31 +190,56 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:strokeWidth="0dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp">
+                    android:padding="16dp">
 
-                    <TextView
+                    <ImageView
+                        android:id="@+id/icon_lunch"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:src="@android:drawable/ic_menu_day"
+                        app:tint="@android:color/holo_green_light" />
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="Lunch"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_marginStart="16dp"
+                        android:layout_toEndOf="@id/icon_lunch"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lunch"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Balanced mid-day meals"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/btn_lunch_recipes"
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:backgroundTint="@color/white"
+                        android:layout_centerVertical="true"
                         android:text="View"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
+                        app:strokeColor="@color/white"
                         android:textAllCaps="false" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -109,31 +251,56 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:strokeWidth="0dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp">
+                    android:padding="16dp">
 
-                    <TextView
+                    <ImageView
+                        android:id="@+id/icon_dinner"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:src="@android:drawable/ic_menu_recent_history"
+                        app:tint="@android:color/holo_blue_light" />
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="Dinner"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_marginStart="16dp"
+                        android:layout_toEndOf="@id/icon_dinner"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dinner"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Light &amp; healthy evening"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/btn_dinner_recipes"
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:backgroundTint="@color/white"
+                        android:layout_centerVertical="true"
                         android:text="View"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
+                        app:strokeColor="@color/white"
                         android:textAllCaps="false" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -145,31 +312,56 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:strokeWidth="0dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp">
+                    android:padding="16dp">
 
-                    <TextView
+                    <ImageView
+                        android:id="@+id/icon_snacks"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:src="@android:drawable/ic_input_add"
+                        app:tint="@android:color/holo_purple" />
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="Snacks"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_marginStart="16dp"
+                        android:layout_toEndOf="@id/icon_snacks"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Snacks"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Guilt-free munching"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/btn_snack_recipes"
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:backgroundTint="@color/white"
+                        android:layout_centerVertical="true"
                         android:text="View"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
+                        app:strokeColor="@color/white"
                         android:textAllCaps="false" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -177,7 +369,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

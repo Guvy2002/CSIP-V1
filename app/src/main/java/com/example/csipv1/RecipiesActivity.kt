@@ -2,6 +2,7 @@ package com.example.csipv1
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
@@ -13,12 +14,33 @@ class RecipiesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipies)
 
+        setupCategoryButtons()
         setupBottomNavigation()
+    }
+
+    private fun setupCategoryButtons() {
+        findViewById<Button>(R.id.btn_breakfast_recipes).setOnClickListener {
+            openRecipeList("Breakfast")
+        }
+        findViewById<Button>(R.id.btn_lunch_recipes).setOnClickListener {
+            openRecipeList("Lunch")
+        }
+        findViewById<Button>(R.id.btn_dinner_recipes).setOnClickListener {
+            openRecipeList("Dinner")
+        }
+        findViewById<Button>(R.id.btn_snack_recipes).setOnClickListener {
+            openRecipeList("Snacks")
+        }
+    }
+
+    private fun openRecipeList(category: String) {
+        val intent = Intent(this, RecipeListActivity::class.java)
+        intent.putExtra("CATEGORY", category)
+        startActivity(intent)
     }
 
     private fun setupBottomNavigation() {
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
-        // Note: navigation_recipes is not in the menu yet, using a different default or leaving it blank
         
         bottomNavigation.setOnItemSelectedListener { item ->
             val target = when (item.itemId) {

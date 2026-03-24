@@ -3,6 +3,7 @@ package com.example.csipv1
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -30,12 +31,20 @@ class RecipeAdapter(
         private val categoryText: TextView = itemView.findViewById(R.id.text_recipe_category)
         private val caloriesText: TextView = itemView.findViewById(R.id.text_recipe_calories)
         private val proteinText: TextView = itemView.findViewById(R.id.text_recipe_protein)
+        private val thumbImage: ImageView = itemView.findViewById(R.id.image_recipe_thumb)
 
         fun bind(recipe: Recipe) {
             nameText.text = recipe.name
             categoryText.text = recipe.category.uppercase()
             caloriesText.text = "${recipe.calories} kcal"
-            proteinText.text = "P: ${recipe.protein}g"
+            proteinText.text = "${recipe.protein}g Protein"
+            
+            // Set placeholder or actual image if available
+            if (recipe.imageResId != 0) {
+                thumbImage.setImageResource(recipe.imageResId)
+            } else {
+                thumbImage.setImageResource(R.drawable.recipe_placeholder_1)
+            }
         }
     }
 }

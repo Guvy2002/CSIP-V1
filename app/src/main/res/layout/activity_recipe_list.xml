@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,45 +7,77 @@
     android:background="@drawable/pages_background"
     tools:context=".RecipeListActivity">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Back"
+                    android:src="?attr/homeAsUpIndicator"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/text_recipe_list_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/btn_back"
+                    android:text="Healthy Recipes"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/text_recipe_list_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="56dp"
+                android:alpha="0.7"
+                android:text="High protein, low oil alternatives"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_recipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Healthy Indian Recipes"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="High protein, low oil alternatives for a better you."
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp"
-            android:layout_marginBottom="24dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_recipes"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            tools:listitem="@layout/item_recipe" />
-
-    </LinearLayout>
+        android:clipToPadding="false"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="80dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/item_recipe" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:background="@android:color/black"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
         app:menu="@menu/bottom_navigation_menu" />
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

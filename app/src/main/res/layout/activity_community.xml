@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,75 +7,224 @@
     android:background="@drawable/pages_background"
     tools:context=".CommunityActivity">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Community"
-            android:textColor="@color/white"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Add Friend Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="24dp">
+            android:orientation="vertical"
+            android:padding="24dp">
 
-            <EditText
-                android:id="@+id/edit_search_friend"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_corner"
-                android:hint="Friend's Email"
-                android:padding="12dp"
-                android:textColor="@color/white"
-                android:textColorHint="@android:color/darker_gray"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/btn_add_friend"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:backgroundTint="@color/white"
-                android:text="Add"
-                android:textColor="@color/black" />
+                android:text="Community"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout_community"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/transparent"
+                app:tabIndicatorColor="@android:color/holo_orange_light"
+                app:tabIndicatorHeight="3dp"
+                app:tabSelectedTextColor="@android:color/holo_orange_light"
+                app:tabTextColor="@android:color/darker_gray"
+                app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Button">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Activity" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Leaderboard" />
+            </com.google.android.material.tabs.TabLayout>
+
         </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Friend Activity"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_community_feed"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            tools:listitem="@layout/item_community_activity" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
 
-    </LinearLayout>
+            <!-- Section: Activity Feed -->
+            <LinearLayout
+                android:id="@+id/layout_activity_feed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <!-- Weekly Challenge Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    app:cardBackgroundColor="@android:color/holo_orange_dark"
+                    app:cardCornerRadius="16dp"
+                    app:elevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Weekly Challenge"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="The 7-Day Protein Streak"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="3/7 days completed"
+                                android:textColor="#E0E0E0"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/btn_star_big_on"
+                            app:tint="@color/white" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edit_search_friend"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_corner"
+                        android:hint="Friend's Email"
+                        android:padding="12dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/btn_add_friend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:backgroundTint="@color/white"
+                        android:text="Add"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_community_feed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_community_activity" />
+            </LinearLayout>
+
+            <!-- Section: Leaderboard -->
+            <LinearLayout
+                android:id="@+id/layout_leaderboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardBackgroundColor="#1AFFFFFF"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#33FFFFFF">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Weekly Reward Rules"
+                            android:textColor="@android:color/holo_orange_light"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Target Macros Met: +5 pts\nWorkout Completed: +10 pts"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_leaderboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_leaderboard_user" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:background="@android:color/black"
         app:menu="@menu/bottom_navigation_menu" />
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

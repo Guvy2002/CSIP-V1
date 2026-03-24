@@ -8,22 +8,43 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class FoodAdapter(
-    private val items: List<Food>
+    private var items: List<Food>,
+    private val onItemClicked: (Food) -> Unit
 ) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
 
-    private val selectedPositions = mutableSetOf<Int>()
+    // Store actual food objects so they persist across different search queries
+    private val selectedFoods = mutableMapOf<String, Food>()
 
-    fun getSelectedFoods(): List<Food> {
-        return selectedPositions.map { items[it] }
-    }
+    fun getSelectedFoods(): List<Food> = selectedFoods.values.toList()
 
     /**
-     * Pre-selects an item at the given position.
+     * Replaces the adapter's data and refreshes the RecyclerView.
+     * Always call this instead of notifyDataSetChanged() directly.
      */
-    fun preSelect(position: Int) {
-        if (position in items.indices) {
-            selectedPositions.add(position)
+    fun updateData(newItems: List<Food>) {
+        this.items = newItems.toList()
+        notifyDataSetChanged()
+    }
+
+    fun toggleSelection(food: Food) {
+        if (selectedFoods.containsKey(food.name)) {
+            selectedFoods.remove(food.name)
+        } else {
+            selectedFoods[food.name] = food
         }
+        notifyDataSetChanged()
+    }
+
+    fun selectFood(food: Food) {
+        selectedFoods[food.name] = food
+        notifyDataSetChanged()
+    }
+
+    fun isSelected(food: Food): Boolean = selectedFoods.containsKey(food.name)
+
+    fun clearSelections() {
+        selectedFoods.clear()
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
@@ -34,37 +55,25 @@ class FoodAdapter(
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         val food = items[position]
-        val isSelected = selectedPositions.contains(position)
+        val isSelected = selectedFoods.containsKey(food.name)
 
         holder.name.text = food.name
-        holder.macros.text = "${food.calories} kcal • P ${food.protein}g • C ${food.carbs}g • F ${food.fat}g"
         
+        // Use the new helper properties from Food class
+        val displayFood = selectedFoods[food.name] ?: food
+        holder.macros.text = "${displayFood.totalCalories} kcal • P ${displayFood.totalProtein}g • C ${displayFood.totalCarbs}g • F ${displayFood.totalFat}g"
+
         holder.checkbox.setOnCheckedChangeListener(null)
         holder.checkbox.isChecked = isSelected
+        holder.checkbox.isClickable = false
+        holder.checkbox.isFocusable = false
 
         holder.itemView.setOnClickListener {
-            toggle(position)
-            notifyItemChanged(position)
-        }
-
-        holder.checkbox.setOnCheckedChangeListener { _, checked ->
-            if (checked) {
-                selectedPositions.add(position)
-            } else {
-                selectedPositions.remove(position)
-            }
+            onItemClicked(food)
         }
     }
 
     override fun getItemCount(): Int = items.size
-
-    private fun toggle(position: Int) {
-        if (selectedPositions.contains(position)) {
-            selectedPositions.remove(position)
-        } else {
-            selectedPositions.add(position)
-        }
-    }
 
     class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val checkbox: CheckBox = itemView.findViewById(R.id.checkbox_select)

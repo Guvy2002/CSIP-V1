@@ -2,6 +2,8 @@ package com.example.csipv1
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -12,13 +14,30 @@ class RecipeListActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_list)
 
-        setupRecyclerView()
+        val category = intent.getStringExtra("CATEGORY") ?: "All"
+        val titleTextView = findViewById<TextView>(R.id.text_recipe_list_title)
+        if (titleTextView != null) {
+            titleTextView.text = if (category == "All") "Healthy Recipes" else "$category Recipes"
+        }
+
+        findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
+            onBackPressed()
+        }
+
+        setupRecyclerView(category)
         setupBottomNavigation()
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(category: String) {
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_recipes)
-        val adapter = RecipeAdapter(RecipeData.indianHealthyRecipes) { recipe ->
+        
+        val filteredRecipes = if (category == "All") {
+            RecipeData.indianHealthyRecipes
+        } else {
+            RecipeData.indianHealthyRecipes.filter { it.category.equals(category, ignoreCase = true) }
+        }
+
+        val adapter = RecipeAdapter(filteredRecipes) { recipe ->
             val intent = Intent(this, RecipeDetailActivity::class.java)
             intent.putExtra("RECIPE_ID", recipe.id)
             startActivity(intent)
