@@ -94,12 +94,11 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Meal cards (IMPORTANT: do NOT put android:id on the <include> here.
-                 The included layouts have their own IDs and buttons.) -->
-            <include layout="@layout/breakfast_meal_card" />
-            <include layout="@layout/lunch_meal_card" />
-            <include layout="@layout/dinner_meal_card" />
-            <include layout="@layout/snack_meal_card" />
+            <!-- Meal cards with IDs for the activity to find -->
+            <include android:id="@+id/card_breakfast" layout="@layout/breakfast_meal_card" />
+            <include android:id="@+id/card_lunch" layout="@layout/lunch_meal_card" />
+            <include android:id="@+id/card_dinner" layout="@layout/dinner_meal_card" />
+            <include android:id="@+id/card_snacks" layout="@layout/snack_meal_card" />
 
         </LinearLayout>
     </ScrollView>

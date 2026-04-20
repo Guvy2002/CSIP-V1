@@ -1,7 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.CSIPV1" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="bottomNavigationStyle">@style/MyBottomNavigationView</item>
+        
+        <!-- Force text to be black in Dark Mode (as requested) -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:editTextColor">@color/black</item>
+        <item name="android:textColorHint">#333333</item>
     </style>
 </resources>

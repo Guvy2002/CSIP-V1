@@ -55,9 +55,9 @@ object IconsizeActivity {
      */
     fun getIconMultiplier(iconSize: String): Float {
         return when (iconSize) {
-            SettingsActivity.Companion.ICON_SIZE_SMALL -> 0.83f
-            SettingsActivity.Companion.ICON_SIZE_MEDIUM -> 1.0f
-            SettingsActivity.Companion.ICON_SIZE_LARGE -> 1.17f
+           // SettingsActivity.Companion.ICON_SIZE_SMALL -> 0.83f
+            //SettingsActivity.Companion.ICON_SIZE_MEDIUM -> 1.0f
+            //SettingsActivity.Companion.ICON_SIZE_LARGE -> 1.17f
             else -> 1.0f
         }
     }

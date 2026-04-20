@@ -16,4 +16,9 @@
         android:id="@+id/navigation_exercise"
         android:icon="@drawable/fitness_24"
         android:title="Exercise" />
+    <item
+        android:id="@+id/navigation_placeholder"
+        android:title=""
+        android:visible="false"
+        android:enabled="false" />
 </menu>

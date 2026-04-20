@@ -2,39 +2,88 @@ package com.example.csipv1
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.card.MaterialCardView
+import kotlin.random.Random
 
 class RecipeListActivity : BaseActivity() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var dietCategoriesLayout: LinearLayout
+    private lateinit var titleTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_list)
 
+        titleTextView = findViewById(R.id.text_recipe_list_title)
+        recyclerView = findViewById(R.id.recycler_recipes)
+        dietCategoriesLayout = findViewById(R.id.layout_diet_categories)
+
         val category = intent.getStringExtra("CATEGORY") ?: "All"
-        val titleTextView = findViewById<TextView>(R.id.text_recipe_list_title)
-        if (titleTextView != null) {
-            titleTextView.text = if (category == "All") "Healthy Recipes" else "$category Recipes"
-        }
+        val dietType = intent.getStringExtra("DIET_TYPE")
 
         findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
-            onBackPressed()
+            if (recyclerView.visibility == View.VISIBLE && dietType == null && category == "All") {
+                showDietCategories()
+            } else {
+                onBackPressed()
+            }
         }
 
-        setupRecyclerView(category)
+        setupDietCategoryButtons()
+        
+        if (dietType != null) {
+            showRecipeList(null, dietType)
+        } else if (category != "All") {
+            showRecipeList(category, null)
+        } else {
+            showDietCategories()
+        }
+
         setupBottomNavigation()
+        displayRandomCookingTip()
     }
 
-    private fun setupRecyclerView(category: String) {
-        val recyclerView = findViewById<RecyclerView>(R.id.recycler_recipes)
-        
-        val filteredRecipes = if (category == "All") {
-            RecipeData.indianHealthyRecipes
-        } else {
-            RecipeData.indianHealthyRecipes.filter { it.category.equals(category, ignoreCase = true) }
+    private fun setupDietCategoryButtons() {
+        findViewById<MaterialCardView>(R.id.card_veg).setOnClickListener {
+            showRecipeList(null, "Veg")
+        }
+        findViewById<MaterialCardView>(R.id.card_non_veg).setOnClickListener {
+            showRecipeList(null, "Non-Veg")
+        }
+        findViewById<MaterialCardView>(R.id.card_vegan).setOnClickListener {
+            showRecipeList(null, "Vegan")
+        }
+    }
+
+    private fun showDietCategories() {
+        titleTextView.text = "Healthy Recipes"
+        dietCategoriesLayout.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+    }
+
+    private fun showRecipeList(category: String?, dietType: String?) {
+        dietCategoriesLayout.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
+
+        val displayTitle = when {
+            dietType != null -> "$dietType Recipes"
+            category != null -> "$category Recipes"
+            else -> "Healthy Recipes"
+        }
+        titleTextView.text = displayTitle
+
+        val filteredRecipes = when {
+            dietType != null -> RecipeData.indianHealthyRecipes.filter { it.dietType.equals(dietType, ignoreCase = true) }
+            category != null && category != "All" -> RecipeData.indianHealthyRecipes.filter { it.category.equals(category, ignoreCase = true) }
+            else -> RecipeData.indianHealthyRecipes
         }
 
         val adapter = RecipeAdapter(filteredRecipes) { recipe ->
@@ -44,6 +93,14 @@ class RecipeListActivity : BaseActivity() {
         }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+    }
+
+    private fun displayRandomCookingTip() {
+        val tipTextView: TextView = findViewById(R.id.text_cooking_tip)
+        val cookingTips = resources.getStringArray(R.array.cooking_tips)
+        if (cookingTips.isNotEmpty()) {
+            tipTextView.text = cookingTips[Random.nextInt(cookingTips.size)]
+        }
     }
 
     private fun setupBottomNavigation() {

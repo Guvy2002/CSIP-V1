@@ -8,11 +8,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
     private lateinit var emailInput: EditText
     private lateinit var passwordInput: EditText
     private lateinit var loginButton: Button
@@ -23,11 +24,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         
         auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
-        // REMOVED BYPASS: Always show login screen for testing purposes
+        // Always show login screen for testing purposes
         setContentView(R.layout.activity_login)
 
-        emailInput = findViewById(R.id.username_input)
+        emailInput = findViewById(R.id.email_input)
         passwordInput = findViewById(R.id.password_input)
         loginButton = findViewById(R.id.login_btn)
         registerButton = findViewById(R.id.register_btn)
@@ -48,9 +50,37 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkUserGoals(userId: String, username: String?) {
+        firestore.collection("users").document(userId)
+            .collection("goals").document("current")
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists() && document.contains("dailyCalories")) {
+                    // Goals exist, go to Home
+                    navigateToHome(username)
+                } else {
+                    // Goals don't exist, go to GoalsActivity
+                    navigateToGoals(username)
+                }
+            }
+            .addOnFailureListener {
+                // If check fails, default to Home but log error
+                navigateToHome(username)
+            }
+    }
+
     private fun navigateToHome(username: String?) {
         val intent = Intent(this, HomeActivity::class.java)
         intent.putExtra("USER_NAME", username)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+
+    private fun navigateToGoals(username: String?) {
+        val intent = Intent(this, GoalsActivity::class.java)
+        intent.putExtra("USER_NAME", username)
+        intent.putExtra("SOURCE_ACTIVITY", "LOGIN")
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
@@ -70,11 +100,12 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     user?.reload()?.addOnCompleteListener { reloadTask ->
-                        val username = auth.currentUser?.displayName
-                        navigateToHome(username)
+                        val userId = user.uid
+                        val username = user.displayName
+                        checkUserGoals(userId, username)
                     }
                 } else {
-                    Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Email or Password is incorrect", Toast.LENGTH_LONG).show()
                 }
             }
     }

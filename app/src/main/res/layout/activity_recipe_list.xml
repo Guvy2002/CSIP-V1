@@ -46,16 +46,169 @@
                     android:textStyle="bold" />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/text_recipe_list_subtitle"
-                android:layout_width="wrap_content"
+            <!-- Cooking Tip of the Day Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="56dp"
-                android:alpha="0.7"
-                android:text="High protein, low oil alternatives"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="8dp"
+                app:cardBackgroundColor="#33FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cooking Tip of the Day"
+                        android:textColor="@android:color/holo_green_light"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="true" />
+
+                    <TextView
+                        android:id="@+id/text_cooking_tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="Swap heavy cream for Greek yogurt in sauces." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Kitchen Guide Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="8dp"
+                app:cardBackgroundColor="#26FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Your Kitchen Guide"
+                        android:textColor="@android:color/holo_orange_light"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Explore a collection of high-protein, low-oil alternatives to traditional meals. Designed to help you stay within your calorie goals without sacrificing flavor."
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:lineSpacingExtra="2dp"
+                        android:alpha="0.9" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Diet Categories Layout -->
+            <LinearLayout
+                android:id="@+id/layout_diet_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="8dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Your Diet Preference"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Veg Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_veg"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="#4D4CAF50"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="VEGETARIAN"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Non-Veg Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_non_veg"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="#4DF44336"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="NON-VEGETARIAN"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Vegan Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_vegan"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="#4D2196F3"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="VEGAN"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
 
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -67,6 +220,7 @@
         android:clipToPadding="false"
         android:paddingHorizontal="16dp"
         android:paddingBottom="80dp"
+        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_recipe" />
 

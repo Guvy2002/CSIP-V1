@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_top_corners"
+    android:backgroundTint="#1E1E1E"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:background="#40FFFFFF" />
+
+    <TextView
+        android:id="@+id/text_dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3-Day PPL Split"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_dialog_frequency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Perfect for Beginners"
+        android:textColor="@android:color/holo_orange_light"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textAllCaps="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="20dp"
+        android:background="#1AFFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WEEKLY SCHEDULE"
+        android:textColor="#80FFFFFF"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_dialog_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:lineSpacingExtra="4dp"
+        android:text="Mon: Push | Wed: Pull | Fri: Legs" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="SUGGESTED ROUTINE"
+        android:textColor="#80FFFFFF"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_dialog_routine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:lineSpacingExtra="6dp"
+        android:text="• Bench Press\n• Shoulder Press\n• Triceps" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_dialog_close"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Got it"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        app:cornerRadius="12dp"
+        android:textAllCaps="false"
+        android:textStyle="bold" />
+
+</LinearLayout>

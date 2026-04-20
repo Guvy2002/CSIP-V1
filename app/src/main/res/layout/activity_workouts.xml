@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Training Plans"
+                android:text="Exercise"
                 android:textColor="@color/white"
                 android:textSize="34sp"
                 android:textStyle="bold"
@@ -67,217 +67,453 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="20dp"
                 app:strokeWidth="0dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="20dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tip of the Day"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:text="Exercise Tip of the Day"
+                        android:textColor="@android:color/holo_green_light"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"/>
                     <TextView
                         android:id="@+id/text_workout_tip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
                         tools:text="Consistency is key." />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- CHEST -->
+            <!-- COMPLETED WORKOUTS BOX -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_chest"
+                android:id="@+id/card_completed_workouts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="12dp"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#26FFFFFF"
+                app:cardCornerRadius="20dp"
                 app:strokeWidth="0dp">
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:padding="20dp">
+                    
+                    <RelativeLayout
+                        android:id="@+id/layout_calorie_summary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Daily Summary"
+                            android:textColor="@android:color/holo_orange_light"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textAllCaps="true"/>
+                        <TextView
+                            android:id="@+id/text_total_calories_burnt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="0 kcal"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
                     <TextView
+                        android:id="@+id/text_completed_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Chest Workouts"
+                        android:layout_marginTop="4dp"
+                        android:text="Workouts Completed"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold" />
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_chest"
-                        android:layout_width="wrap_content"
+                    
+                    <LinearLayout
+                        android:id="@+id/container_completed_exercises"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:backgroundTint="@color/white"
-                        android:text="View"
-                        android:textColor="@color/black"
-                        android:textAllCaps="false"
-                        app:cornerRadius="8dp" />
-                </RelativeLayout>
+                        android:layout_marginTop="12dp"
+                        android:orientation="vertical">
+                        
+                        <TextView
+                            android:id="@+id/text_completed_placeholder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No exercises completed yet."
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14sp" />
+                            
+                    </LinearLayout>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- BACK -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_back"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Training Plans"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="12dp"
-                app:strokeWidth="0dp">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="20dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Back Workouts"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_back"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:backgroundTint="@color/white"
-                        android:text="View"
-                        android:textColor="@color/black"
-                        android:textAllCaps="false"
-                        app:cornerRadius="8dp" />
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
 
-            <!-- LEGS -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_legs"
+                <!-- PPL -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_view_plans"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="@android:color/holo_orange_dark"
+                    app:cardCornerRadius="20dp"
+                    app:strokeWidth="0dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PPL"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:layout_alignParentTop="true" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3-7 Day Splits"
+                            android:textColor="#E0E0E0"
+                            android:textSize="11sp"
+                            android:layout_alignParentBottom="true" />
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:src="@android:drawable/ic_media_play"
+                            app:tint="@color/white" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Upper/Lower -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_view_upper_lower_plans"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#2196F3"
+                    app:cardCornerRadius="20dp"
+                    app:strokeWidth="0dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="U/L Plans"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:layout_alignParentTop="true" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Strength &amp; Balance"
+                            android:textColor="#E0E0E0"
+                            android:textSize="11sp"
+                            android:layout_alignParentBottom="true" />
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:src="@android:drawable/ic_media_play"
+                            app:tint="@color/white" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Categories"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
+
+            <!-- GRID FOR CATEGORIES -->
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="12dp"
-                app:strokeWidth="0dp">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="20dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Leg Workouts"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_legs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:backgroundTint="@color/white"
-                        android:text="View"
-                        android:textColor="@color/black"
-                        android:textAllCaps="false"
-                        app:cornerRadius="8dp" />
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:columnCount="2"
+                android:rowCount="3"
+                android:alignmentMode="alignMargins"
+                android:columnOrderPreserved="false">
 
-            <!-- SHOULDERS -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_shoulders"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="12dp"
-                app:strokeWidth="0dp">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="20dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Shoulder Workouts"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_shoulders"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:backgroundTint="@color/white"
-                        android:text="View"
-                        android:textColor="@color/black"
-                        android:textAllCaps="false"
-                        app:cornerRadius="8dp" />
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
+                <!-- CHEST -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_chest"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#26FFFFFF"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Chest"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                        <Button
+                            android:id="@+id/btn_chest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@android:color/transparent"
+                            android:text="View"
+                            android:padding="0dp"
+                            android:textColor="@android:color/holo_orange_light"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-            <!-- ARMS -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_arms"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="12dp"
-                app:strokeWidth="0dp">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="20dp">
+                <!-- BACK -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_back"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#26FFFFFF"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Back"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                        <Button
+                            android:id="@+id/btn_back"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@android:color/transparent"
+                            android:text="View"
+                            android:padding="0dp"
+                            android:textColor="@android:color/holo_orange_light"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Arms Workouts"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                <!-- LEGS -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_legs"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#26FFFFFF"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Legs"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                        <Button
+                            android:id="@+id/btn_legs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@android:color/transparent"
+                            android:text="View"
+                            android:padding="0dp"
+                            android:textColor="@android:color/holo_orange_light"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_arms"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:backgroundTint="@color/white"
-                        android:text="View"
-                        android:textColor="@color/black"
-                        android:textAllCaps="false"
-                        app:cornerRadius="8dp" />
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
+                <!-- SHOULDERS -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_shoulders"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#26FFFFFF"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shoulders"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                        <Button
+                            android:id="@+id/btn_shoulders"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@android:color/transparent"
+                            android:text="View"
+                            android:padding="0dp"
+                            android:textColor="@android:color/holo_orange_light"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ARMS -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_arms"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#26FFFFFF"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Arms"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                        <Button
+                            android:id="@+id/btn_arms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@android:color/transparent"
+                            android:text="View"
+                            android:padding="0dp"
+                            android:textColor="@android:color/holo_orange_light"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ABS -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_abs"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#26FFFFFF"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Abs"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                        <Button
+                            android:id="@+id/btn_abs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@android:color/transparent"
+                            android:text="View"
+                            android:padding="0dp"
+                            android:textColor="@android:color/holo_orange_light"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </GridLayout>
 
         </LinearLayout>
     </ScrollView>

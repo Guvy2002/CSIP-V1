@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -95,21 +96,63 @@ class WorkoutDetailActivity : BaseActivity() {
 
     private fun updateExerciseCompletion(exercise: Exercise, completed: Boolean) {
         val userId = auth.currentUser?.uid ?: return
+        val username = auth.currentUser?.displayName ?: "Someone"
         val docId = "${selectedDateString}_${workoutCategory}_${exercise.id}"
+        
+        // We use a specific ID for the feed item so we can find and delete it later if unticked
+        val feedId = "feed_${userId}_${docId}"
 
-        val ref = firestore.collection("users").document(userId)
-            .collection("completed_exercises").document(docId)
+        val userRef = firestore.collection("users").document(userId)
+        val exerciseRef = userRef.collection("completed_exercises").document(docId)
+        val feedRef = firestore.collection("activity_feed").document(feedId)
 
-        if (completed) {
-            val data = hashMapOf(
-                "exerciseId" to exercise.id.toString(),
-                "workoutCategory" to workoutCategory,
-                "date" to selectedDateString,
-                "timestamp" to com.google.firebase.Timestamp.now()
-            )
-            ref.set(data)
-        } else {
-            ref.delete()
+        firestore.runTransaction { transaction ->
+            val userSnap = transaction.get(userRef)
+            val currentPoints = userSnap.getLong("points") ?: 0L
+            val exerciseExists = transaction.get(exerciseRef).exists()
+
+            if (completed && !exerciseExists) {
+                // 1. Save completion
+                val data = hashMapOf(
+                    "exerciseId" to exercise.id.toString(),
+                    "workoutCategory" to workoutCategory,
+                    "date" to selectedDateString,
+                    "timestamp" to com.google.firebase.Timestamp.now()
+                )
+                transaction.set(exerciseRef, data)
+                
+                // 2. Award points
+                transaction.update(userRef, "points", FieldValue.increment(2))
+                
+                // 3. Post to Community Feed with specific ID
+                val activity = hashMapOf(
+                    "id" to feedId,
+                    "userId" to userId,
+                    "username" to username,
+                    "type" to "WORKOUT",
+                    "content" to "just completed ${exercise.name}! 💪",
+                    "timestamp" to System.currentTimeMillis(),
+                    "highFives" to emptyList<String>()
+                )
+                transaction.set(feedRef, activity)
+
+            } else if (!completed && exerciseExists) {
+                // 1. Remove completion record
+                transaction.delete(exerciseRef)
+                
+                // 2. Deduct points safely (never below 0)
+                val pointsToDeduct = if (currentPoints >= 2) -2L else -currentPoints
+                transaction.update(userRef, "points", FieldValue.increment(pointsToDeduct))
+                
+                // 3. REMOVE from Community Feed so the "Pulse" stays accurate
+                transaction.delete(feedRef)
+            }
+            
+            if (currentPoints < 0) {
+                transaction.update(userRef, "points", 0)
+            }
+        }.addOnFailureListener { e ->
+            Toast.makeText(this, "Sync error: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 

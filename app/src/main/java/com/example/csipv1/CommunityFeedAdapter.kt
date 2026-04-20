@@ -1,16 +1,29 @@
 package com.example.csipv1
 
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import java.text.SimpleDateFormat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
 class CommunityFeedAdapter(private var activities: List<CommunityActivityModel>) :
     RecyclerView.Adapter<CommunityFeedAdapter.ViewHolder>() {
+
+    private val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+    private val currentUsername = FirebaseAuth.getInstance().currentUser?.displayName ?: "User"
+    private val db = FirebaseFirestore.getInstance()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val usernameText: TextView = view.findViewById(R.id.text_activity_username)
@@ -18,6 +31,10 @@ class CommunityFeedAdapter(private var activities: List<CommunityActivityModel>)
         val contentText: TextView = view.findViewById(R.id.text_activity_content)
         val typeImage: ImageView = view.findViewById(R.id.img_activity_type)
         val highFiveCount: TextView = view.findViewById(R.id.text_high_five_count)
+        val btnHighFive: View = view.findViewById(R.id.btn_high_five)
+        val btnComment: ImageView = view.findViewById(R.id.btn_comment)
+        val commentsContainer: LinearLayout = view.findViewById(R.id.container_comments)
+        val layoutComments: View = view.findViewById(R.id.layout_comments_container)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,19 +47,117 @@ class CommunityFeedAdapter(private var activities: List<CommunityActivityModel>)
         val activity = activities[position]
         holder.usernameText.text = activity.username
         
-        val sdf = SimpleDateFormat("h:mm a", Locale.getDefault())
-        holder.timeText.text = sdf.format(Date(activity.timestamp))
-        
+        val relativeTime = DateUtils.getRelativeTimeSpanString(
+            activity.timestamp,
+            System.currentTimeMillis(),
+            DateUtils.MINUTE_IN_MILLIS
+        )
+        holder.timeText.text = relativeTime
         holder.contentText.text = activity.content
         
         if (activity.type == "MEAL") {
-            holder.typeImage.setImageResource(R.drawable.meal_24) // Ensure this exists or use a default
+            holder.typeImage.setImageResource(R.drawable.meal_24)
         } else {
-            // holder.typeImage.setImageResource(R.drawable.workout_icon) // Use appropriate icon
+            holder.typeImage.setImageResource(R.drawable.fitness_24) 
         }
         
-        // Mocking high five count for now
-        holder.highFiveCount.text = "${(5..20).random()} High Fives"
+        val count = activity.highFives.size
+        holder.highFiveCount.text = if (count == 1) "1 High Five" else "$count High Fives"
+        
+        val hasLiked = currentUserId != null && activity.highFives.contains(currentUserId)
+        holder.btnHighFive.alpha = if (hasLiked) 1.0f else 0.5f
+
+        holder.btnHighFive.setOnClickListener {
+            if (currentUserId == null) return@setOnClickListener
+            val docRef = db.collection("activity_feed").document(activity.id)
+            if (hasLiked) {
+                docRef.update("highFives", com.google.firebase.firestore.FieldValue.arrayRemove(currentUserId))
+            } else {
+                docRef.update("highFives", com.google.firebase.firestore.FieldValue.arrayUnion(currentUserId))
+            }
+        }
+
+        // Comment Logic
+        holder.btnComment.setOnClickListener {
+            showCommentDialog(holder.itemView.context, activity)
+        }
+
+        // Display Comments
+        if (activity.comments.isNotEmpty()) {
+            holder.layoutComments.visibility = View.VISIBLE
+            holder.commentsContainer.removeAllViews()
+            activity.comments.takeLast(3).forEach { comment ->
+                val commentView = LayoutInflater.from(holder.itemView.context)
+                    .inflate(R.layout.item_comment_simple, holder.commentsContainer, false)
+                
+                commentView.findViewById<TextView>(R.id.text_comment_user).text = comment.username
+                commentView.findViewById<TextView>(R.id.text_comment_body).text = comment.comment
+                
+                // Display relative time for each comment
+                val cTime = DateUtils.getRelativeTimeSpanString(
+                    comment.timestamp,
+                    System.currentTimeMillis(),
+                    DateUtils.MINUTE_IN_MILLIS
+                )
+                commentView.findViewById<TextView>(R.id.text_comment_time).text = cTime
+                
+                val btnDelete = commentView.findViewById<ImageView>(R.id.btn_delete_comment)
+                if (comment.userId == currentUserId) {
+                    btnDelete.visibility = View.VISIBLE
+                    btnDelete.setOnClickListener {
+                        deleteComment(activity.id, comment)
+                    }
+                } else {
+                    btnDelete.visibility = View.GONE
+                }
+                
+                holder.commentsContainer.addView(commentView)
+            }
+        } else {
+            holder.layoutComments.visibility = View.GONE
+        }
+    }
+
+    private fun showCommentDialog(context: android.content.Context, activity: CommunityActivityModel) {
+        val builder = AlertDialog.Builder(context)
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_add_comment, null)
+        builder.setView(view)
+
+        val dialog = builder.create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val editComment = view.findViewById<EditText>(R.id.edit_comment)
+        val btnPost = view.findViewById<Button>(R.id.btn_post_comment)
+
+        btnPost.setOnClickListener {
+            val commentText = editComment.text.toString().trim()
+            if (commentText.isNotEmpty()) {
+                postComment(activity.id, commentText)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(context, "Please enter a message", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun postComment(activityId: String, text: String) {
+        val comment = CommentModel(
+            id = UUID.randomUUID().toString(),
+            userId = currentUserId ?: "",
+            username = currentUsername,
+            comment = text,
+            timestamp = System.currentTimeMillis()
+        )
+
+        db.collection("activity_feed").document(activityId)
+            .update("comments", com.google.firebase.firestore.FieldValue.arrayUnion(comment))
+    }
+
+    private fun deleteComment(activityId: String, comment: CommentModel) {
+        db.collection("activity_feed").document(activityId)
+            .update("comments", com.google.firebase.firestore.FieldValue.arrayRemove(comment))
     }
 
     override fun getItemCount() = activities.size

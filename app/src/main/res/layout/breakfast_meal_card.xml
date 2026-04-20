@@ -1,69 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    app:cardBackgroundColor="#1AFFFFFF"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/meal_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/meal_24"
-            app:tint="#4CAF50" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/meal_icon"
-            android:layout_toStartOf="@id/btn_add_meal_item"
-            android:layout_marginStart="16dp"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/meal_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Breakfast"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/meal_calories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="450 kcal"
-                android:textColor="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/text_meal_calories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="450 kcal"
-                android:textColor="@android:color/darker_gray" />
-        </LinearLayout>
+                android:layout_below="@id/meal_title"
+                android:text="0 kcal"
+                android:textColor="#B3FFFFFF"
+                android:textSize="14sp" />
 
-        <ImageButton
-            android:id="@+id/btn_add_meal_item"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/add_24"
-            app:tint="@color/black"
-            android:contentDescription="Add item to meal" />
-    </RelativeLayout>
+            <ImageButton
+                android:id="@+id/btn_add_meal_item"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_input_add"
+                app:tint="@color/white" />
+        </RelativeLayout>
 
+        <!-- List of added foods -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_meal_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            tools:listitem="@layout/item_logged_food"
+            tools:visibility="visible" />
+
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

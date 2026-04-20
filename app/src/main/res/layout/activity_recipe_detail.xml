@@ -51,6 +51,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/rounded_top_corners"
         android:layout_marginTop="-24dp"
+        android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -230,8 +231,23 @@
                 android:alpha="0.9"
                 android:textSize="16sp"
                 android:lineSpacingExtra="6dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="24dp"
                 tools:text="1. Heat a non-stick pan...\n2. Add cumin seeds..." />
+
+            <!-- Add to Calorie Tracker Button -->
+            <Button
+                android:id="@+id/btn_add_to_tracker"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="@android:color/holo_green_dark"
+                android:text="Add to Calorie Tracker"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:cornerRadius="16dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

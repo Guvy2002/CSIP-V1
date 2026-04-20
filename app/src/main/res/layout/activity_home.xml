@@ -59,6 +59,99 @@
                     app:tint="@color/white" />
             </RelativeLayout>
 
+            <!-- TIP OF THE DAY CARD -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#33FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Health Tip of the Day"
+                        android:textColor="@android:color/holo_green_light"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"/>
+                    <TextView
+                        android:id="@+id/text_health_tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="Stay hydrated throughout the day!" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- STEPS TRACKER CARD -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#26FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Daily Steps"
+                            android:textColor="@android:color/holo_orange_light"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textAllCaps="true"/>
+
+                        <TextView
+                            android:id="@+id/text_home_steps"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="32sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Goal: 10,000"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/progress_home_steps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:progress="0"
+                        app:indicatorColor="@android:color/holo_orange_light"
+                        app:trackColor="#33FFFFFF"
+                        app:trackThickness="8dp"
+                        app:indicatorSize="80dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- 2. DASHBOARD SUMMARY CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -77,7 +170,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Today's Progress"
+                        android:text="Today's Nutrition"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -107,7 +200,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="kcal consumed"
+                                android:text="consumed"
                                 android:textColor="@android:color/darker_gray"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -142,40 +235,6 @@
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- 3. TIP OF THE DAY -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Health Tip"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/text_tip_of_the_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        tools:text="Drink at least 8 glasses of water today." />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

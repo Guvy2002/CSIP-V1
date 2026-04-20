@@ -72,10 +72,30 @@
             android:lineSpacingExtra="2dp"
             tools:text="Just hit my protein goal with a Tandoori Soya bowl! 🍲" />
 
+        <!-- Comment Section View -->
+        <LinearLayout
+            android:id="@+id/layout_comments_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:visibility="gone">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#1AFFFFFF" />
+            <LinearLayout
+                android:id="@+id/container_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp" />
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:background="#1AFFFFFF" />
 
         <LinearLayout
@@ -111,6 +131,18 @@
             </LinearLayout>
 
             <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/btn_comment"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@android:drawable/ic_menu_edit"
+                app:tint="@android:color/darker_gray" />
 
             <ImageView
                 android:layout_width="18dp"

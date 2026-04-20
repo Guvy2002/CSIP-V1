@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_title">MiDietaDesiPro</string>
+    <string name="welcome_to">Bienvenido a</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="confirm_password">Confirmar contraseña</string>
+    <string name="login_button">Iniciar sesión</string>
+    <string name="register_button_text">Registrarse</string>
+    <string name="forgot_password_text"> <b>¿Olvidó su contraseña?</b></string>
+    <string name="login_prompt_text">¿Ya tiene una cuenta? <b>Iniciar sesión</b></string>
+    <string name="change_password_title">Cambiar contraseña</string>
+    <string name="goals_title">Sus metas</string>
+    <string name="save_button_text">Guardar</string>
+    <string name="view_goals_button_text">Ver metas</string>
+    <string name="view_workouts_button_text">Ver entrenamientos</string>
+    <string name="view_recipies_button_text">Ver recetas</string>
+    <string name="diary_title">Registro diario</string>
+    <string name="breakfast">DESAYUNO</string>
+    <string name="lunch">ALMUERZO</string>
+    <string name="dinner">CENA</string>
+    <string name="snack">MERIENDA</string>
+    <string name="add_button_text">AÑADIR</string>
+</resources>

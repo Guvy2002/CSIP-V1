@@ -56,6 +56,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="80dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -72,66 +73,11 @@
                 android:orientation="vertical"
                 android:visibility="visible">
 
-                <!-- Weekly Challenge Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    app:cardBackgroundColor="@android:color/holo_orange_dark"
-                    app:cardCornerRadius="16dp"
-                    app:elevation="4dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Weekly Challenge"
-                                android:textColor="@color/white"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="The 7-Day Protein Streak"
-                                android:textColor="@color/white"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="3/7 days completed"
-                                android:textColor="#E0E0E0"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_gravity="center"
-                            android:src="@android:drawable/btn_star_big_on"
-                            app:tint="@color/white" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
+                <!-- 1. SEARCH BOX -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="24dp"
                     android:orientation="horizontal">
 
                     <EditText
@@ -156,6 +102,137 @@
                         android:textColor="@color/black" />
                 </LinearLayout>
 
+                <!-- Date Selector for Pulse -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/text_pulse_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:padding="8dp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="Today" />
+
+                    <View
+                        android:layout_width="100dp"
+                        android:layout_height="1dp"
+                        android:background="#66FFFFFF" />
+                </LinearLayout>
+
+                <!-- 2. COMMUNITY PULSE BOX -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_community_pulse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    app:cardBackgroundColor="#26FFFFFF"
+                    app:cardCornerRadius="20dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Community Pulse"
+                            android:textColor="@android:color/holo_orange_light"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textAllCaps="true"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Your community is active!"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/text_pulse_cals"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="@color/white"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Cals Burned"
+                                    android:textColor="@android:color/darker_gray"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/text_pulse_meals"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="@color/white"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Meals Logged"
+                                    android:textColor="@android:color/darker_gray"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/text_pulse_workouts"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="@color/white"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Workouts"
+                                    android:textColor="@android:color/darker_gray"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_community_feed"
                     android:layout_width="match_parent"
@@ -172,47 +249,43 @@
                 android:orientation="vertical"
                 android:visibility="gone">
                 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardBackgroundColor="#1AFFFFFF"
-                    app:cardCornerRadius="16dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#33FFFFFF">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Weekly Reward Rules"
-                            android:textColor="@android:color/holo_orange_light"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Target Macros Met: +5 pts\nWorkout Completed: +10 pts"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                    android:layout_marginBottom="8dp"
+                    android:text="Top Rankings"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_leaderboard"
                     android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:nestedScrollingEnabled="true"
+                    tools:listitem="@layout/item_leaderboard_user" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="16dp"
+                    android:background="#33FFFFFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Live Community Feed"
+                    android:textColor="@android:color/holo_orange_light"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_leaderboard_live_feed"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
-                    tools:listitem="@layout/item_leaderboard_user" />
+                    tools:listitem="@layout/item_community_activity" />
 
             </LinearLayout>
 

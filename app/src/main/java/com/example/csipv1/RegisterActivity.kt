@@ -116,7 +116,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun performRegistration() {
-        val email = emailInput.text.toString().trim().lowercase() // Store as lowercase
+        val email = emailInput.text.toString().trim().lowercase()
         val username = usernameInput.text.toString().trim()
         val password = passwordInput.text.toString().trim()
         val confirmPassword = confirmPasswordInput.text.toString().trim()
@@ -144,6 +144,7 @@ class RegisterActivity : AppCompatActivity() {
                     val userData = User(
                         uid = user?.uid ?: "",
                         username = username,
+                        usernameLower = username.lowercase(),
                         email = email,
                         points = 0,
                         friends = listOf()
@@ -152,10 +153,14 @@ class RegisterActivity : AppCompatActivity() {
                     firestore.collection("users").document(user?.uid ?: "")
                         .set(userData)
                         .addOnSuccessListener {
-                            Toast.makeText(this, "User data saved to Firestore", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this, GoalsActivity::class.java)
-                            intent.putExtra("SOURCE_ACTIVITY", "REGISTER")
-                            intent.putExtra("USER_NAME", username)
+                            // Sign out so they can log in fresh
+                            auth.signOut()
+                            
+                            // Display message at the bottom of the screen
+                            Toast.makeText(this, "Registration successful", Toast.LENGTH_LONG).show()
+                            
+                            // Navigate to login page
+                            val intent = Intent(this, LoginActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             finish()

@@ -1,15 +1,29 @@
 package com.example.csipv1
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RecipeDetailActivity : BaseActivity() {
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_detail)
+
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -23,26 +37,86 @@ class RecipeDetailActivity : BaseActivity() {
         val recipeId = intent.getIntExtra("RECIPE_ID", -1)
         val recipe = RecipeData.indianHealthyRecipes.find { it.id == recipeId }
 
-        recipe?.let {
-            findViewById<TextView>(R.id.text_detail_recipe_name).text = it.name
-            findViewById<TextView>(R.id.text_detail_category).text = it.category.uppercase()
-            findViewById<TextView>(R.id.text_detail_calories).text = it.calories.toString()
-            findViewById<TextView>(R.id.text_detail_protein).text = "${it.protein}g"
-            findViewById<TextView>(R.id.text_detail_carbs).text = "${it.carbs}g"
-            findViewById<TextView>(R.id.text_detail_fat).text = "${it.fat}g"
+        recipe?.let { r ->
+            findViewById<TextView>(R.id.text_detail_recipe_name).text = r.name
+            findViewById<TextView>(R.id.text_detail_category).text = r.category.uppercase()
+            findViewById<TextView>(R.id.text_detail_calories).text = r.calories.toString()
+            findViewById<TextView>(R.id.text_detail_protein).text = "${r.protein}g"
+            findViewById<TextView>(R.id.text_detail_carbs).text = "${r.carbs}g"
+            findViewById<TextView>(R.id.text_detail_fat).text = "${r.fat}g"
 
             val imageDetail = findViewById<ImageView>(R.id.image_recipe_detail)
-            if (it.imageResId != 0) {
-                imageDetail.setImageResource(it.imageResId)
+            if (r.imageResId != 0) {
+                imageDetail.setImageResource(r.imageResId)
             } else {
                 imageDetail.setImageResource(R.drawable.recipe_placeholder_1)
             }
 
-            val ingredientsText = it.ingredients.joinToString("\n") { ingredient -> "• $ingredient" }
+            val ingredientsText = r.ingredients.joinToString("\n") { ingredient -> "• $ingredient" }
             findViewById<TextView>(R.id.text_detail_ingredients).text = ingredientsText
 
-            val instructionsText = it.instructions.mapIndexed { index, instruction -> "${index + 1}. $instruction" }.joinToString("\n")
+            val instructionsText = r.instructions.mapIndexed { index, instruction -> "${index + 1}. $instruction" }.joinToString("\n")
             findViewById<TextView>(R.id.text_detail_instructions).text = instructionsText
+
+            findViewById<Button>(R.id.btn_add_to_tracker).setOnClickListener {
+                addRecipeToTracker(r)
+            }
         }
+    }
+
+    private fun addRecipeToTracker(recipe: Recipe) {
+        val userId = auth.currentUser?.uid ?: return
+        val username = auth.currentUser?.displayName ?: "Someone"
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        
+        val mealData = hashMapOf(
+            "name" to recipe.name,
+            "calories" to recipe.calories,
+            "protein" to recipe.protein,
+            "carbs" to recipe.carbs,
+            "fat" to recipe.fat,
+            "baseCalories" to recipe.calories,
+            "baseProtein" to recipe.protein,
+            "baseCarbs" to recipe.carbs,
+            "baseFat" to recipe.fat,
+            "quantity" to 1.0,
+            "unit" to "serving",
+            "mealType" to recipe.category,
+            "date" to today
+        )
+
+        val batch = firestore.batch()
+        
+        // Add meal to user's collection
+        val mealRef = firestore.collection("users").document(userId).collection("meals").document()
+        batch.set(mealRef, mealData)
+
+        // Award 2 points for cooking a healthy recipe
+        val userRef = firestore.collection("users").document(userId)
+        batch.update(userRef, "points", FieldValue.increment(2))
+
+        // Add to community feed
+        val activityId = firestore.collection("activity_feed").document().id
+        val activity = hashMapOf(
+            "id" to activityId,
+            "userId" to userId,
+            "username" to username,
+            "type" to "MEAL",
+            "content" to "just cooked and logged ${recipe.name}! 🍳 (+2 pts)",
+            "timestamp" to System.currentTimeMillis(),
+            "highFives" to emptyList<String>()
+        )
+        batch.set(firestore.collection("activity_feed").document(activityId), activity)
+
+        batch.commit()
+            .addOnSuccessListener {
+                Toast.makeText(this, "${recipe.name} added! You earned 2 points! 🌟", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, CalorieTrackerActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

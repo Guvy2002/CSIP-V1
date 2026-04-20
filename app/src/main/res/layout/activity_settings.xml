@@ -10,214 +10,315 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/my_details_button">
+        android:layout_above="@+id/button_container"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="24dp">
 
-            <com.google.android.material.textview.MaterialTextView
+            <!-- HEADER -->
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Accessibility"
-                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textColor="@color/white"
+                android:textSize="34sp"
                 android:textStyle="bold"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="24dp"/>
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="32dp" />
 
-            <!-- Theme Section -->
-            <com.google.android.material.textview.MaterialTextView
-                style="?attr/textAppearanceSubtitle1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Theme"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
-
-            <RadioGroup
-                android:id="@+id/theme_radio_group"
+            <!-- TEXT SIZE CARD -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/theme_light"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Light mode"
-                    android:textStyle="bold"/>
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/theme_dark"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Dark mode"
-                    android:textStyle="bold"
-                    android:checked="true"/>
-            </RadioGroup>
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#26FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="0dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- Text Size Section -->
-            <com.google.android.material.textview.MaterialTextView
-                style="?attr/textAppearanceSubtitle1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text Size"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
-
-            <RadioGroup
-                android:id="@+id/text_size_radio_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/text_size_small"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="SMALL"
-                    android:textStyle="bold"/>
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/text_size_medium"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="MEDIUM"
-                    android:checked="true"
-                    android:textStyle="bold"/>
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/text_size_large"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="LARGE"
-                    android:textStyle="bold"/>
-            </RadioGroup>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- Language Section -->
-            <com.google.android.material.textview.MaterialTextView
-                style="?attr/textAppearanceSubtitle1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Language"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/language_dropdown"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
-
-                <AutoCompleteTextView
-                    android:id="@+id/language_autocomplete"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:text="English"
-                    android:textStyle="bold"/>
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TEXT SIZE"
+                        android:textColor="@android:color/holo_orange_light"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.1"
+                        android:layout_marginBottom="16dp"/>
 
-            <View
+                    <RadioGroup
+                        android:id="@+id/text_size_radio_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/text_size_small"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="SMALL"
+                            android:textColor="@color/white"
+                            app:buttonTint="@color/white"
+                            android:textSize="14sp" />
+                            
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/text_size_medium"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="MEDIUM"
+                            android:checked="true"
+                            android:textColor="@color/white"
+                            app:buttonTint="@color/white"
+                            android:textSize="14sp" />
+                            
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/text_size_large"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="LARGE"
+                            android:textColor="@color/white"
+                            app:buttonTint="@color/white"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- LANGUAGE CARD -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- Icon Size Section -->
-            <com.google.android.material.textview.MaterialTextView
-                style="?attr/textAppearanceSubtitle1"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Icon Size"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#26FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="0dp">
 
-            <RadioGroup
-                android:id="@+id/icon_size_radio_group"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LANGUAGE"
+                        android:textColor="@android:color/holo_green_light"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.1"
+                        android:layout_marginBottom="16dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/language_dropdown"
+                        style="@style/WhiteExposedDropdownPopup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeColor="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:endIconTint="@color/white"
+                        app:shapeAppearanceOverlay="@style/RoundedCorners">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/language_autocomplete"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:text="English"
+                            android:textColor="@color/white"
+                            android:padding="16dp"
+                            android:textStyle="bold"
+                            android:background="@null" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- STEP GOAL CARD -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/icon_size_small"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#26FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="SMALL"
-                    android:textStyle="bold"/>
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/icon_size_medium"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DAILY STEP GOAL"
+                        android:textColor="@android:color/holo_blue_light"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.1"
+                        android:layout_marginBottom="16dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/text_step_goal_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10,000"
+                            android:textColor="@color/white"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <SeekBar
+                            android:id="@+id/seekbar_step_goal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/text_step_goal_value"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:max="20000"
+                            android:progress="10000"
+                            android:progressTint="@android:color/holo_blue_light"
+                            android:thumbTint="@color/white" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- UNIT SYSTEM CARD -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#26FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="MEDIUM"
-                    android:checked="true"
-                    android:textStyle="bold"/>
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/icon_size_large"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="LARGE"
-                    android:textStyle="bold"/>
-            </RadioGroup>
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="UNIT SYSTEM"
+                        android:textColor="@android:color/holo_purple"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.1"
+                        android:layout_marginBottom="16dp"/>
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/toggle_units"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true"
+                        app:checkedButton="@+id/btn_unit_metric">
+
+                        <Button
+                            android:id="@+id/btn_unit_metric"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Metric (kg/cm)"
+                            android:textColor="@color/white" />
+
+                        <Button
+                            android:id="@+id/btn_unit_imperial"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Imperial (lb/ft)"
+                            android:textColor="@color/white" />
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/my_details_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/change_password_button"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@android:color/black"
-        android:text="My Goals"
-        android:textStyle="bold" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/change_password_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/logout_button"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@android:color/black"
-        android:text="Change Password"
-        android:textStyle="bold" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/logout_button"
+    <!-- FOOTER BUTTONS CONTAINER -->
+    <LinearLayout
+        android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottom_navigation"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@android:color/black"
-        android:text="Log Out"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/my_details_button"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="12dp"
+            android:text="My Goals"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="16dp"
+            app:strokeColor="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/change_username_button"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="12dp"
+            android:text="Change Username"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="16dp"
+            app:strokeColor="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/change_password_button"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="12dp"
+            android:text="Change Password"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="16dp"
+            app:strokeColor="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logout_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#4DF44336"
+            android:text="Log Out"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="16dp" />
+
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -225,6 +326,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@android:color/black"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
         app:menu="@menu/bottom_navigation_menu" />
 
 </RelativeLayout>

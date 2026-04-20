@@ -9,19 +9,18 @@ import android.widget.*
 import com.google.android.material.button.MaterialButton
 import java.util.*
 
-/**
- * Professional Detail Activity to show exercise instructions, play videos,
- * and track rest time with a 1:30 set timer.
- */
 class ExerciseDetailActivity : BaseActivity() {
 
     private lateinit var exercise: Exercise
     private lateinit var timerText: TextView
     private lateinit var timerButton: MaterialButton
+    private lateinit var videoView: VideoView
+    private lateinit var playButton: ImageButton
+    private lateinit var videoProgress: ProgressBar
     
     private var countDownTimer: CountDownTimer? = null
     private var isTimerRunning = false
-    private val startTimeInMillis: Long = 90000 // 1 minute 30 seconds
+    private val startTimeInMillis: Long = 90000 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +39,29 @@ class ExerciseDetailActivity : BaseActivity() {
         initializeViews()
         populateData()
         setupListeners()
+        prepareVideo()
     }
 
     private fun initializeViews() {
         timerText = findViewById(R.id.tv_timer_display)
         timerButton = findViewById(R.id.btn_timer_control)
+        videoView = findViewById(R.id.exercise_video)
+        playButton = findViewById(R.id.btn_play_video)
+        // Adding a loading indicator to the layout would be good here
+    }
+
+    private fun prepareVideo() {
+        if (exercise.videoUrl.isNotBlank()) {
+            videoView.setVideoURI(Uri.parse(exercise.videoUrl))
+            videoView.setOnPreparedListener { mp ->
+                mp.isLooping = true
+                // Ready to play
+            }
+            videoView.setOnErrorListener { _, _, _ ->
+                Toast.makeText(this, "Error loading video", Toast.LENGTH_SHORT).show()
+                true
+            }
+        }
     }
 
     private fun populateData() {
@@ -59,18 +76,13 @@ class ExerciseDetailActivity : BaseActivity() {
     private fun setupListeners() {
         findViewById<ImageButton>(R.id.btn_close).setOnClickListener { finish() }
 
-        findViewById<ImageButton>(R.id.btn_play_video).setOnClickListener { view ->
-            val videoView = findViewById<VideoView>(R.id.exercise_video)
+        playButton.setOnClickListener { view ->
             if (exercise.videoUrl.isBlank()) {
                 Toast.makeText(this, "Video coming soon", Toast.LENGTH_SHORT).show()
             } else {
                 videoView.visibility = View.VISIBLE
-                videoView.setVideoURI(Uri.parse(exercise.videoUrl))
-                videoView.setOnPreparedListener { mp ->
-                    mp.isLooping = true
-                    videoView.start()
-                    view.visibility = View.GONE
-                }
+                videoView.start()
+                view.visibility = View.GONE
             }
         }
 

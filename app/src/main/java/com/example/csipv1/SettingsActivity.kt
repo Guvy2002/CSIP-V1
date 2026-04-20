@@ -2,46 +2,65 @@ package com.example.csipv1
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.RadioButton
-import androidx.appcompat.app.AppCompatDelegate
+import android.widget.SeekBar
+import android.widget.TextView
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.firebase.auth.FirebaseAuth
 
 /**
- * Optimized Settings Activity with instant-response navigation and base theme integration.
+ * Optimized Settings Activity with language support, step goals, and unit system.
  */
 class SettingsActivity : BaseActivity() {
 
-    private lateinit var lightModeRadio: RadioButton
-    private lateinit var darkModeRadio: RadioButton
     private lateinit var textSizeSmall: RadioButton
     private lateinit var textSizeMedium: RadioButton
     private lateinit var textSizeLarge: RadioButton
-    private lateinit var iconSizeSmall: RadioButton
-    private lateinit var iconSizeMedium: RadioButton
-    private lateinit var iconSizeLarge: RadioButton
-    private lateinit var myDetailsButton: MaterialButton
+    private lateinit var languageDropdown: AutoCompleteTextView
+    private lateinit var stepGoalSeekBar: SeekBar
+    private lateinit var stepGoalText: TextView
+    private lateinit var unitToggleGroup: MaterialButtonToggleGroup
+    
+    private lateinit var myGoalsButton: MaterialButton
+    private lateinit var changeUsernameButton: MaterialButton
     private lateinit var changePasswordButton: MaterialButton
     private lateinit var logoutButton: MaterialButton
     private lateinit var bottomNavigation: BottomNavigationView
 
     companion object {
         const val PREFS_NAME = "AppPreferences"
-        const val KEY_THEME = "theme"
         const val KEY_TEXT_SIZE = "text_size"
-        const val KEY_ICON_SIZE = "icon_size"
-
-        const val THEME_LIGHT = "light"
-        const val THEME_DARK = "dark"
+        const val KEY_LANGUAGE = "language"
+        const val KEY_STEP_GOAL = "step_goal"
+        const val KEY_UNITS = "units"
 
         const val TEXT_SIZE_SMALL = "small"
         const val TEXT_SIZE_MEDIUM = "medium"
         const val TEXT_SIZE_LARGE = "large"
-
-        const val ICON_SIZE_SMALL = "small"
-        const val ICON_SIZE_MEDIUM = "medium"
-        const val ICON_SIZE_LARGE = "large"
+        
+        val LANGUAGES = mapOf(
+            "English" to "en",
+            "Hindi" to "hi",
+            "Spanish" to "es",
+            "Punjabi" to "pa",
+            "Urdu" to "ur",
+            "German" to "de",
+            "French" to "fr",
+            "Bengali" to "bn",
+            "Gujarati" to "gu",
+            "Tamil" to "ta",
+            "Telugu" to "te",
+            "Arabic" to "ar",
+            "Portuguese" to "pt",
+            "Italian" to "it",
+            "Marathi" to "mr",
+            "Chinese" to "zh"
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,64 +68,108 @@ class SettingsActivity : BaseActivity() {
         setContentView(R.layout.activity_settings)
 
         initializeViews()
+        setupLanguageDropdown()
         loadSavedSettings()
         setupListeners()
+        
+        // De-highlight all navigation items on the Settings page
+        bottomNavigation.menu.setGroupCheckable(0, true, false)
+        for (i in 0 until bottomNavigation.menu.size()) {
+            bottomNavigation.menu.getItem(i).isChecked = false
+        }
+        bottomNavigation.menu.setGroupCheckable(0, true, true)
     }
 
     private fun initializeViews() {
-        lightModeRadio = findViewById(R.id.theme_light)
-        darkModeRadio = findViewById(R.id.theme_dark)
-
         textSizeSmall = findViewById(R.id.text_size_small)
         textSizeMedium = findViewById(R.id.text_size_medium)
         textSizeLarge = findViewById(R.id.text_size_large)
+        
+        languageDropdown = findViewById(R.id.language_autocomplete)
+        
+        stepGoalSeekBar = findViewById(R.id.seekbar_step_goal)
+        stepGoalText = findViewById(R.id.text_step_goal_value)
+        unitToggleGroup = findViewById(R.id.toggle_units)
 
-        iconSizeSmall = findViewById(R.id.icon_size_small)
-        iconSizeMedium = findViewById(R.id.icon_size_medium)
-        iconSizeLarge = findViewById(R.id.icon_size_large)
-
-        myDetailsButton = findViewById(R.id.my_details_button)
+        myGoalsButton = findViewById(R.id.my_details_button)
+        changeUsernameButton = findViewById(R.id.change_username_button)
         changePasswordButton = findViewById(R.id.change_password_button)
         logoutButton = findViewById(R.id.logout_button)
         bottomNavigation = findViewById(R.id.bottom_navigation)
     }
 
-    private fun loadSavedSettings() {
-        val savedTheme = sharedPreferences.getString(KEY_THEME, THEME_DARK) ?: THEME_DARK
-        when (savedTheme) {
-            THEME_LIGHT -> lightModeRadio.isChecked = true
-            THEME_DARK -> darkModeRadio.isChecked = true
+    private fun setupLanguageDropdown() {
+        val adapter = ArrayAdapter(this, R.layout.item_dropdown, LANGUAGES.keys.toList())
+        languageDropdown.setAdapter(adapter)
+        
+        languageDropdown.setOnItemClickListener { _, _, position, _ ->
+            val selectedLanguageName = adapter.getItem(position) ?: "English"
+            val languageCode = LANGUAGES[selectedLanguageName] ?: "en"
+            saveLanguage(languageCode)
         }
+    }
 
+    private fun loadSavedSettings() {
+        // Text Size
         val savedTextSize = sharedPreferences.getString(KEY_TEXT_SIZE, TEXT_SIZE_MEDIUM) ?: TEXT_SIZE_MEDIUM
         when (savedTextSize) {
             TEXT_SIZE_SMALL -> textSizeSmall.isChecked = true
             TEXT_SIZE_MEDIUM -> textSizeMedium.isChecked = true
             TEXT_SIZE_LARGE -> textSizeLarge.isChecked = true
         }
+        
+        // Language
+        val savedLanguageCode = sharedPreferences.getString(KEY_LANGUAGE, "en") ?: "en"
+        val languageName = LANGUAGES.entries.find { it.value == savedLanguageCode }?.key ?: "English"
+        languageDropdown.setText(languageName, false)
 
-        val savedIconSize = sharedPreferences.getString(KEY_ICON_SIZE, ICON_SIZE_MEDIUM) ?: ICON_SIZE_MEDIUM
-        when (savedIconSize) {
-            ICON_SIZE_SMALL -> iconSizeSmall.isChecked = true
-            ICON_SIZE_MEDIUM -> iconSizeMedium.isChecked = true
-            ICON_SIZE_LARGE -> iconSizeLarge.isChecked = true
+        // Step Goal
+        val savedStepGoal = sharedPreferences.getInt(KEY_STEP_GOAL, 10000)
+        stepGoalSeekBar.progress = savedStepGoal
+        stepGoalText.text = String.format("%,d", savedStepGoal)
+
+        // Units
+        val savedUnits = sharedPreferences.getString(KEY_UNITS, "metric") ?: "metric"
+        if (savedUnits == "metric") {
+            unitToggleGroup.check(R.id.btn_unit_metric)
+        } else {
+            unitToggleGroup.check(R.id.btn_unit_imperial)
         }
     }
 
     private fun setupListeners() {
-        lightModeRadio.setOnClickListener { saveTheme(THEME_LIGHT) }
-        darkModeRadio.setOnClickListener { saveTheme(THEME_DARK) }
-
         textSizeSmall.setOnClickListener { saveTextSize(TEXT_SIZE_SMALL) }
         textSizeMedium.setOnClickListener { saveTextSize(TEXT_SIZE_MEDIUM) }
         textSizeLarge.setOnClickListener { saveTextSize(TEXT_SIZE_LARGE) }
 
-        iconSizeSmall.setOnClickListener { saveIconSize(ICON_SIZE_SMALL) }
-        iconSizeMedium.setOnClickListener { saveIconSize(ICON_SIZE_MEDIUM) }
-        iconSizeLarge.setOnClickListener { saveIconSize(ICON_SIZE_LARGE) }
+        stepGoalSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val roundedProgress = (progress / 500) * 500
+                val finalGoal = if (roundedProgress < 1000) 1000 else roundedProgress
+                stepGoalText.text = String.format("%,d", finalGoal)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                val goal = (seekBar?.progress ?: 10000 / 500) * 500
+                val finalGoal = if (goal < 1000) 1000 else goal
+                sharedPreferences.edit().putInt(KEY_STEP_GOAL, finalGoal).apply()
+            }
+        })
 
-        myDetailsButton.setOnClickListener {
+        unitToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                val unit = if (checkedId == R.id.btn_unit_metric) "metric" else "imperial"
+                sharedPreferences.edit().putString(KEY_UNITS, unit).apply()
+                Toast.makeText(this, "Units set to $unit", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        myGoalsButton.setOnClickListener {
             navigateTo(MyDetailsActivity::class.java)
+        }
+
+        changeUsernameButton.setOnClickListener {
+            navigateTo(ChangeUsernameActivity::class.java)
         }
 
         changePasswordButton.setOnClickListener {
@@ -138,26 +201,24 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun navigateTo(activityClass: Class<*>) {
+        if (this::class.java == activityClass) return
         val intent = Intent(this, activityClass)
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         startActivity(intent)
         overridePendingTransition(0, 0)
     }
 
-    private fun saveTheme(theme: String) {
-        sharedPreferences.edit().putString(KEY_THEME, theme).apply()
-        val mode = if (theme == THEME_LIGHT) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES
-        AppCompatDelegate.setDefaultNightMode(mode)
-        recreate()
-    }
-
     private fun saveTextSize(size: String) {
         sharedPreferences.edit().putString(KEY_TEXT_SIZE, size).apply()
-        recreate() // Required to apply font scale immediately
+        recreate() 
     }
-
-    private fun saveIconSize(size: String) {
-        sharedPreferences.edit().putString(KEY_ICON_SIZE, size).apply()
-        recreate()
+    
+    private fun saveLanguage(languageCode: String) {
+        sharedPreferences.edit().putString(KEY_LANGUAGE, languageCode).apply()
+        
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

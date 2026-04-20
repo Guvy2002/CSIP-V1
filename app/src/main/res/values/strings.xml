@@ -1,7 +1,8 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- REGISTER & LOGIN -->
-    <string name="app_name">CSIP V1</string>
+    <string name="app_name">MyDesiDietPro</string>
     <string name="app_title">MyDesiDietPro</string>
     <string name="welcome_to">Welcome to</string>
     <string name="login_account_circle_icon_description">Login account circle icon</string>
@@ -17,8 +18,9 @@
     <!-- Change Password -->
     <string name="change_password_title">Change Password</string>
     <string name="change_password_email">Email</string>
-    <string name="change_password">Password</string>
-    <string name="change_password_confirm_password">Confirm Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="change_password_confirm_password">Confirm New Password</string>
     <string name="change_password_button">Change Password</string>
 
     <!-- GOALS -->
@@ -87,6 +89,20 @@
         <item>Fuel your body with a small snack 30-60 minutes before training.</item>
         <item>Stretching after a workout helps reduce muscle soreness.</item>
         <item>Listen to your body—stop if you feel sharp pain.</item>
+    </string-array>
+
+    <!-- Cooking Tips -->
+    <string-array name="cooking_tips">
+        <item>Swap heavy cream for Greek yogurt in sauces for a protein boost and less fat.</item>
+        <item>Use spices and herbs like cumin, turmeric, or fresh cilantro instead of salt for flavor.</item>
+        <item>Try air-frying or baking instead of deep-frying to significantly reduce oil intake.</item>
+        <item>Substitute white rice with cauliflower rice or brown rice for more fiber.</item>
+        <item>Sauté vegetables using water or low-sodium broth instead of butter or oil.</item>
+        <item>Always wash your lentils and grains thoroughly to remove excess starch.</item>
+        <item>Marinate lean proteins like chicken or tofu for at least 30 minutes to lock in moisture without extra fat.</item>
+        <item>Add plenty of leafy greens like spinach or kale to your daals and curries.</item>
+        <item>Use non-stick cookware to minimize the amount of oil needed for cooking.</item>
+        <item>Prepare your meals in batches to avoid the temptation of unhealthy takeout.</item>
     </string-array>
 
     <!-- Workout Page -->

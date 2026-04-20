@@ -3,14 +3,65 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.CSIPV1" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="bottomNavigationStyle">@style/MyBottomNavigationView</item>
+        
+        <!-- Force text to be white in Light Mode (opposite of default) -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:editTextColor">@color/white</item>
+        <item name="android:textColorHint">#CCCCCC</item>
+
+        <!-- Fix for Dialog visibility -->
+        <item name="android:datePickerDialogTheme">@style/CustomDialogTheme</item>
+        <item name="android:alertDialogTheme">@style/CustomDialogTheme</item>
+        <item name="materialAlertDialogTheme">@style/CustomDialogTheme</item>
     </style>
 
     <style name="Theme.CSIPV1" parent="Base.Theme.CSIPV1" />
+
+    <!-- Theme for Dialogs to ensure text and buttons are visible -->
+    <style name="CustomDialogTheme" parent="Theme.Material3.DayNight.Dialog">
+        <!-- Dialog background and basic text -->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">#666666</item>
+        
+        <!-- Header colors - Using a more consistent muted purple to match the M3 style -->
+        <item name="colorPrimary">#7D6E85</item> 
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
+        
+        <!-- Force button text color to match the header background -->
+        <item name="buttonBarPositiveButtonStyle">@style/CustomDialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/CustomDialogButton</item>
+        <item name="android:buttonBarButtonStyle">@style/CustomDialogButton</item>
+    </style>
+
+    <style name="CustomDialogButton" parent="Widget.Material3.Button.TextButton">
+        <!-- Matched exactly to the muted purple of the calendar header -->
+        <item name="android:textColor">#7D6E85</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <!-- Custom Style for the Bottom Navigation View -->
     <style name="MyBottomNavigationView" parent="Widget.Material3.BottomNavigationView">
         <item name="itemIconTint">@color/bottom_nav_tint</item>
         <item name="itemTextColor">@color/bottom_nav_tint</item>
+    </style>
+
+    <style name="RoundedCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <!-- Corrected style for the dropdown popup -->
+    <style name="WhiteExposedDropdownPopup" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="materialThemeOverlay">@style/WhiteDropdownOverlay</item>
+    </style>
+
+    <style name="WhiteDropdownOverlay" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:colorBackground">@color/white</item>
     </style>
 
 </resources>

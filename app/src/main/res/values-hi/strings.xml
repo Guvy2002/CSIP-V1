@@ -1,0 +1,62 @@
+<resources>
+    <!-- REGISTER & LOGIN -->
+    <string name="app_name">CSIP V1</string>
+    <string name="app_title">माई देसी डाइट प्रो</string>
+    <string name="welcome_to">स्वागत है</string>
+    <string name="login_account_circle_icon_description">लॉगिन खाता आइकन</string>
+    <string name="email_hint">ईमेल</string>
+    <string name="username">उपयोगकर्ता नाम</string>
+    <string name="password">पासवर्ड</string>
+    <string name="confirm_password">पासवर्ड की पुष्टि करें</string>
+    <string name="login_button">साइन इन करें</string>
+    <string name="register_button_text">पंजीकरण करें</string>
+    <string name="forgot_password_text"> <b>पासवर्ड भूल गए?</b></string>
+    <string name="login_prompt_text">क्या आपके पास पहले से खाता है? <b>साइन इन करें</b></string>
+
+    <!-- Change Password -->
+    <string name="change_password_title">पासवर्ड बदलें</string>
+    <string name="change_password_email">ईमेल</string>
+    <string name="change_password">पासवर्ड</string>
+    <string name="change_password_confirm_password">पासवर्ड की पुष्टि करें</string>
+    <string name="change_password_button">पासवर्ड बदलें</string>
+
+    <!-- GOALS -->
+    <string name="goals_title">आपके लक्ष्य</string>
+    <string name="starting_weight_hint">प्रारंभिक वजन (किलोग्राम)</string>
+    <string name="current_weight_hint">वर्तमान वजन (किलोग्राम)</string>
+    <string name="weekly_goal_hint">साप्ताहिक लक्ष्य (जैसे, 0.5 किलोग्राम कम करें)</string>
+    <string name="save_button_text">सहेजें</string>
+    <string name="view_goals_button_text">लक्ष्य देखें</string>
+    <string name="view_workouts_button_text">वर्कआउट देखें</string>
+    <string name="view_recipies_button_text">व्यंजन देखें</string>
+    
+    <!-- Goal Results Format -->
+    <string name="calories_format">%1$d किलोकैलोरी / दिन</string>
+    <string name="protein_format">प्रोटीन: %1$d ग्राम</string>
+    <string name="carbs_format">कार्ब्स: %1$d ग्राम</string>
+    <string name="fat_format">वसा: %1$d ग्राम</string>
+
+    <!-- HOME PAGE -->
+    <string name="diary_title">डायरी लॉग</string>
+    <string name="breakfast">नाश्ता</string>
+    <string name="lunch">दोपहर का भोजन</string>
+    <string name="dinner">रात का भोजन</string>
+    <string name="snack">स्नैक</string>
+    <string name="add_button_text">जोड़ें</string>
+    <string name="calories_placeholder">0 किलोकैलोरी</string>
+
+    <!-- Workout Page -->
+    <string name="Chest_workout">छाती का वर्कआउट</string>
+    <string name="Back_workout">पीठ का वर्कआउट</string>
+    <string name="Shoulder_workout">कंधे का वर्कआउट</string>
+    <string name="Leg_workout">पैर का वर्कआउट</string>
+    <string name="Arms_workout">हाथों का वर्कआउट</string>
+
+    <!-- Recipies Page -->
+    <string name="view_button_text">देखें</string>
+    <string name="workout_content">वर्कआउट</string>
+    <string name="Breakfast_recipies">नाश्ता</string>
+    <string name="Lunch_recipies">दोपहर का भोजन</string>
+    <string name="Dinner_recipies">रात का भोजन</string>
+    <string name="Snack_recipies">स्नैक</string>
+</resources>
