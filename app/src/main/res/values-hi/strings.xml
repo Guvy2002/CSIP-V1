@@ -16,7 +16,6 @@
     <!-- Change Password -->
     <string name="change_password_title">पासवर्ड बदलें</string>
     <string name="change_password_email">ईमेल</string>
-    <string name="change_password">पासवर्ड</string>
     <string name="change_password_confirm_password">पासवर्ड की पुष्टि करें</string>
     <string name="change_password_button">पासवर्ड बदलें</string>
 

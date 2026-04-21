@@ -7,6 +7,22 @@ data class User(
     val email: String = "",
     val points: Int = 0,
     val friends: List<String> = listOf(),
+    val friendRequests: List<FriendRequest> = listOf(),
+    val sentRequests: List<SentRequest> = listOf(),
+    val mutedFriends: Map<String, Long> = mapOf(), // uid to muteUntilTimestamp (-1 for indefinite)
     val lastPointsSteps: Long = 0,
-    val dailySteps: Int = 0
+    val dailySteps: Int = 0,
+    val memberSince: Long = System.currentTimeMillis()
+)
+
+data class FriendRequest(
+    val fromUid: String = "",
+    val fromUsername: String = "",
+    val timestamp: Long = System.currentTimeMillis()
+)
+
+data class SentRequest(
+    val toUid: String = "",
+    val toEmail: String = "",
+    val timestamp: Long = System.currentTimeMillis()
 )

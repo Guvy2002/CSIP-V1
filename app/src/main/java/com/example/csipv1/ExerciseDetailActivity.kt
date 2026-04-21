@@ -16,7 +16,7 @@ class ExerciseDetailActivity : BaseActivity() {
     private lateinit var timerButton: MaterialButton
     private lateinit var videoView: VideoView
     private lateinit var playButton: ImageButton
-    private lateinit var videoProgress: ProgressBar
+    private lateinit var videoLoadingProgress: ProgressBar
     
     private var countDownTimer: CountDownTimer? = null
     private var isTimerRunning = false
@@ -47,18 +47,25 @@ class ExerciseDetailActivity : BaseActivity() {
         timerButton = findViewById(R.id.btn_timer_control)
         videoView = findViewById(R.id.exercise_video)
         playButton = findViewById(R.id.btn_play_video)
-        // Adding a loading indicator to the layout would be good here
+        videoLoadingProgress = findViewById(R.id.video_loading_progress)
     }
 
     private fun prepareVideo() {
-        if (exercise.videoUrl.isNotBlank()) {
+        if (exercise.videoUrl.isNotBlank() && !exercise.videoUrl.contains("youtube.com")) {
             videoView.setVideoURI(Uri.parse(exercise.videoUrl))
+            
             videoView.setOnPreparedListener { mp ->
                 mp.isLooping = true
-                // Ready to play
+                videoLoadingProgress.visibility = View.GONE
+                // If the user already clicked play, start it
+                if (videoView.visibility == View.VISIBLE) {
+                    videoView.start()
+                }
             }
+            
             videoView.setOnErrorListener { _, _, _ ->
-                Toast.makeText(this, "Error loading video", Toast.LENGTH_SHORT).show()
+                videoLoadingProgress.visibility = View.GONE
+                Toast.makeText(this, "Error loading video format", Toast.LENGTH_SHORT).show()
                 true
             }
         }
@@ -77,12 +84,26 @@ class ExerciseDetailActivity : BaseActivity() {
         findViewById<ImageButton>(R.id.btn_close).setOnClickListener { finish() }
 
         playButton.setOnClickListener { view ->
-            if (exercise.videoUrl.isBlank()) {
-                Toast.makeText(this, "Video coming soon", Toast.LENGTH_SHORT).show()
-            } else {
-                videoView.visibility = View.VISIBLE
-                videoView.start()
-                view.visibility = View.GONE
+            when {
+                exercise.videoUrl.isBlank() -> {
+                    Toast.makeText(this, "Video coming soon", Toast.LENGTH_SHORT).show()
+                }
+                exercise.videoUrl.contains("youtube.com") -> {
+                    Toast.makeText(this, "YouTube links require a browser or external player", Toast.LENGTH_LONG).show()
+                    // Optionally open in browser
+                    try {
+                        val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, Uri.parse(exercise.videoUrl))
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        Toast.makeText(this, "Could not open link", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else -> {
+                    videoView.visibility = View.VISIBLE
+                    videoLoadingProgress.visibility = View.VISIBLE
+                    videoView.start()
+                    view.visibility = View.GONE
+                }
             }
         }
 

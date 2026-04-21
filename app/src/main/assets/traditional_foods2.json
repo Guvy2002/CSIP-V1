@@ -1,0 +1,46 @@
+[
+  { "name": "Amritsari Fish", "calories": 320, "protein": 22, "carbs": 18, "fat": 18, "unit": "100g", "category": "Indian", "isCommunity": true },
+  { "name": "Kadai Chicken", "calories": 380, "protein": 30, "carbs": 10, "fat": 25, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+  { "name": "Chicken Korma", "calories": 420, "protein": 26, "carbs": 12, "fat": 30, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+  { "name": "Methi Chicken", "calories": 360, "protein": 28, "carbs": 8, "fat": 24, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+
+  { "name": "Paneer Bhurji", "calories": 300, "protein": 18, "carbs": 8, "fat": 22, "unit": "1 serving", "category": "Indian", "isCommunity": true },
+  { "name": "Matar Paneer", "calories": 340, "protein": 16, "carbs": 20, "fat": 22, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+  { "name": "Paneer Lababdar", "calories": 410, "protein": 17, "carbs": 14, "fat": 30, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+
+  { "name": "Kala Chana Curry", "calories": 270, "protein": 14, "carbs": 38, "fat": 6, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+  { "name": "Moong Dal", "calories": 230, "protein": 13, "carbs": 30, "fat": 6, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+  { "name": "Masoor Dal", "calories": 240, "protein": 14, "carbs": 32, "fat": 6, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+
+  { "name": "Aloo Methi", "calories": 210, "protein": 4, "carbs": 22, "fat": 11, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+  { "name": "Tinda Masala", "calories": 160, "protein": 3, "carbs": 14, "fat": 9, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+  { "name": "Lauki Sabzi", "calories": 140, "protein": 3, "carbs": 12, "fat": 7, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+  { "name": "Karela Sabzi", "calories": 150, "protein": 4, "carbs": 15, "fat": 8, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+
+  { "name": "Stuffed Paratha", "calories": 320, "protein": 8, "carbs": 45, "fat": 12, "unit": "1 piece", "category": "Indian", "isCommunity": true },
+  { "name": "Lachha Paratha", "calories": 290, "protein": 6, "carbs": 40, "fat": 12, "unit": "1 piece", "category": "Indian", "isCommunity": true },
+  { "name": "Missi Roti", "calories": 150, "protein": 5, "carbs": 20, "fat": 4, "unit": "1 piece", "category": "Indian", "isCommunity": true },
+
+  { "name": "Pulao Rice", "calories": 280, "protein": 6, "carbs": 50, "fat": 6, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+  { "name": "Curd Rice", "calories": 260, "protein": 7, "carbs": 40, "fat": 8, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+  { "name": "Lemon Rice", "calories": 240, "protein": 5, "carbs": 42, "fat": 6, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+
+  { "name": "Vegetable Pakora", "calories": 210, "protein": 5, "carbs": 22, "fat": 11, "unit": "100g", "category": "Indian", "isCommunity": true },
+  { "name": "Dahi Bhalla", "calories": 280, "protein": 8, "carbs": 35, "fat": 10, "unit": "1 plate", "category": "Indian", "isCommunity": true },
+  { "name": "Papdi Chaat", "calories": 300, "protein": 7, "carbs": 40, "fat": 12, "unit": "1 plate", "category": "Indian", "isCommunity": true },
+
+  { "name": "Egg Curry", "calories": 270, "protein": 16, "carbs": 6, "fat": 18, "unit": "1 serving", "category": "Indian", "isCommunity": true },
+  { "name": "Boiled Eggs", "calories": 155, "protein": 13, "carbs": 1, "fat": 11, "unit": "2 eggs", "category": "Indian", "isCommunity": true },
+
+  { "name": "Rasgulla", "calories": 180, "protein": 4, "carbs": 35, "fat": 3, "unit": "2 pieces", "category": "Indian", "isCommunity": true },
+  { "name": "Barfi", "calories": 220, "protein": 5, "carbs": 25, "fat": 10, "unit": "2 pieces", "category": "Indian", "isCommunity": true },
+  { "name": "Rasmalai", "calories": 240, "protein": 6, "carbs": 30, "fat": 10, "unit": "2 pieces", "category": "Indian", "isCommunity": true },
+
+  { "name": "Pani Puri", "calories": 180, "protein": 4, "carbs": 35, "fat": 2, "unit": "6 pieces", "category": "Indian", "isCommunity": true },
+  { "name": "Bhel Puri", "calories": 220, "protein": 6, "carbs": 40, "fat": 5, "unit": "1 plate", "category": "Indian", "isCommunity": true },
+  { "name": "Sev Puri", "calories": 250, "protein": 5, "carbs": 35, "fat": 10, "unit": "1 plate", "category": "Indian", "isCommunity": true },
+
+  { "name": "Chicken 65", "calories": 350, "protein": 25, "carbs": 10, "fat": 25, "unit": "1 serving", "category": "Indian", "isCommunity": true },
+  { "name": "Hyderabadi Biryani", "calories": 480, "protein": 22, "carbs": 55, "fat": 20, "unit": "1 bowl", "category": "Indian", "isCommunity": true },
+  { "name": "Egg Fried Rice (Indian Style)", "calories": 320, "protein": 10, "carbs": 45, "fat": 12, "unit": "1 bowl", "category": "Indian", "isCommunity": true }
+]

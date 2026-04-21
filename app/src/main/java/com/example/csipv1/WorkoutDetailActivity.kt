@@ -3,12 +3,14 @@ package com.example.csipv1
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FieldValue
@@ -25,6 +27,11 @@ class WorkoutDetailActivity : BaseActivity() {
     private lateinit var btnCalendar: ImageButton
     private lateinit var recyclerView: RecyclerView
     private lateinit var bottomNavigation: BottomNavigationView
+    
+    private lateinit var cardWarmup: MaterialCardView
+    private lateinit var textWarmupContent: TextView
+    private lateinit var cardCooldown: MaterialCardView
+    private lateinit var textCooldownContent: TextView
 
     private lateinit var adapter: ExerciseAdapter
     private lateinit var firestore: FirebaseFirestore
@@ -53,6 +60,11 @@ class WorkoutDetailActivity : BaseActivity() {
             btnCalendar = findViewById(R.id.btn_detail_calendar)
             recyclerView = findViewById(R.id.recycler_exercises)
             bottomNavigation = findViewById(R.id.bottom_navigation)
+            
+            cardWarmup = findViewById(R.id.card_warmup)
+            textWarmupContent = findViewById(R.id.text_warmup_content)
+            cardCooldown = findViewById(R.id.card_cooldown)
+            textCooldownContent = findViewById(R.id.text_cooldown_content)
 
             try {
                 selectedDate.time = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(selectedDateString) ?: Date()
@@ -67,6 +79,7 @@ class WorkoutDetailActivity : BaseActivity() {
             textDate.setOnClickListener { showDatePicker() }
 
             setupRecyclerView()
+            setupWarmupAndCooldown()
             setupBottomNavigation()
             startRealTimeCompletionListener()
 
@@ -92,6 +105,29 @@ class WorkoutDetailActivity : BaseActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+    }
+
+    private fun setupWarmupAndCooldown() {
+        val workout = WorkoutData.getWorkoutByCategory(workoutCategory)
+        
+        if (workout != null) {
+            if (workout.warmUp.isNotEmpty()) {
+                cardWarmup.visibility = View.VISIBLE
+                textWarmupContent.text = workout.warmUp.joinToString("\n") { "• $it" }
+            } else {
+                cardWarmup.visibility = View.GONE
+            }
+
+            if (workout.coolDown.isNotEmpty()) {
+                cardCooldown.visibility = View.VISIBLE
+                textCooldownContent.text = workout.coolDown.joinToString("\n") { "• $it" }
+            } else {
+                cardCooldown.visibility = View.GONE
+            }
+        } else {
+            cardWarmup.visibility = View.GONE
+            cardCooldown.visibility = View.GONE
+        }
     }
 
     private fun updateExerciseCompletion(exercise: Exercise, completed: Boolean) {

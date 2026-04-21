@@ -55,6 +55,7 @@
         <activity android:name=".RecipeListActivity" android:exported="false" />
         <activity android:name=".RecipeDetailActivity" android:exported="false" />
         <activity android:name=".MyDetailsActivity" android:exported="false" />
+        <activity android:name=".AddCustomDishActivity" android:exported="false" />
 
     </application>
 

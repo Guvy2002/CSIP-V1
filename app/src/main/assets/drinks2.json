@@ -1,0 +1,43 @@
+[
+  { "name": "Sprite", "calories": 38, "protein": 0, "carbs": 10, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Fanta", "calories": 45, "protein": 0, "carbs": 11, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "7UP", "calories": 40, "protein": 0, "carbs": 10, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Dr Pepper", "calories": 42, "protein": 0, "carbs": 11, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Tonic Water", "calories": 34, "protein": 0, "carbs": 8, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Ginger Beer", "calories": 40, "protein": 0, "carbs": 10, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Coconut Water", "calories": 19, "protein": 1, "carbs": 4, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Sugarcane Juice", "calories": 70, "protein": 0, "carbs": 18, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Cold Brew Coffee", "calories": 5, "protein": 0, "carbs": 1, "fat": 0, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+  { "name": "Iced Latte", "calories": 150, "protein": 8, "carbs": 15, "fat": 6, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Mocha", "calories": 250, "protein": 8, "carbs": 35, "fat": 10, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+  { "name": "Hot Chocolate", "calories": 220, "protein": 7, "carbs": 30, "fat": 8, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Herbal Tea", "calories": 2, "protein": 0, "carbs": 0, "fat": 0, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+  { "name": "Chamomile Tea", "calories": 2, "protein": 0, "carbs": 0, "fat": 0, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Matcha Latte", "calories": 180, "protein": 6, "carbs": 25, "fat": 6, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+  { "name": "Bubble Tea", "calories": 300, "protein": 3, "carbs": 60, "fat": 5, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Fruit Punch", "calories": 50, "protein": 0, "carbs": 12, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Grape Juice", "calories": 60, "protein": 0, "carbs": 15, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Pineapple Juice", "calories": 50, "protein": 0, "carbs": 13, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Guava Juice", "calories": 55, "protein": 1, "carbs": 13, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Protein Smoothie", "calories": 220, "protein": 20, "carbs": 20, "fat": 5, "unit": "1 glass", "category": "Drinks", "isCommunity": true },
+  { "name": "Green Smoothie", "calories": 180, "protein": 6, "carbs": 30, "fat": 4, "unit": "1 glass", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Milkshake Vanilla", "calories": 350, "protein": 8, "carbs": 55, "fat": 12, "unit": "1 glass", "category": "Drinks", "isCommunity": true },
+  { "name": "Milkshake Strawberry", "calories": 360, "protein": 8, "carbs": 58, "fat": 12, "unit": "1 glass", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Electrolyte Drink", "calories": 25, "protein": 0, "carbs": 6, "fat": 0, "unit": "250ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Sports Drink", "calories": 30, "protein": 0, "carbs": 8, "fat": 0, "unit": "250ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Kombucha", "calories": 30, "protein": 0, "carbs": 7, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Iced Coffee", "calories": 120, "protein": 5, "carbs": 15, "fat": 4, "unit": "1 cup", "category": "Drinks", "isCommunity": true }
+]

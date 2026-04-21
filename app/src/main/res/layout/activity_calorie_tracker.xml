@@ -235,6 +235,25 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Custom Dish Shortcut -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_shortcut_custom_dish"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="#33FFFFFF"
+                android:text="Create Your Own Custom Dish"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="16dp"
+                app:icon="@android:drawable/ic_input_add"
+                app:iconTint="@color/white"
+                app:strokeColor="#4DFFFFFF"
+                app:strokeWidth="1dp" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

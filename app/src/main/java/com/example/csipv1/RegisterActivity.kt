@@ -147,19 +147,15 @@ class RegisterActivity : AppCompatActivity() {
                         usernameLower = username.lowercase(),
                         email = email,
                         points = 0,
-                        friends = listOf()
+                        friends = listOf(),
+                        memberSince = System.currentTimeMillis()
                     )
 
                     firestore.collection("users").document(user?.uid ?: "")
                         .set(userData)
                         .addOnSuccessListener {
-                            // Sign out so they can log in fresh
                             auth.signOut()
-                            
-                            // Display message at the bottom of the screen
                             Toast.makeText(this, "Registration successful", Toast.LENGTH_LONG).show()
-                            
-                            // Navigate to login page
                             val intent = Intent(this, LoginActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)

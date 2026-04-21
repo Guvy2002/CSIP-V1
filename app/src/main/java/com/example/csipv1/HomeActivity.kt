@@ -9,8 +9,10 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
+import android.view.*
 import android.widget.*
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
@@ -30,6 +32,8 @@ class HomeActivity : BaseActivity(), SensorEventListener {
     private lateinit var stepsTextView: TextView
     private lateinit var stepsProgressBar: CircularProgressIndicator
     private lateinit var healthTipTextView: TextView
+    
+    private lateinit var recipeFlipper: ViewFlipper
     
     private lateinit var firestore: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -54,6 +58,7 @@ class HomeActivity : BaseActivity(), SensorEventListener {
         loadWelcomeData()
         startRealTimeProgressUpdate()
         displayRandomHealthTip()
+        setupRecipeSlideshow()
         
         checkPermissionsAndStartTracking()
     }
@@ -90,12 +95,12 @@ class HomeActivity : BaseActivity(), SensorEventListener {
                 startService(serviceIntent)
             }
         } catch (e: Exception) {
-            // Log error or show toast if service fails to start
+            // Log error
         }
     }
 
     private fun setupLocalStepSensor() {
-        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         loadStepData()
     }
 
@@ -107,6 +112,45 @@ class HomeActivity : BaseActivity(), SensorEventListener {
         stepsTextView = findViewById(R.id.text_home_steps)
         stepsProgressBar = findViewById(R.id.progress_home_steps)
         healthTipTextView = findViewById(R.id.text_health_tip)
+        recipeFlipper = findViewById(R.id.recipe_flipper)
+    }
+
+    private fun setupRecipeSlideshow() {
+        // Clear default placeholders
+        recipeFlipper.removeAllViews()
+        
+        // Filter recipes with images
+        val recipesWithImages = RecipeData.indianHealthyRecipes.filter { !it.imageUrl.isNullOrEmpty() }
+        
+        if (recipesWithImages.isNotEmpty()) {
+            recipesWithImages.forEach { recipe ->
+                val imageView = ImageView(this).apply {
+                    layoutParams = FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT
+                    )
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+                    setOnClickListener {
+                        val intent = Intent(this@HomeActivity, RecipeDetailActivity::class.java)
+                        intent.putExtra("recipe_id", recipe.id)
+                        startActivity(intent)
+                    }
+                }
+                
+                Glide.with(this)
+                    .load(recipe.imageUrl)
+                    .centerCrop()
+                    .into(imageView)
+                    
+                recipeFlipper.addView(imageView)
+            }
+            
+            recipeFlipper.flipInterval = 3000 // 3 seconds
+            recipeFlipper.isAutoStart = true
+            recipeFlipper.setInAnimation(this, android.R.anim.fade_in)
+            recipeFlipper.setOutAnimation(this, android.R.anim.fade_out)
+            recipeFlipper.startFlipping()
+        }
     }
 
     private fun displayRandomHealthTip() {
@@ -126,15 +170,17 @@ class HomeActivity : BaseActivity(), SensorEventListener {
             sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
         }
         
-        // Refresh Auth data just in case
         auth.currentUser?.reload()?.addOnSuccessListener {
             loadWelcomeData()
         }
+        
+        if (!recipeFlipper.isFlipping) recipeFlipper.startFlipping()
     }
 
     override fun onPause() {
         super.onPause()
         running = false
+        recipeFlipper.stopFlipping()
     }
 
     private fun loadStepData() {
@@ -192,12 +238,16 @@ class HomeActivity : BaseActivity(), SensorEventListener {
         val intent = Intent(this, activityClass)
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         startActivity(intent)
+        // Note: Deprecated but kept for visual consistency as requested
+        @Suppress("DEPRECATION")
         overridePendingTransition(0, 0)
     }
 
     private fun loadWelcomeData() {
         val user = auth.currentUser
-        usernameTextView.text = if (user?.displayName.isNullOrEmpty()) "User" else user?.displayName
+        if (user != null) {
+            usernameTextView.text = if (user.displayName.isNullOrEmpty()) "User" else user.displayName
+        }
     }
 
     private fun startRealTimeProgressUpdate() {
@@ -208,7 +258,6 @@ class HomeActivity : BaseActivity(), SensorEventListener {
         userListener = firestore.collection("users").document(userId)
             .addSnapshotListener { snapshot, _ ->
                 if (snapshot != null && snapshot.exists()) {
-                    // Update username in real-time if it exists in Firestore
                     val firestoreUsername = snapshot.getString("username")
                     if (!firestoreUsername.isNullOrEmpty()) {
                         usernameTextView.text = firestoreUsername

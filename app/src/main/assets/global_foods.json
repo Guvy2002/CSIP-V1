@@ -1,0 +1,45 @@
+[
+  { "name": "Pizza Margherita", "calories": 280, "protein": 11, "carbs": 33, "fat": 10, "unit": "1 slice", "category": "Global", "isCommunity": true },
+  { "name": "Cheeseburger", "calories": 300, "protein": 17, "carbs": 30, "fat": 14, "unit": "1 burger", "category": "Global", "isCommunity": true },
+  { "name": "French Fries", "calories": 312, "protein": 4, "carbs": 41, "fat": 15, "unit": "100g", "category": "Global", "isCommunity": true },
+  { "name": "Fried Chicken", "calories": 320, "protein": 25, "carbs": 10, "fat": 20, "unit": "1 piece", "category": "Global", "isCommunity": true },
+
+  { "name": "Spaghetti Bolognese", "calories": 400, "protein": 18, "carbs": 50, "fat": 15, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+  { "name": "Lasagna", "calories": 450, "protein": 20, "carbs": 45, "fat": 22, "unit": "1 slice", "category": "Global", "isCommunity": true },
+  { "name": "Carbonara Pasta", "calories": 500, "protein": 20, "carbs": 55, "fat": 25, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+
+  { "name": "Sushi Rolls", "calories": 200, "protein": 8, "carbs": 30, "fat": 5, "unit": "6 pieces", "category": "Global", "isCommunity": true },
+  { "name": "Ramen", "calories": 450, "protein": 18, "carbs": 55, "fat": 18, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+  { "name": "Tempura", "calories": 350, "protein": 10, "carbs": 30, "fat": 20, "unit": "1 serving", "category": "Global", "isCommunity": true },
+
+  { "name": "Pad Thai", "calories": 400, "protein": 15, "carbs": 50, "fat": 15, "unit": "1 plate", "category": "Global", "isCommunity": true },
+  { "name": "Thai Green Curry", "calories": 420, "protein": 20, "carbs": 20, "fat": 30, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+
+  { "name": "Dim Sum", "calories": 280, "protein": 10, "carbs": 35, "fat": 10, "unit": "1 serving", "category": "Global", "isCommunity": true },
+  { "name": "Sweet and Sour Chicken", "calories": 380, "protein": 20, "carbs": 40, "fat": 15, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+  { "name": "Fried Rice", "calories": 330, "protein": 8, "carbs": 45, "fat": 12, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+
+  { "name": "Tacos", "calories": 250, "protein": 12, "carbs": 30, "fat": 10, "unit": "2 tacos", "category": "Global", "isCommunity": true },
+  { "name": "Burrito", "calories": 500, "protein": 20, "carbs": 60, "fat": 20, "unit": "1 wrap", "category": "Global", "isCommunity": true },
+  { "name": "Quesadilla", "calories": 400, "protein": 15, "carbs": 35, "fat": 20, "unit": "1 serving", "category": "Global", "isCommunity": true },
+
+  { "name": "Falafel Wrap", "calories": 350, "protein": 12, "carbs": 40, "fat": 15, "unit": "1 wrap", "category": "Global", "isCommunity": true },
+  { "name": "Hummus with Pita", "calories": 300, "protein": 10, "carbs": 35, "fat": 14, "unit": "1 serving", "category": "Global", "isCommunity": true },
+  { "name": "Shawarma", "calories": 450, "protein": 25, "carbs": 40, "fat": 20, "unit": "1 wrap", "category": "Global", "isCommunity": true },
+
+  { "name": "Full English Breakfast", "calories": 700, "protein": 30, "carbs": 50, "fat": 40, "unit": "1 plate", "category": "Global", "isCommunity": true },
+  { "name": "Fish and Chips", "calories": 600, "protein": 25, "carbs": 70, "fat": 25, "unit": "1 plate", "category": "Global", "isCommunity": true },
+
+  { "name": "Pancakes with Syrup", "calories": 350, "protein": 8, "carbs": 60, "fat": 10, "unit": "3 pancakes", "category": "Global", "isCommunity": true },
+  { "name": "Waffles", "calories": 320, "protein": 7, "carbs": 50, "fat": 12, "unit": "2 waffles", "category": "Global", "isCommunity": true },
+
+  { "name": "Caesar Salad", "calories": 250, "protein": 10, "carbs": 10, "fat": 18, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+  { "name": "Greek Salad", "calories": 220, "protein": 6, "carbs": 10, "fat": 16, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+
+  { "name": "Steak", "calories": 500, "protein": 40, "carbs": 0, "fat": 35, "unit": "200g", "category": "Global", "isCommunity": true },
+  { "name": "Grilled Salmon", "calories": 350, "protein": 34, "carbs": 0, "fat": 22, "unit": "150g", "category": "Global", "isCommunity": true },
+
+  { "name": "Ice Cream", "calories": 210, "protein": 4, "carbs": 25, "fat": 11, "unit": "1 scoop", "category": "Global", "isCommunity": true },
+  { "name": "Chocolate Cake", "calories": 350, "protein": 5, "carbs": 50, "fat": 15, "unit": "1 slice", "category": "Global", "isCommunity": true },
+  { "name": "Donut", "calories": 260, "protein": 3, "carbs": 30, "fat": 14, "unit": "1 piece", "category": "Global", "isCommunity": true }
+]

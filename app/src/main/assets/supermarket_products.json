@@ -1,0 +1,50 @@
+[
+  { "name": "Whole Milk", "calories": 64, "protein": 3, "carbs": 5, "fat": 3, "unit": "100ml", "category": "Supermarket", "isCommunity": true },
+  { "name": "Semi-Skimmed Milk", "calories": 50, "protein": 3, "carbs": 5, "fat": 2, "unit": "100ml", "category": "Supermarket", "isCommunity": true },
+  { "name": "Skimmed Milk", "calories": 34, "protein": 3, "carbs": 5, "fat": 0, "unit": "100ml", "category": "Supermarket", "isCommunity": true },
+  { "name": "Greek Yogurt", "calories": 120, "protein": 10, "carbs": 4, "fat": 6, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Flavoured Yogurt", "calories": 150, "protein": 5, "carbs": 20, "fat": 5, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+
+  { "name": "Cheddar Cheese", "calories": 400, "protein": 25, "carbs": 1, "fat": 33, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Mozzarella Cheese", "calories": 280, "protein": 22, "carbs": 3, "fat": 17, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Butter", "calories": 717, "protein": 1, "carbs": 0, "fat": 81, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Margarine", "calories": 720, "protein": 0, "carbs": 0, "fat": 80, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+
+  { "name": "White Bread", "calories": 265, "protein": 9, "carbs": 49, "fat": 3, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Wholemeal Bread", "calories": 247, "protein": 13, "carbs": 41, "fat": 4, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Bagel", "calories": 250, "protein": 10, "carbs": 48, "fat": 2, "unit": "1 bagel", "category": "Supermarket", "isCommunity": true },
+  { "name": "Croissant", "calories": 406, "protein": 8, "carbs": 45, "fat": 21, "unit": "1 piece", "category": "Supermarket", "isCommunity": true },
+
+  { "name": "Cornflakes", "calories": 357, "protein": 8, "carbs": 84, "fat": 0, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Granola", "calories": 471, "protein": 10, "carbs": 64, "fat": 20, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Oats", "calories": 389, "protein": 17, "carbs": 66, "fat": 7, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+
+  { "name": "White Rice", "calories": 130, "protein": 2, "carbs": 28, "fat": 0, "unit": "100g cooked", "category": "Supermarket", "isCommunity": true },
+  { "name": "Brown Rice", "calories": 111, "protein": 2, "carbs": 23, "fat": 1, "unit": "100g cooked", "category": "Supermarket", "isCommunity": true },
+  { "name": "Pasta", "calories": 131, "protein": 5, "carbs": 25, "fat": 1, "unit": "100g cooked", "category": "Supermarket", "isCommunity": true },
+
+  { "name": "Chicken Breast", "calories": 165, "protein": 31, "carbs": 0, "fat": 4, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Beef Mince", "calories": 250, "protein": 26, "carbs": 0, "fat": 17, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Salmon Fillet", "calories": 208, "protein": 20, "carbs": 0, "fat": 13, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Eggs", "calories": 155, "protein": 13, "carbs": 1, "fat": 11, "unit": "2 eggs", "category": "Supermarket", "isCommunity": true },
+
+  { "name": "Baked Beans", "calories": 155, "protein": 6, "carbs": 27, "fat": 1, "unit": "200g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Tuna Can", "calories": 132, "protein": 28, "carbs": 0, "fat": 1, "unit": "1 can", "category": "Supermarket", "isCommunity": true },
+  { "name": "Sweetcorn", "calories": 96, "protein": 3, "carbs": 21, "fat": 1, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+
+  { "name": "Apple Juice", "calories": 46, "protein": 0, "carbs": 11, "fat": 0, "unit": "100ml", "category": "Supermarket", "isCommunity": true },
+  { "name": "Orange Juice", "calories": 45, "protein": 1, "carbs": 10, "fat": 0, "unit": "100ml", "category": "Supermarket", "isCommunity": true },
+  { "name": "Coca Cola", "calories": 42, "protein": 0, "carbs": 11, "fat": 0, "unit": "100ml", "category": "Supermarket", "isCommunity": true },
+  { "name": "Diet Coke", "calories": 1, "protein": 0, "carbs": 0, "fat": 0, "unit": "100ml", "category": "Supermarket", "isCommunity": true },
+
+  { "name": "Chocolate Bar", "calories": 535, "protein": 7, "carbs": 60, "fat": 30, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Biscuits", "calories": 480, "protein": 6, "carbs": 65, "fat": 22, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Crisps", "calories": 536, "protein": 7, "carbs": 53, "fat": 34, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+
+  { "name": "Frozen Pizza", "calories": 270, "protein": 11, "carbs": 30, "fat": 12, "unit": "1 slice", "category": "Supermarket", "isCommunity": true },
+  { "name": "Frozen Chicken Nuggets", "calories": 296, "protein": 15, "carbs": 18, "fat": 18, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+  { "name": "Frozen Chips", "calories": 312, "protein": 4, "carbs": 41, "fat": 15, "unit": "100g", "category": "Supermarket", "isCommunity": true },
+
+  { "name": "Protein Bar", "calories": 200, "protein": 20, "carbs": 20, "fat": 7, "unit": "1 bar", "category": "Supermarket", "isCommunity": true },
+  { "name": "Protein Shake", "calories": 160, "protein": 25, "carbs": 5, "fat": 3, "unit": "1 bottle", "category": "Supermarket", "isCommunity": true }
+]

@@ -1,12 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-
-    // Apply the Google Services plugin here
     id("com.google.gms.google-services")
 }
 
-android { // The 'android' block starts here
+android {
     namespace = "com.example.csipv1"
     compileSdk = 35
 
@@ -20,7 +18,6 @@ android { // The 'android' block starts here
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // Move the buildTypes block inside the android block
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -43,26 +40,22 @@ android { // The 'android' block starts here
     buildFeatures {
         dataBinding = true
     }
-} // The 'android' block ends here
+}
 
 dependencies {
-    // Firebase Bill of Materials (BOM)
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-
-    // FIX: Let the BOM manage the version of firebase-auth. Use the -ktx version.
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
-
-    // Other Firebase and Google dependencies
     implementation("com.google.firebase:firebase-storage-ktx")
+    
+    // Glide for image loading
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
-
-    // Networking for Nutrition API
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
-    // Your other existing dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -71,7 +64,6 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
 
-    // Testing dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

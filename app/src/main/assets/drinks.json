@@ -1,0 +1,44 @@
+[
+  { "name": "Water", "calories": 0, "protein": 0, "carbs": 0, "fat": 0, "unit": "250ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Sparkling Water", "calories": 0, "protein": 0, "carbs": 0, "fat": 0, "unit": "250ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Coca Cola", "calories": 42, "protein": 0, "carbs": 11, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Diet Coke", "calories": 1, "protein": 0, "carbs": 0, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Pepsi", "calories": 41, "protein": 0, "carbs": 11, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Pepsi Max", "calories": 1, "protein": 0, "carbs": 0, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Orange Juice", "calories": 45, "protein": 1, "carbs": 10, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Apple Juice", "calories": 46, "protein": 0, "carbs": 11, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Mango Juice", "calories": 60, "protein": 1, "carbs": 14, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Red Bull", "calories": 45, "protein": 0, "carbs": 11, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Monster Energy", "calories": 44, "protein": 0, "carbs": 11, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Lucozade", "calories": 58, "protein": 0, "carbs": 14, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Whole Milk", "calories": 64, "protein": 3, "carbs": 5, "fat": 3, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Semi Skimmed Milk", "calories": 50, "protein": 3, "carbs": 5, "fat": 2, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Skimmed Milk", "calories": 34, "protein": 3, "carbs": 5, "fat": 0, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Almond Milk", "calories": 30, "protein": 1, "carbs": 1, "fat": 2, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Soy Milk", "calories": 45, "protein": 3, "carbs": 3, "fat": 2, "unit": "100ml", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Black Coffee", "calories": 2, "protein": 0, "carbs": 0, "fat": 0, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+  { "name": "Latte", "calories": 190, "protein": 10, "carbs": 18, "fat": 7, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+  { "name": "Cappuccino", "calories": 120, "protein": 8, "carbs": 10, "fat": 5, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+  { "name": "Flat White", "calories": 150, "protein": 9, "carbs": 12, "fat": 6, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Masala Chai", "calories": 120, "protein": 3, "carbs": 18, "fat": 4, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+  { "name": "Green Tea", "calories": 2, "protein": 0, "carbs": 0, "fat": 0, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+  { "name": "Black Tea", "calories": 2, "protein": 0, "carbs": 0, "fat": 0, "unit": "1 cup", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Smoothie (Strawberry)", "calories": 250, "protein": 5, "carbs": 50, "fat": 4, "unit": "1 glass", "category": "Drinks", "isCommunity": true },
+  { "name": "Smoothie (Banana)", "calories": 270, "protein": 6, "carbs": 55, "fat": 5, "unit": "1 glass", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Protein Shake", "calories": 160, "protein": 25, "carbs": 5, "fat": 3, "unit": "1 bottle", "category": "Drinks", "isCommunity": true },
+  { "name": "Chocolate Milkshake", "calories": 400, "protein": 8, "carbs": 60, "fat": 15, "unit": "1 glass", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Lassi Sweet", "calories": 180, "protein": 6, "carbs": 25, "fat": 6, "unit": "1 glass", "category": "Drinks", "isCommunity": true },
+  { "name": "Lassi Salted", "calories": 120, "protein": 6, "carbs": 10, "fat": 4, "unit": "1 glass", "category": "Drinks", "isCommunity": true },
+
+  { "name": "Iced Tea", "calories": 30, "protein": 0, "carbs": 8, "fat": 0, "unit": "250ml", "category": "Drinks", "isCommunity": true },
+  { "name": "Lemonade", "calories": 40, "protein": 0, "carbs": 10, "fat": 0, "unit": "250ml", "category": "Drinks", "isCommunity": true }
+]

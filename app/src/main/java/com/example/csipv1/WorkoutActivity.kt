@@ -1,5 +1,6 @@
 package com.example.csipv1
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Typeface
@@ -18,7 +19,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 import kotlin.random.Random
 
@@ -62,7 +62,6 @@ class WorkoutActivity : BaseActivity() {
         textTotalCalories = findViewById(R.id.text_total_calories_burnt)
         bottomNavigation = findViewById(R.id.bottom_navigation)
 
-        // Randomize Workout Tip
         val tipTextView: TextView = findViewById(R.id.text_workout_tip)
         val workoutTips = resources.getStringArray(R.array.workout_tips)
         if (workoutTips.isNotEmpty()) {
@@ -86,8 +85,6 @@ class WorkoutActivity : BaseActivity() {
                     
                     if (completedIds.isNotEmpty()) {
                         textPlaceholder.visibility = View.GONE
-                        
-                        // Professional calorie calculation (Estimated 30-50 calories per weightlifting exercise)
                         val totalCals = completedIds.size * 40 
                         textTotalCalories.text = "$totalCals kcal"
                         textTotalCalories.visibility = View.VISIBLE
@@ -147,13 +144,11 @@ class WorkoutActivity : BaseActivity() {
         btnCalendar.setOnClickListener { showDatePicker() }
 
         findViewById<MaterialCardView>(R.id.card_view_plans).setOnClickListener {
-            val intent = Intent(this, TrainingPlansActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, TrainingPlansActivity::class.java))
         }
 
         findViewById<MaterialCardView>(R.id.card_view_upper_lower_plans).setOnClickListener {
-            val intent = Intent(this, UpperLowerPlansActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, UpperLowerPlansActivity::class.java))
         }
 
         setupWorkoutCard(R.id.card_chest, R.id.btn_chest, "Chest")
@@ -163,24 +158,59 @@ class WorkoutActivity : BaseActivity() {
         setupWorkoutCard(R.id.card_arms, R.id.btn_arms, "Arms")
         setupWorkoutCard(R.id.card_abs, R.id.btn_abs, "Abs")
 
+        // Recovery Section Listeners
+        findViewById<MaterialCardView>(R.id.card_stretching).setOnClickListener { showStretchingInfo() }
+        findViewById<MaterialCardView>(R.id.card_cooldown).setOnClickListener { showCooldownInfo() }
+
         bottomNavigation.setOnItemSelectedListener { item ->
             if (item.itemId == R.id.navigation_exercise) return@setOnItemSelectedListener true
-
             val target = when (item.itemId) {
                 R.id.navigation_home -> HomeActivity::class.java
                 R.id.navigation_diary -> CalorieTrackerActivity::class.java
                 R.id.navigation_community -> CommunityActivity::class.java
                 else -> null
             }
-
             target?.let {
                 val intent = Intent(this, it)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 startActivity(intent)
+                @Suppress("DEPRECATION")
                 overridePendingTransition(0, 0)
                 true
             } ?: false
         }
+    }
+
+    private fun showStretchingInfo() {
+        val info = """
+            Stretching improves flexibility and range of motion.
+            
+            1. Static Stretching: Hold a stretch for 30s. Best after a workout.
+            2. Dynamic Stretching: Active movements (e.g., leg swings). Best before a workout.
+            3. PNF Stretching: Contracting and relaxing muscles. For advanced flexibility.
+        """.trimIndent()
+        
+        AlertDialog.Builder(this)
+            .setTitle("Stretching Guide")
+            .setMessage(info)
+            .setPositiveButton("Got it", null)
+            .show()
+    }
+
+    private fun showCooldownInfo() {
+        val info = """
+            A cool down gradually lowers your heart rate and prevents blood pooling.
+            
+            1. Light Cardio: 5 mins of walking or slow cycling.
+            2. Deep Breathing: Helps regulate your nervous system.
+            3. Foam Rolling: Releases muscle tension and improves blood flow.
+        """.trimIndent()
+
+        AlertDialog.Builder(this)
+            .setTitle("Cool Down Guide")
+            .setMessage(info)
+            .setPositiveButton("Got it", null)
+            .show()
     }
 
     private fun setupWorkoutCard(cardId: Int, buttonId: Int, category: String) {
@@ -189,26 +219,12 @@ class WorkoutActivity : BaseActivity() {
         findViewById<MaterialButton>(buttonId).setOnClickListener(action)
     }
 
-    private fun navigateTo(activityClass: Class<*>) {
-        if (this::class.java == activityClass) return
-        val intent = Intent(this, activityClass)
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-        startActivity(intent)
-        overridePendingTransition(0, 0)
-    }
-
     private fun showDatePicker() {
-        DatePickerDialog(
-            this,
-            { _, year, month, dayOfMonth ->
-                selectedDate.set(year, month, dayOfMonth)
-                updateDateDisplay()
-                startCompletedWorkoutsListener()
-            },
-            selectedDate.get(Calendar.YEAR),
-            selectedDate.get(Calendar.MONTH),
-            selectedDate.get(Calendar.DAY_OF_MONTH)
-        ).show()
+        DatePickerDialog(this, { _, year, month, dayOfMonth ->
+            selectedDate.set(year, month, dayOfMonth)
+            updateDateDisplay()
+            startCompletedWorkoutsListener()
+        }, selectedDate.get(Calendar.YEAR), selectedDate.get(Calendar.MONTH), selectedDate.get(Calendar.DAY_OF_MONTH)).show()
     }
 
     private fun updateDateDisplay() {
@@ -218,10 +234,7 @@ class WorkoutActivity : BaseActivity() {
     private fun openWorkoutDetail(category: String) {
         val intent = Intent(this, WorkoutDetailActivity::class.java)
         intent.putExtra("WORKOUT_CATEGORY", category)
-        intent.putExtra(
-            "SELECTED_DATE",
-            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time)
-        )
+        intent.putExtra("SELECTED_DATE", SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time))
         startActivity(intent)
     }
 

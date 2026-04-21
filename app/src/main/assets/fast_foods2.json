@@ -1,0 +1,40 @@
+[
+  { "name": "McDonald's Double Cheeseburger", "calories": 450, "protein": 25, "carbs": 35, "fat": 25, "unit": "1 burger", "category": "Fast Food", "isCommunity": true },
+  { "name": "McDonald's Quarter Pounder", "calories": 520, "protein": 30, "carbs": 40, "fat": 28, "unit": "1 burger", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "Burger King Double Whopper", "calories": 900, "protein": 48, "carbs": 50, "fat": 58, "unit": "1 burger", "category": "Fast Food", "isCommunity": true },
+  { "name": "Burger King Chicken Sandwich", "calories": 470, "protein": 20, "carbs": 45, "fat": 24, "unit": "1 sandwich", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "KFC Zinger Box Meal", "calories": 800, "protein": 35, "carbs": 70, "fat": 40, "unit": "1 meal", "category": "Fast Food", "isCommunity": true },
+  { "name": "KFC Chicken Bucket (8 pcs)", "calories": 1200, "protein": 70, "carbs": 50, "fat": 80, "unit": "1 bucket", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "Subway Meatball Marinara Sub", "calories": 500, "protein": 20, "carbs": 60, "fat": 18, "unit": "6 inch sub", "category": "Fast Food", "isCommunity": true },
+  { "name": "Subway Veggie Delight Sub", "calories": 230, "protein": 8, "carbs": 45, "fat": 3, "unit": "6 inch sub", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "Domino's Cheese Pizza", "calories": 270, "protein": 11, "carbs": 33, "fat": 11, "unit": "1 slice", "category": "Fast Food", "isCommunity": true },
+  { "name": "Domino's Chicken Wings", "calories": 420, "protein": 28, "carbs": 8, "fat": 30, "unit": "6 wings", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "Pizza Hut Pepperoni Pizza", "calories": 300, "protein": 12, "carbs": 34, "fat": 13, "unit": "1 slice", "category": "Fast Food", "isCommunity": true },
+  { "name": "Pizza Hut Garlic Knots", "calories": 260, "protein": 6, "carbs": 35, "fat": 11, "unit": "3 pieces", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "Starbucks Latte", "calories": 190, "protein": 10, "carbs": 18, "fat": 7, "unit": "1 medium", "category": "Fast Food", "isCommunity": true },
+  { "name": "Starbucks Cappuccino", "calories": 120, "protein": 8, "carbs": 10, "fat": 5, "unit": "1 medium", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "Dunkin Breakfast Sandwich", "calories": 380, "protein": 15, "carbs": 30, "fat": 22, "unit": "1 sandwich", "category": "Fast Food", "isCommunity": true },
+  { "name": "Dunkin Bagel with Cream Cheese", "calories": 350, "protein": 9, "carbs": 50, "fat": 12, "unit": "1 bagel", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "Five Guys Bacon Burger", "calories": 950, "protein": 40, "carbs": 40, "fat": 65, "unit": "1 burger", "category": "Fast Food", "isCommunity": true },
+  { "name": "Five Guys Milkshake", "calories": 600, "protein": 10, "carbs": 80, "fat": 25, "unit": "1 shake", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "Chipotle Veggie Bowl", "calories": 500, "protein": 15, "carbs": 65, "fat": 18, "unit": "1 bowl", "category": "Fast Food", "isCommunity": true },
+  { "name": "Chipotle Chicken Burrito", "calories": 700, "protein": 35, "carbs": 70, "fat": 25, "unit": "1 burrito", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "Taco Bell Crunchwrap Supreme", "calories": 530, "protein": 16, "carbs": 71, "fat": 21, "unit": "1 item", "category": "Fast Food", "isCommunity": true },
+  { "name": "Taco Bell Nachos", "calories": 450, "protein": 12, "carbs": 50, "fat": 20, "unit": "1 tray", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "Pret A Manger Chicken Sandwich", "calories": 400, "protein": 20, "carbs": 45, "fat": 15, "unit": "1 sandwich", "category": "Fast Food", "isCommunity": true },
+  { "name": "Pret A Manger Soup", "calories": 180, "protein": 8, "carbs": 25, "fat": 5, "unit": "1 bowl", "category": "Fast Food", "isCommunity": true },
+
+  { "name": "Greggs Sausage Roll", "calories": 320, "protein": 9, "carbs": 25, "fat": 20, "unit": "1 roll", "category": "Fast Food", "isCommunity": true },
+  { "name": "Greggs Steak Bake", "calories": 400, "protein": 12, "carbs": 30, "fat": 25, "unit": "1 bake", "category": "Fast Food", "isCommunity": true }
+]

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class RecipeAdapter(
     private val recipes: List<Recipe>,
@@ -39,8 +40,15 @@ class RecipeAdapter(
             caloriesText.text = "${recipe.calories} kcal"
             proteinText.text = "${recipe.protein}g Protein"
             
-            // Set placeholder or actual image if available
-            if (recipe.imageResId != 0) {
+            // Load dynamic image from Firebase URL using Glide
+            if (!recipe.imageUrl.isNullOrEmpty()) {
+                Glide.with(itemView.context)
+                    .load(recipe.imageUrl)
+                    .centerCrop()
+                    .placeholder(R.drawable.recipe_placeholder_1)
+                    .error(R.drawable.recipe_placeholder_1)
+                    .into(thumbImage)
+            } else if (recipe.imageResId != 0) {
                 thumbImage.setImageResource(recipe.imageResId)
             } else {
                 thumbImage.setImageResource(R.drawable.recipe_placeholder_1)

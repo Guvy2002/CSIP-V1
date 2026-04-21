@@ -1,0 +1,42 @@
+[
+  { "name": "Hot Dog", "calories": 290, "protein": 10, "carbs": 28, "fat": 15, "unit": "1 hot dog", "category": "Global", "isCommunity": true },
+  { "name": "BBQ Ribs", "calories": 550, "protein": 35, "carbs": 20, "fat": 40, "unit": "1 rack", "category": "Global", "isCommunity": true },
+  { "name": "Pulled Pork Sandwich", "calories": 480, "protein": 28, "carbs": 45, "fat": 22, "unit": "1 sandwich", "category": "Global", "isCommunity": true },
+
+  { "name": "Chicken Alfredo Pasta", "calories": 520, "protein": 25, "carbs": 50, "fat": 25, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+  { "name": "Mac and Cheese", "calories": 420, "protein": 14, "carbs": 55, "fat": 18, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+  { "name": "Gnocchi", "calories": 250, "protein": 6, "carbs": 45, "fat": 6, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+
+  { "name": "Paella", "calories": 450, "protein": 20, "carbs": 50, "fat": 18, "unit": "1 plate", "category": "Global", "isCommunity": true },
+  { "name": "Tapas", "calories": 300, "protein": 12, "carbs": 25, "fat": 15, "unit": "1 serving", "category": "Global", "isCommunity": true },
+
+  { "name": "Croissant Sandwich", "calories": 420, "protein": 12, "carbs": 35, "fat": 25, "unit": "1 sandwich", "category": "Global", "isCommunity": true },
+  { "name": "Quiche", "calories": 350, "protein": 12, "carbs": 20, "fat": 25, "unit": "1 slice", "category": "Global", "isCommunity": true },
+
+  { "name": "Pho", "calories": 350, "protein": 20, "carbs": 45, "fat": 10, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+  { "name": "Spring Rolls", "calories": 200, "protein": 5, "carbs": 30, "fat": 8, "unit": "2 rolls", "category": "Global", "isCommunity": true },
+
+  { "name": "Bibimbap", "calories": 500, "protein": 20, "carbs": 65, "fat": 18, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+  { "name": "Korean BBQ Beef", "calories": 450, "protein": 30, "carbs": 20, "fat": 28, "unit": "1 serving", "category": "Global", "isCommunity": true },
+
+  { "name": "Peking Duck", "calories": 600, "protein": 35, "carbs": 20, "fat": 45, "unit": "1 serving", "category": "Global", "isCommunity": true },
+  { "name": "Chow Mein", "calories": 350, "protein": 10, "carbs": 50, "fat": 12, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+
+  { "name": "Gyoza", "calories": 250, "protein": 10, "carbs": 25, "fat": 12, "unit": "5 pieces", "category": "Global", "isCommunity": true },
+  { "name": "Takoyaki", "calories": 300, "protein": 8, "carbs": 35, "fat": 15, "unit": "6 balls", "category": "Global", "isCommunity": true },
+
+  { "name": "Falafel Plate", "calories": 400, "protein": 14, "carbs": 45, "fat": 18, "unit": "1 plate", "category": "Global", "isCommunity": true },
+  { "name": "Chicken Shawarma Plate", "calories": 550, "protein": 35, "carbs": 40, "fat": 28, "unit": "1 plate", "category": "Global", "isCommunity": true },
+
+  { "name": "Pita Sandwich", "calories": 320, "protein": 12, "carbs": 40, "fat": 12, "unit": "1 sandwich", "category": "Global", "isCommunity": true },
+  { "name": "Stuffed Peppers", "calories": 280, "protein": 12, "carbs": 30, "fat": 10, "unit": "1 serving", "category": "Global", "isCommunity": true },
+
+  { "name": "Roast Chicken", "calories": 450, "protein": 35, "carbs": 0, "fat": 30, "unit": "200g", "category": "Global", "isCommunity": true },
+  { "name": "Mashed Potatoes", "calories": 200, "protein": 4, "carbs": 30, "fat": 8, "unit": "1 bowl", "category": "Global", "isCommunity": true },
+
+  { "name": "Apple Pie", "calories": 320, "protein": 3, "carbs": 45, "fat": 14, "unit": "1 slice", "category": "Global", "isCommunity": true },
+  { "name": "Brownie", "calories": 280, "protein": 4, "carbs": 35, "fat": 14, "unit": "1 piece", "category": "Global", "isCommunity": true },
+
+  { "name": "Milkshake", "calories": 400, "protein": 8, "carbs": 60, "fat": 15, "unit": "1 glass", "category": "Global", "isCommunity": true },
+  { "name": "Smoothie", "calories": 250, "protein": 5, "carbs": 50, "fat": 4, "unit": "1 glass", "category": "Global", "isCommunity": true }
+]

@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -46,7 +47,15 @@ class RecipeDetailActivity : BaseActivity() {
             findViewById<TextView>(R.id.text_detail_fat).text = "${r.fat}g"
 
             val imageDetail = findViewById<ImageView>(R.id.image_recipe_detail)
-            if (r.imageResId != 0) {
+            
+            // Load dynamic image using Glide if URL is available
+            if (!r.imageUrl.isNullOrEmpty()) {
+                Glide.with(this)
+                    .load(r.imageUrl)
+                    .centerCrop()
+                    .placeholder(R.drawable.recipe_placeholder_1)
+                    .into(imageDetail)
+            } else if (r.imageResId != 0) {
                 imageDetail.setImageResource(r.imageResId)
             } else {
                 imageDetail.setImageResource(R.drawable.recipe_placeholder_1)

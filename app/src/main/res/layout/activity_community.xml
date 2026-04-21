@@ -13,24 +13,74 @@
         android:background="@android:color/transparent"
         app:elevation="0dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:padding="24dp">
 
             <TextView
+                android:id="@+id/text_community_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/layout_top_actions"
                 android:text="Community"
                 android:textColor="@color/white"
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
+            <LinearLayout
+                android:id="@+id/layout_top_actions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/text_community_title"
+                android:layout_alignBottom="@+id/text_community_title"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/btn_friends_list"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_me"
+                        app:tint="@color/white" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_notifications"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_popup_reminder"
+                        app:tint="@color/white" />
+
+                    <View
+                        android:id="@+id/notification_badge"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@android:color/holo_green_light"
+                        android:visibility="gone" />
+                </FrameLayout>
+            </LinearLayout>
+
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout_community"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/text_community_title"
                 android:layout_marginTop="16dp"
                 android:background="@android:color/transparent"
                 app:tabIndicatorColor="@android:color/holo_orange_light"
@@ -50,7 +100,7 @@
                     android:text="Leaderboard" />
             </com.google.android.material.tabs.TabLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView

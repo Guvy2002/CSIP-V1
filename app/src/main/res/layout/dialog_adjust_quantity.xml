@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corner"
+    android:backgroundTint="#222226"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#1E1E1E">
+    android:padding="24dp">
 
     <TextView
         android:id="@+id/text_dialog_food_name"
@@ -20,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="100 kcal per serving"
+        android:text="513 kcal per 100g"
         android:textColor="@android:color/darker_gray"
         android:textSize="14sp" />
 
@@ -29,32 +31,34 @@
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="#33FFFFFF" />
+        android:background="#1AFFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Quantity"
         android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/edit_quantity"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="54dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_corner"
-            android:backgroundTint="#33FFFFFF"
+            android:backgroundTint="#3D4050"
             android:hint="1.0"
             android:inputType="numberDecimal"
-            android:padding="12dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:textColor="@color/white"
             android:textColorHint="@android:color/darker_gray" />
 
@@ -62,8 +66,8 @@
             android:id="@+id/text_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="serving"
+            android:layout_marginStart="16dp"
+            android:text="100g"
             android:textColor="@color/white"
             android:textSize="16sp" />
     </LinearLayout>
@@ -72,17 +76,17 @@
         android:id="@+id/text_total_calories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Total: 100 kcal"
+        android:layout_marginTop="20dp"
+        android:text="Total: 513 kcal"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:gravity="end"
+        android:gravity="end|center_vertical"
         android:orientation="horizontal">
 
         <Button
@@ -91,15 +95,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            android:textColor="@android:color/darker_gray" />
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_confirm"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/white"
+            android:layout_height="54dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="#C5CAE9"
+            android:minWidth="100dp"
             android:text="Add"
-            android:textColor="@color/black" />
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="27dp" />
     </LinearLayout>
 </LinearLayout>
