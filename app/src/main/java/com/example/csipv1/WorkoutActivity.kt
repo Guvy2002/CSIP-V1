@@ -7,7 +7,9 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -158,7 +160,7 @@ class WorkoutActivity : BaseActivity() {
         setupWorkoutCard(R.id.card_arms, R.id.btn_arms, "Arms")
         setupWorkoutCard(R.id.card_abs, R.id.btn_abs, "Abs")
 
-        // Recovery Section Listeners
+        // recovery tips section listeners
         findViewById<MaterialCardView>(R.id.card_stretching).setOnClickListener { showStretchingInfo() }
         findViewById<MaterialCardView>(R.id.card_cooldown).setOnClickListener { showCooldownInfo() }
 
@@ -182,35 +184,42 @@ class WorkoutActivity : BaseActivity() {
     }
 
     private fun showStretchingInfo() {
-        val info = """
-            Stretching improves flexibility and range of motion.
-            
-            1. Static Stretching: Hold a stretch for 30s. Best after a workout.
-            2. Dynamic Stretching: Active movements (e.g., leg swings). Best before a workout.
-            3. PNF Stretching: Contracting and relaxing muscles. For advanced flexibility.
-        """.trimIndent()
-        
-        AlertDialog.Builder(this)
-            .setTitle("Stretching Guide")
-            .setMessage(info)
-            .setPositiveButton("Got it", null)
-            .show()
+        showGuideDialog(
+            "Stretching Guide",
+            "Stretching improves flexibility and range of motion.",
+            "1. Static Stretching: Hold a stretch for 30s. Best after a workout.\n\n2. Dynamic Stretching: Active movements (e.g., leg swings). Best before a workout.\n\n3. PNF Stretching: Contracting and relaxing muscles. For advanced flexibility."
+        )
     }
 
     private fun showCooldownInfo() {
-        val info = """
-            A cool down gradually lowers your heart rate and prevents blood pooling.
-            
-            1. Light Cardio: 5 mins of walking or slow cycling.
-            2. Deep Breathing: Helps regulate your nervous system.
-            3. Foam Rolling: Releases muscle tension and improves blood flow.
-        """.trimIndent()
+        showGuideDialog(
+            "Cool Down Guide",
+            "A cool down gradually lowers your heart rate and prevents blood pooling.",
+            "1. Light Cardio: 5 mins of walking or slow cycling.\n\n2. Deep Breathing: Helps regulate your nervous system.\n\n3. Foam Rolling: Releases muscle tension and improves blood flow."
+        )
+    }
 
-        AlertDialog.Builder(this)
-            .setTitle("Cool Down Guide")
-            .setMessage(info)
-            .setPositiveButton("Got it", null)
-            .show()
+    private fun showGuideDialog(title: String, description: String, content: String) {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_workout_guide, null)
+        val dialog = AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar)
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialogView.findViewById<TextView>(R.id.text_guide_title).text = title
+        dialogView.findViewById<TextView>(R.id.text_guide_description).text = description
+        dialogView.findViewById<TextView>(R.id.text_guide_content).text = content
+        
+        dialogView.findViewById<MaterialButton>(R.id.btn_guide_close).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+
+        // Fix the narrow width issue by setting it to 90% of the screen width
+        val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     private fun setupWorkoutCard(cardId: Int, buttonId: Int, category: String) {

@@ -24,11 +24,18 @@
             android:textSize="34sp"
             android:textStyle="bold" />
 
-        <!-- Input Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Age"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
         <EditText
             android:id="@+id/age_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:background="@drawable/rounded_corner"
             android:hint="Age"
             android:inputType="number"
@@ -67,11 +74,19 @@
                 android:textColor="@color/white" />
         </RadioGroup>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Weight"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
         <EditText
             android:id="@+id/current_weight_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/rounded_corner"
             android:hint="Current Weight (kg)"
             android:inputType="numberDecimal"
@@ -80,11 +95,19 @@
             android:textColorHint="@color/white"
             android:textSize="18sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Height"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
         <EditText
             android:id="@+id/height_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/rounded_corner"
             android:hint="Height (cm)"
             android:inputType="numberDecimal"
@@ -125,7 +148,7 @@
             android:background="@drawable/rounded_corner"
             android:padding="16dp" />
 
-        <!-- Result Section (Calculated targets) -->
+
         <androidx.cardview.widget.CardView
             android:id="@+id/results_card"
             android:layout_width="match_parent"

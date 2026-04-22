@@ -9,6 +9,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -64,16 +65,21 @@ class StepCounterService : Service(), SensorEventListener {
         val userRef = db.collection("users").document(userId)
         
         userRef.get().addOnSuccessListener { doc ->
+            if (!doc.exists()) return@addOnSuccessListener
+
             val lastPointsSteps = doc.getLong("lastPointsSteps") ?: 0
             var pointsToAdd = 0L
+            var milestoneReached = ""
             
-            // 5k Milestone (+5 points)
+            // 5k - +5 points
             if (steps >= 5000 && lastPointsSteps < 5000) {
                 pointsToAdd += 5
+                milestoneReached = "5,000 steps"
             }
-            // 10k Milestone (+5 more points, total 10)
+            // 10k - +5 more points
             if (steps >= 10000 && lastPointsSteps < 10000) {
                 pointsToAdd += 5
+                milestoneReached = "10,000 steps"
             }
 
             val updates = mutableMapOf<String, Any>(
@@ -83,10 +89,31 @@ class StepCounterService : Service(), SensorEventListener {
             if (pointsToAdd > 0) {
                 updates["points"] = FieldValue.increment(pointsToAdd)
                 updates["lastPointsSteps"] = steps.toLong()
+                
+
+                postMilestoneToFeed(userId, doc.getString("username") ?: "User", milestoneReached)
             }
             
             userRef.update(updates)
+        }.addOnFailureListener { e ->
+            Log.e("StepService", "Error updating steps", e)
         }
+    }
+
+    private fun postMilestoneToFeed(userId: String, username: String, milestone: String) {
+        val feedRef = db.collection("activity_feed").document()
+        val activity = hashMapOf(
+            "id" to feedRef.id,
+            "userId" to userId,
+            "username" to username,
+            "type" to "WORKOUT",
+            "content" to "just reached their $milestone goal! 🏃‍♂️💨",
+            "timestamp" to System.currentTimeMillis(),
+            "highFives" to emptyList<String>(),
+            "comments" to emptyList<Map<String, Any>>()
+        )
+        db.collection("activity_feed").document(feedRef.id).set(activity)
+            .addOnFailureListener { e -> Log.e("StepService", "Feed post failed", e) }
     }
 
     private fun createNotification(content: String): Notification {

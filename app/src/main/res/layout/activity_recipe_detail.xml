@@ -80,7 +80,7 @@
                 android:textStyle="bold"
                 tools:text="Paneer &amp; Spinach Scramble" />
 
-            <!-- Macros Card -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -234,7 +234,7 @@
                 android:layout_marginBottom="24dp"
                 tools:text="1. Heat a non-stick pan...\n2. Add cumin seeds..." />
 
-            <!-- Add to Calorie Tracker Button -->
+            <!-- calorie tracker button -->
             <Button
                 android:id="@+id/btn_add_to_tracker"
                 android:layout_width="match_parent"

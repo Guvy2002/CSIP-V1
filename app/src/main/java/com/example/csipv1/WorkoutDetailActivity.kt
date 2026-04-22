@@ -1,8 +1,10 @@
 package com.example.csipv1
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -132,23 +134,25 @@ class WorkoutDetailActivity : BaseActivity() {
 
     private fun updateExerciseCompletion(exercise: Exercise, completed: Boolean) {
         val userId = auth.currentUser?.uid ?: return
-        val username = auth.currentUser?.displayName ?: "Someone"
-        val docId = "${selectedDateString}_${workoutCategory}_${exercise.id}"
-        
-        // We use a specific ID for the feed item so we can find and delete it later if unticked
-        val feedId = "feed_${userId}_${docId}"
-
         val userRef = firestore.collection("users").document(userId)
-        val exerciseRef = userRef.collection("completed_exercises").document(docId)
-        val feedRef = firestore.collection("activity_feed").document(feedId)
+
+        val isSharingEnabled = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+            .getBoolean("community_sharing", true)
 
         firestore.runTransaction { transaction ->
             val userSnap = transaction.get(userRef)
+            val username = userSnap.getString("username") ?: auth.currentUser?.displayName ?: "User"
             val currentPoints = userSnap.getLong("points") ?: 0L
+            
+            val docId = "${selectedDateString}_${workoutCategory}_${exercise.id}"
+            val exerciseRef = userRef.collection("completed_exercises").document(docId)
             val exerciseExists = transaction.get(exerciseRef).exists()
+            
+            val feedId = "feed_${userId}_${docId}"
+            val feedRef = firestore.collection("activity_feed").document(feedId)
 
             if (completed && !exerciseExists) {
-                // 1. Save completion
+
                 val data = hashMapOf(
                     "exerciseId" to exercise.id.toString(),
                     "workoutCategory" to workoutCategory,
@@ -156,38 +160,45 @@ class WorkoutDetailActivity : BaseActivity() {
                     "timestamp" to com.google.firebase.Timestamp.now()
                 )
                 transaction.set(exerciseRef, data)
-                
-                // 2. Award points
-                transaction.update(userRef, "points", FieldValue.increment(2))
-                
-                // 3. Post to Community Feed with specific ID
-                val activity = hashMapOf(
-                    "id" to feedId,
-                    "userId" to userId,
-                    "username" to username,
-                    "type" to "WORKOUT",
-                    "content" to "just completed ${exercise.name}! 💪",
-                    "timestamp" to System.currentTimeMillis(),
-                    "highFives" to emptyList<String>()
-                )
-                transaction.set(feedRef, activity)
+
+                if (userSnap.exists()) {
+                    transaction.update(userRef, "points", FieldValue.increment(2))
+                } else {
+                    transaction.set(userRef, hashMapOf(
+                        "uid" to userId,
+                        "username" to username,
+                        "email" to (auth.currentUser?.email ?: ""),
+                        "points" to 2
+                    ))
+                }
+
+                if (isSharingEnabled) {
+                    val activity = hashMapOf(
+                        "id" to feedId,
+                        "userId" to userId,
+                        "username" to username,
+                        "type" to "WORKOUT",
+                        "content" to "just completed ${exercise.name}! 💪",
+                        "timestamp" to System.currentTimeMillis(),
+                        "highFives" to emptyList<String>(),
+                        "comments" to emptyList<Map<String, Any>>()
+                    )
+                    transaction.set(feedRef, activity)
+                }
 
             } else if (!completed && exerciseExists) {
-                // 1. Remove completion record
                 transaction.delete(exerciseRef)
-                
-                // 2. Deduct points safely (never below 0)
-                val pointsToDeduct = if (currentPoints >= 2) -2L else -currentPoints
-                transaction.update(userRef, "points", FieldValue.increment(pointsToDeduct))
-                
-                // 3. REMOVE from Community Feed so the "Pulse" stays accurate
+                if (userSnap.exists()) {
+                    val pointsToDeduct = if (currentPoints >= 2) -2L else -currentPoints
+                    transaction.update(userRef, "points", FieldValue.increment(pointsToDeduct))
+                }
+
                 transaction.delete(feedRef)
             }
-            
-            if (currentPoints < 0) {
-                transaction.update(userRef, "points", 0)
-            }
+            null
+        }.addOnSuccessListener {
         }.addOnFailureListener { e ->
+            Log.e("WorkoutDetail", "Transaction failed", e)
             Toast.makeText(this, "Sync error: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }

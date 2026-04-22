@@ -25,7 +25,7 @@ class ChangeUsernameActivity : BaseActivity() {
         val saveButton = findViewById<Button>(R.id.btn_save_username)
         val backButton = findViewById<Button>(R.id.btn_back)
 
-        // Pre-fill with current name
+        // user authentication
         newUsernameEdit.setText(auth.currentUser?.displayName)
 
         saveButton.setOnClickListener {
@@ -38,7 +38,7 @@ class ChangeUsernameActivity : BaseActivity() {
         }
 
         backButton.setOnClickListener {
-            onBackPressed()
+            finish()
         }
     }
 
@@ -46,7 +46,7 @@ class ChangeUsernameActivity : BaseActivity() {
         val user = auth.currentUser ?: return
         val userId = user.uid
         
-        // 1. Update Firebase Auth Profile
+        //updates firebase profile
         val profileUpdates = userProfileChangeRequest {
             displayName = newName
         }
@@ -54,14 +54,14 @@ class ChangeUsernameActivity : BaseActivity() {
         user.updateProfile(profileUpdates)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // 2. Update Firestore User Document and existing activities
+                    // updates firestore user docs
                     val batch = firestore.batch()
-                    
-                    // Update user doc
+
+
                     val userRef = firestore.collection("users").document(userId)
                     batch.update(userRef, "username", newName)
                     
-                    // Find and update all activities by this user
+
                     firestore.collection("activity_feed")
                         .whereEqualTo("userId", userId)
                         .get()
@@ -70,7 +70,7 @@ class ChangeUsernameActivity : BaseActivity() {
                                 batch.update(doc.reference, "username", newName)
                             }
                             
-                            // Commit the batch
+                            // commit the batch
                             batch.commit().addOnSuccessListener {
                                 Toast.makeText(this, "Username updated everywhere!", Toast.LENGTH_SHORT).show()
                                 finish()
@@ -79,7 +79,7 @@ class ChangeUsernameActivity : BaseActivity() {
                             }
                         }
                         .addOnFailureListener { e ->
-                            // Even if feed update fails, commit the user name change at least
+
                             batch.commit()
                             Toast.makeText(this, "Username updated (Feed update failed)", Toast.LENGTH_SHORT).show()
                             finish()

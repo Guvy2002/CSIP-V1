@@ -28,7 +28,6 @@
             android:clickable="false"
             android:focusable="false" />
 
-        <!-- Arrow on the right -->
         <TextView
             android:id="@+id/tv_exercise_arrow"
             android:layout_width="wrap_content"

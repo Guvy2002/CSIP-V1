@@ -7,9 +7,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-/**
- * Functional Profile Activity that displays user stats and goals.
- */
+
 class MyDetailsActivity : BaseActivity() {
 
     private lateinit var textWeight: TextView
@@ -85,7 +83,7 @@ class MyDetailsActivity : BaseActivity() {
         }
 
         findViewById<MaterialButton>(R.id.btn_back_to_settings).setOnClickListener {
-            finish() // Returns to SettingsActivity
+            finish()
         }
     }
 }

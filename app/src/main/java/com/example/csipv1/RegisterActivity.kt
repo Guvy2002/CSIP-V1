@@ -1,5 +1,6 @@
 package com.example.csipv1
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -131,6 +132,13 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
+        // make sure password is strong enough
+        val strength = calculatePasswordStrength(password)
+        if (strength < 66) {
+            showWeakPasswordDialog()
+            return
+        }
+
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -169,5 +177,13 @@ class RegisterActivity : AppCompatActivity() {
                     Toast.makeText(this, "Auth Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }
             }
+    }
+
+    private fun showWeakPasswordDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Password Not Strong Enough")
+            .setMessage("For your security, please create a stronger password. It should contain at least 8 characters, including an uppercase letter, a number, and a special character.")
+            .setPositiveButton("OK", null)
+            .show()
     }
 }

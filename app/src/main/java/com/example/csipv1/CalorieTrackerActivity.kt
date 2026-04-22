@@ -23,6 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -71,7 +72,6 @@ class CalorieTrackerActivity : BaseActivity() {
     private lateinit var firestore: FirebaseFirestore
     private lateinit var usdaService: USDAService
     private lateinit var offService: OFFServiceV2
-    private lateinit var edamamService: EdamamService
     private lateinit var fatSecretService: FatSecretService
     private var mealsListener: ListenerRegistration? = null
 
@@ -91,7 +91,6 @@ class CalorieTrackerActivity : BaseActivity() {
     private var searchRunnable: Runnable? = null
     private var currentSearchCall: Call<USDASearchResponse>? = null
     private var currentOFFCall: Call<OFFV2Response>? = null
-    private var currentEdamamCall: Call<EdamamResponse>? = null
     private var currentFSCall: Call<FatSecretSearchResponse>? = null
 
     // FatSecret Token Management
@@ -102,11 +101,12 @@ class CalorieTrackerActivity : BaseActivity() {
     @Volatile
     private var allLocalFoods: List<Food>? = null
     private var isPreloadingLocal = false
+    
+    // Tracking current meal type for immediate dialog adds
+    private var currentMealType: String = "Breakfast"
 
     // API Keys
     private val USDA_API_KEY = "a1ahWqSqKN5iNvPVm8IbeGtdfdC1FpwCNKQhWdWi"
-    private val EDAMAM_APP_ID = "0088825d"
-    private val EDAMAM_APP_KEY = "f565b9911e86a0b9a803567d266df16e"
     private val FS_CLIENT_ID = "7e89ac095d9f48e3a9d466266b62a39e"
     private val FS_CLIENT_SECRET = "573939659eaa4d90bda129ab6d0c37fc"
 
@@ -119,12 +119,23 @@ class CalorieTrackerActivity : BaseActivity() {
 
         setupRetrofit()
         initializeViews()
+        
+        // Ensure correct item is selected before setting up listener
+        bottomNavigation.selectedItemId = R.id.navigation_diary
+        setupBottomNavigation()
+        
         setupListeners()
         updateDateDisplay()
         loadUserGoals()
         startRealTimeMealsListener()
-        setupBottomNavigation()
         preloadLocalFoods()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (bottomNavigation.selectedItemId != R.id.navigation_diary) {
+            bottomNavigation.selectedItemId = R.id.navigation_diary
+        }
     }
 
     private fun preloadLocalFoods() {
@@ -174,9 +185,6 @@ class CalorieTrackerActivity : BaseActivity() {
 
         offService = Retrofit.Builder().baseUrl("https://world.openfoodfacts.org/").client(client)
             .addConverterFactory(GsonConverterFactory.create()).build().create(OFFServiceV2::class.java)
-
-        edamamService = Retrofit.Builder().baseUrl("https://api.edamam.com/").client(client)
-            .addConverterFactory(GsonConverterFactory.create()).build().create(EdamamService::class.java)
 
         fatSecretService = Retrofit.Builder().baseUrl("https://oauth.fatsecret.com/").client(client)
             .addConverterFactory(GsonConverterFactory.create()).build().create(FatSecretService::class.java)
@@ -240,21 +248,63 @@ class CalorieTrackerActivity : BaseActivity() {
         val id = item["id"] as? String ?: return
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_adjust_quantity, null)
         val dialog = AlertDialog.Builder(this).setView(dialogView).create()
-        dialogView.findViewById<TextView>(R.id.text_dialog_food_name).text = item["name"] as? String ?: "Food"
+        
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val foodName = dialogView.findViewById<TextView>(R.id.text_dialog_food_name)
+        val foodInfo = dialogView.findViewById<TextView>(R.id.text_dialog_food_info)
         val qtyEdit = dialogView.findViewById<EditText>(R.id.edit_quantity)
-        qtyEdit.setText((item["quantity"] as? Number)?.toString() ?: "1.0")
-        dialogView.findViewById<Button>(R.id.btn_confirm).setOnClickListener {
+        val totalCalText = dialogView.findViewById<TextView>(R.id.text_total_calories)
+        val btnConfirm = dialogView.findViewById<Button>(R.id.btn_confirm)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+        val unitText = dialogView.findViewById<TextView>(R.id.text_unit)
+
+        val name = item["name"] as? String ?: "Food"
+        val baseCal = (item["baseCalories"] as? Number)?.toInt() ?: 0
+        val quantity = (item["quantity"] as? Number)?.toDouble() ?: 1.0
+        val unit = item["unit"] as? String ?: "serving"
+
+        foodName.text = name
+        foodInfo.text = "$baseCal kcal per $unit"
+        qtyEdit.setText(quantity.toString())
+        unitText.text = unit
+        totalCalText.text = "Total: ${(baseCal * quantity).toInt()} kcal"
+
+        qtyEdit.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val qty = s.toString().toDoubleOrNull() ?: 0.0
+                totalCalText.text = "Total: ${(baseCal * qty).toInt()} kcal"
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        btnConfirm.setOnClickListener {
             val qty = qtyEdit.text.toString().toDoubleOrNull() ?: 1.0
-            updateMealInFirebase(id, qty, (item["baseCalories"] as? Number)?.toInt() ?: 0, (item["baseProtein"] as? Number)?.toInt() ?: 0, (item["baseCarbs"] as? Number)?.toInt() ?: 0, (item["baseFat"] as? Number)?.toInt() ?: 0)
+            updateMealInFirebase(id, qty, baseCal, 
+                (item["baseProtein"] as? Number)?.toInt() ?: 0,
+                (item["baseCarbs"] as? Number)?.toInt() ?: 0,
+                (item["baseFat"] as? Number)?.toInt() ?: 0)
             dialog.dismiss()
         }
-        dialogView.findViewById<Button>(R.id.btn_cancel).setOnClickListener { dialog.dismiss() }
+        btnCancel.setOnClickListener { dialog.dismiss() }
+        
         dialog.show()
+        
+
+        val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     private fun updateMealInFirebase(id: String, qty: Double, bCal: Int, bPro: Int, bCarb: Int, bFat: Int) {
         val userId = auth.currentUser?.uid ?: return
-        val updates = mapOf("quantity" to qty, "calories" to (bCal * qty).toInt(), "protein" to (bPro * qty).toInt(), "carbs" to (bCarb * qty).toInt(), "fat" to (bFat * qty).toInt())
+        val updates = mapOf(
+            "quantity" to qty, 
+            "calories" to (bCal * qty).toInt(), 
+            "protein" to (bPro * qty).toInt(), 
+            "carbs" to (bCarb * qty).toInt(), 
+            "fat" to (bFat * qty).toInt()
+        )
         firestore.collection("users").document(userId).collection("meals").document(id).update(updates)
     }
 
@@ -269,6 +319,7 @@ class CalorieTrackerActivity : BaseActivity() {
     }
 
     private fun showAddFoodBottomSheet(mealType: String) {
+        this.currentMealType = mealType
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = LayoutInflater.from(this).inflate(R.layout.layout_add_food_bottom_sheet, null)
         bottomSheetDialog.setContentView(view)
@@ -298,8 +349,13 @@ class CalorieTrackerActivity : BaseActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
         view.findViewById<Button>(R.id.btn_save_selection).setOnClickListener {
-            syncMealsWithFirebase(adapter.getSelectedFoods(), mealType)
-            bottomSheetDialog.dismiss()
+            val selected = adapter.getSelectedFoods()
+            if (selected.isNotEmpty()) {
+                syncMealsWithFirebase(selected, mealType)
+                bottomSheetDialog.dismiss()
+            } else {
+                Toast.makeText(this, "No items selected", Toast.LENGTH_SHORT).show()
+            }
         }
         bottomSheetDialog.show()
     }
@@ -307,19 +363,52 @@ class CalorieTrackerActivity : BaseActivity() {
     private fun showQuantityDialog(food: Food, onConfirm: (Food) -> Unit) {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_adjust_quantity, null)
         val dialog = AlertDialog.Builder(this).setView(dialogView).create()
-        dialogView.findViewById<TextView>(R.id.text_dialog_food_name).text = food.name
+        
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val foodName = dialogView.findViewById<TextView>(R.id.text_dialog_food_name)
+        val foodInfo = dialogView.findViewById<TextView>(R.id.text_dialog_food_info)
         val qtyEdit = dialogView.findViewById<EditText>(R.id.edit_quantity)
+        val totalCalText = dialogView.findViewById<TextView>(R.id.text_total_calories)
+        val btnConfirm = dialogView.findViewById<Button>(R.id.btn_confirm)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+        val unitText = dialogView.findViewById<TextView>(R.id.text_unit)
+
+        foodName.text = food.name
+        foodInfo.text = "${food.calories} kcal per ${food.unit}"
         qtyEdit.setText(food.quantity.toString())
-        dialogView.findViewById<Button>(R.id.btn_confirm).setOnClickListener {
-            food.quantity = qtyEdit.text.toString().toDoubleOrNull() ?: 1.0
+        unitText.text = food.unit
+        totalCalText.text = "Total: ${food.totalCalories} kcal"
+
+        qtyEdit.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val qty = s.toString().toDoubleOrNull() ?: 0.0
+                totalCalText.text = "Total: ${(food.calories * qty).toInt()} kcal"
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        btnConfirm.setOnClickListener {
+            val qty = qtyEdit.text.toString().toDoubleOrNull() ?: 1.0
+            food.quantity = qty
+            
+            // Immediately sync this item as the user expects
+            syncMealsWithFirebase(listOf(food), currentMealType)
+            
             onConfirm(food)
             dialog.dismiss()
         }
+        btnCancel.setOnClickListener { dialog.dismiss() }
+        
         dialog.show()
+
+        val width = (resources.displayMetrics.widthPixels * 0.90).toInt()
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     private fun cancelCurrentSearch() {
-        currentSearchCall?.cancel(); currentOFFCall?.cancel(); currentEdamamCall?.cancel(); currentFSCall?.cancel()
+        currentSearchCall?.cancel(); currentOFFCall?.cancel(); currentFSCall?.cancel()
     }
 
     private fun performPrioritySearch(query: String, foodList: MutableList<Food>, adapter: FoodAdapter, bar: ProgressBar, empty: TextView) {
@@ -327,7 +416,7 @@ class CalorieTrackerActivity : BaseActivity() {
         bar.visibility = View.VISIBLE
         empty.visibility = View.GONE
         
-        // Instant local results
+
         foodList.clear()
         foodList.addAll(allLocalFoods?.filter { it.name.contains(query, true) }?.take(50) ?: emptyList())
         adapter.notifyDataSetChanged()
@@ -337,7 +426,7 @@ class CalorieTrackerActivity : BaseActivity() {
             foodList.addAll(unique)
             adapter.notifyDataSetChanged()
         }, {
-            // On Complete
+
             bar.visibility = View.GONE
             if (foodList.isEmpty()) {
                 empty.visibility = View.VISIBLE
@@ -349,14 +438,13 @@ class CalorieTrackerActivity : BaseActivity() {
     private var pendingAPICount = 0
 
     private fun searchAllAPIs(query: String, onPartialResults: (List<Food>) -> Unit, onComplete: () -> Unit) {
-        pendingAPICount = 4
+        pendingAPICount = 3
         
         fun checkDone() {
             pendingAPICount--
             if (pendingAPICount <= 0) onComplete()
         }
 
-        // USDA
         usdaService.searchFood(query, USDA_API_KEY).enqueue(object : Callback<USDASearchResponse> {
             override fun onResponse(call: Call<USDASearchResponse>, response: Response<USDASearchResponse>) {
                 if (response.isSuccessful) {
@@ -386,22 +474,7 @@ class CalorieTrackerActivity : BaseActivity() {
             override fun onFailure(call: Call<OFFV2Response>, t: Throwable) { checkDone() }
         })
 
-        // Edamam
-        edamamService.searchFood(query, EDAMAM_APP_ID, EDAMAM_APP_KEY).enqueue(object : Callback<EdamamResponse> {
-            override fun onResponse(call: Call<EdamamResponse>, response: Response<EdamamResponse>) {
-                if (response.isSuccessful) {
-                    val res = response.body()?.hints?.map { h ->
-                        val f = h.food
-                        Food(f.label, f.nutrients.calories.toInt(), f.nutrients.protein.toInt(), f.nutrients.carbs.toInt(), f.nutrients.fat.toInt(), unit = "100g")
-                    } ?: emptyList()
-                    onPartialResults(res)
-                }
-                checkDone()
-            }
-            override fun onFailure(call: Call<EdamamResponse>, t: Throwable) { checkDone() }
-        })
-
-        // FatSecret
+        // FatSecret API
         getFatSecretToken { token ->
             if (token != null) {
                 fatSecretService.searchFood("Bearer $token", query = query).enqueue(object : Callback<FatSecretSearchResponse> {
@@ -424,11 +497,70 @@ class CalorieTrackerActivity : BaseActivity() {
         val userId = auth.currentUser?.uid ?: return
         val dateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time)
         val batch = firestore.batch()
+        
+        // 1. Log Meals immediately (Immediate Batch)
         for (food in selectedFoods) {
             val mealRef = firestore.collection("users").document(userId).collection("meals").document()
-            batch.set(mealRef, hashMapOf("name" to food.name, "calories" to food.totalCalories, "protein" to food.totalProtein, "carbs" to food.totalCarbs, "fat" to food.totalFat, "baseCalories" to food.calories, "quantity" to food.quantity, "mealType" to mealType, "date" to dateString))
+            batch.set(mealRef, hashMapOf(
+                "name" to food.name, 
+                "calories" to food.totalCalories, 
+                "protein" to food.totalProtein, 
+                "carbs" to food.totalCarbs, 
+                "fat" to food.totalFat, 
+                "baseCalories" to food.calories, 
+                "quantity" to food.quantity, 
+                "mealType" to mealType, 
+                "date" to dateString,
+                "unit" to food.unit,
+                "timestamp" to FieldValue.serverTimestamp()
+            ))
         }
-        batch.commit().addOnSuccessListener { Toast.makeText(this, "Diary updated", Toast.LENGTH_SHORT).show() }
+
+        batch.commit().addOnSuccessListener { 
+            Toast.makeText(this, "Logged to $mealType", Toast.LENGTH_SHORT).show()
+            
+            //post to feed
+            postToCommunityFeed(selectedFoods, mealType)
+        }.addOnFailureListener { e ->
+            Log.e("CalorieTracker", "Meal sync failed", e)
+            Toast.makeText(this, "Failed to log food", Toast.LENGTH_SHORT).show()
+        }
+    }
+    
+    private fun postToCommunityFeed(foods: List<Food>, mealType: String) {
+        if (foods.isEmpty()) return
+        val userId = auth.currentUser?.uid ?: return
+        
+        // community sharing is enabled or disabled by user
+        val isSharingEnabled = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+            .getBoolean("community_sharing", true)
+        
+        if (!isSharingEnabled) return
+
+        firestore.collection("users").document(userId).get().addOnSuccessListener { userSnap ->
+            val username = userSnap.getString("username") ?: auth.currentUser?.displayName ?: "User"
+            
+            val feedRef = firestore.collection("activity_feed").document()
+            val content = if (foods.size == 1) {
+                "just logged ${foods[0].name} for $mealType! 🍴"
+            } else {
+                "just logged ${foods.size} items for $mealType! 🍴"
+            }
+            
+            val activity = hashMapOf(
+                "id" to feedRef.id,
+                "userId" to userId,
+                "username" to username,
+                "type" to "MEAL",
+                "content" to content,
+                "timestamp" to System.currentTimeMillis(),
+                "highFives" to emptyList<String>(),
+                "comments" to emptyList<Map<String, Any>>()
+            )
+            
+            firestore.collection("activity_feed").document(feedRef.id).set(activity)
+                .addOnFailureListener { e -> Log.e("CalorieTracker", "Feed post failed", e) }
+        }
     }
 
     private fun deleteMeal(id: String) {
@@ -452,6 +584,9 @@ class CalorieTrackerActivity : BaseActivity() {
         firestore.collection("users").document(userId).collection("goals").document("current").get().addOnSuccessListener { doc ->
             if (doc.exists()) {
                 dailyCalorieGoal = (doc.get("dailyCalories") as? Number)?.toInt() ?: 2000
+                proteinTarget = (doc.get("proteinTarget") as? Number)?.toInt() ?: 150
+                carbsTarget = (doc.get("carbsTarget") as? Number)?.toInt() ?: 250
+                fatTarget = (doc.get("fatTarget") as? Number)?.toInt() ?: 70
                 updateCalorieDisplay()
             }
         }
@@ -476,7 +611,7 @@ class CalorieTrackerActivity : BaseActivity() {
                     }
                     caloriesConsumed = c; totalProtein = p; totalCarbs = cb; totalFat = f
                     adapterBreakfast.updateData(currentLoggedMeals.filter { it["mealType"] == "Breakfast" })
-                    adapterLunch.updateData(currentLoggedMeals.filter { it["mealType"] == "Lunch" })
+                    adapterLunch.updateData(currentLoggedMeals.filter { it["mealType"].toString().equals("Lunch", true) })
                     adapterDinner.updateData(currentLoggedMeals.filter { it["mealType"] == "Dinner" })
                     adapterSnacks.updateData(currentLoggedMeals.filter { it["mealType"] == "Snacks" })
                     updateCalorieDisplay()
@@ -487,18 +622,39 @@ class CalorieTrackerActivity : BaseActivity() {
     private fun updateCalorieDisplay() {
         textCaloriesConsumed.text = caloriesConsumed.toString()
         textCaloriesGoal.text = "Goal: $dailyCalorieGoal"
-        if (dailyCalorieGoal > 0) caloriesProgressCircle.setProgress((caloriesConsumed * 100 / dailyCalorieGoal).coerceAtMost(100), true)
-        labelProtein.text = "P: $totalProtein"; labelCarbs.text = "C: $totalCarbs"; labelFat.text = "F: $totalFat"
+        if (dailyCalorieGoal > 0) {
+            val progress = (caloriesConsumed * 100 / dailyCalorieGoal).coerceAtMost(100)
+            caloriesProgressCircle.setProgress(progress, true)
+        }
+        
+        // Macros display with target
+        labelProtein.text = "P: $totalProtein / ${proteinTarget}g"
+        labelCarbs.text = "C: $totalCarbs / ${carbsTarget}g"
+        labelFat.text = "F: $totalFat / ${fatTarget}g"
+
+        // Update Macro Progress Bars
+        progressProtein.progress = if (proteinTarget > 0) (totalProtein * 100 / proteinTarget).coerceAtMost(100) else 0
+        progressCarbs.progress = if (carbsTarget > 0) (totalCarbs * 100 / carbsTarget).coerceAtMost(100) else 0
+        progressFat.progress = if (fatTarget > 0) (totalFat * 100 / fatTarget).coerceAtMost(100) else 0
     }
 
     private fun setupBottomNavigation() {
         bottomNavigation.setOnItemSelectedListener { item ->
+            if (item.itemId == R.id.navigation_diary) return@setOnItemSelectedListener true
+            
             val target = when (item.itemId) {
                 R.id.navigation_home -> HomeActivity::class.java
+                R.id.navigation_community -> CommunityActivity::class.java
                 R.id.navigation_exercise -> WorkoutActivity::class.java
                 else -> null
             }
-            target?.let { startActivity(Intent(this, it)); true } ?: false
+            target?.let { 
+                val intent = Intent(this, it)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+                overridePendingTransition(0, 0)
+                true 
+            } ?: false
         }
     }
 

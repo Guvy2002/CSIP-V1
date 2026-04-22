@@ -32,12 +32,12 @@ class LoggedFoodAdapter(
         holder.textName.text = name
         holder.textInfo.text = "$quantity $unit • $calories kcal"
         
-        // Click to edit
+
         holder.itemView.setOnClickListener {
             onEdit(item)
         }
 
-        // Long click to delete
+
         holder.itemView.setOnLongClickListener {
             val id = item["id"] as? String
             if (id != null) onDelete(id)

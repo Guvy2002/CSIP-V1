@@ -24,7 +24,7 @@ class ChangePasswordActivity : BaseActivity() {
         val updateButton = findViewById<Button>(R.id.btn_update_password)
         val backButton = findViewById<Button>(R.id.btn_back)
 
-        // Pre-fill email from current user
+        // user puts in email to confirm
         emailEdit.setText(auth.currentUser?.email)
 
         backButton.setOnClickListener {

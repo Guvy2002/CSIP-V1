@@ -19,7 +19,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- 1. PROFESSIONAL HEADER -->
+            <!-- HEADER -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 2. DASHBOARD SUMMARY CARD -->
+            <!-- DASHBOARD SUMMARY CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -238,7 +238,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 4. QUICK ACCESS GRID -->
+            <!-- QUICK ACCESS GRID -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -279,7 +279,7 @@
                     android:padding="16dp" />
             </GridLayout>
 
-            <!-- 5. FEATURED RECIPES -->
+            <!-- FEATURED RECIPES -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

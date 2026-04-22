@@ -1,13 +1,6 @@
 package com.example.csipv1
-
-/**
- * Helper class to calculate daily nutritional requirements.
- */
 object CalorieCalculator {
-
-    /**
-     * Calculates the TDEE (Total Daily Energy Expenditure) and resulting macro targets.
-     */
+    //Calculates the TDEE (Total Daily Energy Expenditure)
     fun calculateNutrition(
         age: Int,
         gender: String,
@@ -16,14 +9,14 @@ object CalorieCalculator {
         activityLevel: String,
         fitnessGoal: String
     ): NutritionPlan {
-        // 1. Calculate BMR (Mifflin-St Jeor Equation)
+        //Calculate BMR (Mifflin-St Jeor Equation)
         val bmr = if (gender.lowercase() == "male") {
             (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5
         } else {
             (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161
         }
 
-        // 2. Adjust for Activity Level
+        //adjusted for activity level
         val activityFactor = when (activityLevel) {
             "Sedentary" -> 1.2
             "Lightly Active" -> 1.375
@@ -33,7 +26,7 @@ object CalorieCalculator {
         }
         val tdee = bmr * activityFactor
 
-        // 3. Adjust for Fitness Goal
+        //adjusted for fitness goal
         val dailyCalories = when (fitnessGoal) {
             "Lose Weight" -> tdee - 500
             "Maintain Weight" -> tdee
@@ -41,8 +34,7 @@ object CalorieCalculator {
             else -> tdee
         }.toInt()
 
-        // 4. Calculate Macros (Protein: 30%, Carbs: 40%, Fat: 30%)
-        // Protein: 4 kcal/g, Carbs: 4 kcal/g, Fat: 9 kcal/g
+        // macro calculations
         val protein = (dailyCalories * 0.30 / 4).toInt()
         val carbs = (dailyCalories * 0.40 / 4).toInt()
         val fat = (dailyCalories * 0.30 / 9).toInt()

@@ -7,8 +7,15 @@ data class CommunityActivityModel(
     val type: String = "MEAL", // "MEAL" or "WORKOUT"
     val content: String = "",
     val timestamp: Long = System.currentTimeMillis(),
-    val highFives: List<String> = emptyList(), // User IDs who have liked this
-    val comments: List<CommentModel> = emptyList()
+    val highFives: List<String> = emptyList(),
+    val comments: List<CommentModel> = emptyList(),
+    val sharable: Boolean = false,
+    val dishName: String? = null,
+    val calories: Int = 0,
+    val protein: Int = 0,
+    val carbs: Int = 0,
+    val fat: Int = 0,
+    val unit: String? = "serving"
 )
 
 data class CommentModel(

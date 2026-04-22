@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        // Always show login screen for testing purposes
+// allows me to constantly login on bootup so i can test
         setContentView(R.layout.activity_login)
 
         emailInput = findViewById(R.id.email_input)
@@ -56,15 +56,15 @@ class LoginActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { document ->
                 if (document.exists() && document.contains("dailyCalories")) {
-                    // Goals exist, go to Home
+
                     navigateToHome(username)
                 } else {
-                    // Goals don't exist, go to GoalsActivity
+
                     navigateToGoals(username)
                 }
             }
             .addOnFailureListener {
-                // If check fails, default to Home but log error
+
                 navigateToHome(username)
             }
     }

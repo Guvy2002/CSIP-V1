@@ -133,6 +133,20 @@
             <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
 
             <ImageView
+                android:id="@+id/btn_save_to_library"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@android:drawable/ic_menu_add"
+                android:visibility="gone"
+                app:tint="@android:color/holo_blue_light"
+                tools:visibility="visible" />
+
+            <ImageView
                 android:id="@+id/btn_comment"
                 android:layout_width="20dp"
                 android:layout_height="20dp"

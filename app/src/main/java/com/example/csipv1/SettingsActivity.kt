@@ -11,11 +11,10 @@ import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.firebase.auth.FirebaseAuth
 
-/**
- * Optimized Settings Activity with language support, step goals, and unit system.
- */
+
 class SettingsActivity : BaseActivity() {
 
     private lateinit var textSizeSmall: RadioButton
@@ -25,6 +24,7 @@ class SettingsActivity : BaseActivity() {
     private lateinit var stepGoalSeekBar: SeekBar
     private lateinit var stepGoalText: TextView
     private lateinit var unitToggleGroup: MaterialButtonToggleGroup
+    private lateinit var communitySharingSwitch: MaterialSwitch
     
     private lateinit var myGoalsButton: MaterialButton
     private lateinit var changeUsernameButton: MaterialButton
@@ -38,6 +38,7 @@ class SettingsActivity : BaseActivity() {
         const val KEY_LANGUAGE = "language"
         const val KEY_STEP_GOAL = "step_goal"
         const val KEY_UNITS = "units"
+        const val KEY_COMMUNITY_SHARING = "community_sharing"
 
         const val TEXT_SIZE_SMALL = "small"
         const val TEXT_SIZE_MEDIUM = "medium"
@@ -72,7 +73,7 @@ class SettingsActivity : BaseActivity() {
         loadSavedSettings()
         setupListeners()
         
-        // De-highlight all navigation items on the Settings page
+
         bottomNavigation.menu.setGroupCheckable(0, true, false)
         for (i in 0 until bottomNavigation.menu.size()) {
             bottomNavigation.menu.getItem(i).isChecked = false
@@ -90,6 +91,7 @@ class SettingsActivity : BaseActivity() {
         stepGoalSeekBar = findViewById(R.id.seekbar_step_goal)
         stepGoalText = findViewById(R.id.text_step_goal_value)
         unitToggleGroup = findViewById(R.id.toggle_units)
+        communitySharingSwitch = findViewById(R.id.switch_community_sharing)
 
         myGoalsButton = findViewById(R.id.my_details_button)
         changeUsernameButton = findViewById(R.id.change_username_button)
@@ -110,7 +112,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun loadSavedSettings() {
-        // Text Size
+
         val savedTextSize = sharedPreferences.getString(KEY_TEXT_SIZE, TEXT_SIZE_MEDIUM) ?: TEXT_SIZE_MEDIUM
         when (savedTextSize) {
             TEXT_SIZE_SMALL -> textSizeSmall.isChecked = true
@@ -118,23 +120,27 @@ class SettingsActivity : BaseActivity() {
             TEXT_SIZE_LARGE -> textSizeLarge.isChecked = true
         }
         
-        // Language
+
         val savedLanguageCode = sharedPreferences.getString(KEY_LANGUAGE, "en") ?: "en"
         val languageName = LANGUAGES.entries.find { it.value == savedLanguageCode }?.key ?: "English"
         languageDropdown.setText(languageName, false)
 
-        // Step Goal
+        // daily step goal
         val savedStepGoal = sharedPreferences.getInt(KEY_STEP_GOAL, 10000)
         stepGoalSeekBar.progress = savedStepGoal
         stepGoalText.text = String.format("%,d", savedStepGoal)
 
-        // Units
+        // units
         val savedUnits = sharedPreferences.getString(KEY_UNITS, "metric") ?: "metric"
         if (savedUnits == "metric") {
             unitToggleGroup.check(R.id.btn_unit_metric)
         } else {
             unitToggleGroup.check(R.id.btn_unit_imperial)
         }
+
+        // community sharing
+        val isSharingEnabled = sharedPreferences.getBoolean(KEY_COMMUNITY_SHARING, true)
+        communitySharingSwitch.isChecked = isSharingEnabled
     }
 
     private fun setupListeners() {
@@ -162,6 +168,12 @@ class SettingsActivity : BaseActivity() {
                 sharedPreferences.edit().putString(KEY_UNITS, unit).apply()
                 Toast.makeText(this, "Units set to $unit", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        communitySharingSwitch.setOnCheckedChangeListener { _, isChecked ->
+            sharedPreferences.edit().putBoolean(KEY_COMMUNITY_SHARING, isChecked).apply()
+            val status = if (isChecked) "enabled" else "disabled"
+            Toast.makeText(this, "Community sharing $status", Toast.LENGTH_SHORT).show()
         }
 
         myGoalsButton.setOnClickListener {

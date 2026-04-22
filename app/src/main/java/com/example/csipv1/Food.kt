@@ -1,8 +1,6 @@
 package com.example.csipv1
 
-/**
- * Represents a single food item with its nutritional information and selection state.
- */
+
 data class Food(
     val name: String,
     val calories: Int,
@@ -13,7 +11,7 @@ data class Food(
     var quantity: Double = 1.0,
     val unit: String = "serving"
 ) {
-    // Helper methods to get values based on quantity
+    // helper methods - get values
     val totalCalories: Int get() = (calories * quantity).toInt()
     val totalProtein: Int get() = (protein * quantity).toInt()
     val totalCarbs: Int get() = (carbs * quantity).toInt()

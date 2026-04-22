@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Left side: exercise info -->
+        <!-- exercise info -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
 
         </LinearLayout>
 
-        <!-- Right side: View button and Checkbox -->
+        <!-- View button and Checkbox for each exercise -->
         <LinearLayout
             android:id="@+id/layout_controls"
             android:layout_width="wrap_content"

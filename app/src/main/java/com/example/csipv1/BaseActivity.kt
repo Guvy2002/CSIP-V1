@@ -20,14 +20,14 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun attachBaseContext(newBase: Context) {
         val prefs = newBase.getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE)
         
-        // 1. Get Saved Settings
+        // recieve settings
         val languageCode = prefs.getString(SettingsActivity.KEY_LANGUAGE, "en") ?: "en"
         val textSize = prefs.getString(
             SettingsActivity.KEY_TEXT_SIZE,
             SettingsActivity.TEXT_SIZE_MEDIUM
         ) ?: SettingsActivity.TEXT_SIZE_MEDIUM
 
-        // 2. Prepare Configuration
+        //prepare config
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
 
@@ -41,13 +41,11 @@ abstract class BaseActivity : AppCompatActivity() {
         configuration.setLocale(locale)
         configuration.fontScale = fontScale
         
-        // This is crucial for some versions of Android to ensure the context 
-        // uses the correct resources immediately.
+
         val context = newBase.createConfigurationContext(configuration)
         super.attachBaseContext(context)
     }
-
-    // Force update configuration for the activity resources as well
+    // forces updates
     override fun getResources(): android.content.res.Resources {
         val res = super.getResources()
         val prefs = getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE)

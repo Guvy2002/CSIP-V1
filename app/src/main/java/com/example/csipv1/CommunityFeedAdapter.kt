@@ -35,6 +35,7 @@ class CommunityFeedAdapter(private var activities: List<CommunityActivityModel>)
         val btnComment: ImageView = view.findViewById(R.id.btn_comment)
         val commentsContainer: LinearLayout = view.findViewById(R.id.container_comments)
         val layoutComments: View = view.findViewById(R.id.layout_comments_container)
+        val btnSaveDish: ImageView = view.findViewById(R.id.btn_save_to_library)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -53,12 +54,28 @@ class CommunityFeedAdapter(private var activities: List<CommunityActivityModel>)
             DateUtils.MINUTE_IN_MILLIS
         )
         holder.timeText.text = relativeTime
-        holder.contentText.text = activity.content
+        
+        // show dish if it's a sharable custom dish
+        var displayContent = activity.content
+        if (activity.sharable && activity.dishName != null) {
+            displayContent += "\n\n📊 Macros: ${activity.calories} kcal | P: ${activity.protein}g | C: ${activity.carbs}g | F: ${activity.fat}g"
+        }
+        holder.contentText.text = displayContent
         
         if (activity.type == "MEAL") {
             holder.typeImage.setImageResource(R.drawable.meal_24)
         } else {
             holder.typeImage.setImageResource(R.drawable.fitness_24) 
+        }
+        
+        // save to library
+        if (activity.sharable && activity.dishName != null && activity.userId != currentUserId) {
+            holder.btnSaveDish.visibility = View.VISIBLE
+            holder.btnSaveDish.setOnClickListener {
+                saveDishToUserLibrary(holder.itemView.context, activity)
+            }
+        } else {
+            holder.btnSaveDish.visibility = View.GONE
         }
         
         val count = activity.highFives.size
@@ -77,12 +94,10 @@ class CommunityFeedAdapter(private var activities: List<CommunityActivityModel>)
             }
         }
 
-        // Comment Logic
         holder.btnComment.setOnClickListener {
             showCommentDialog(holder.itemView.context, activity)
         }
 
-        // Display Comments
         if (activity.comments.isNotEmpty()) {
             holder.layoutComments.visibility = View.VISIBLE
             holder.commentsContainer.removeAllViews()
@@ -93,7 +108,6 @@ class CommunityFeedAdapter(private var activities: List<CommunityActivityModel>)
                 commentView.findViewById<TextView>(R.id.text_comment_user).text = comment.username
                 commentView.findViewById<TextView>(R.id.text_comment_body).text = comment.comment
                 
-                // Display relative time for each comment
                 val cTime = DateUtils.getRelativeTimeSpanString(
                     comment.timestamp,
                     System.currentTimeMillis(),
@@ -118,6 +132,30 @@ class CommunityFeedAdapter(private var activities: List<CommunityActivityModel>)
         }
     }
 
+    private fun saveDishToUserLibrary(context: android.content.Context, activity: CommunityActivityModel) {
+        val userId = currentUserId ?: return
+        val dishData = hashMapOf(
+            "name" to (activity.dishName ?: "Shared Dish"),
+            "calories" to activity.calories,
+            "protein" to activity.protein,
+            "carbs" to activity.carbs,
+            "fat" to activity.fat,
+            "unit" to (activity.unit ?: "serving"),
+            "createdAt" to System.currentTimeMillis(),
+            "source" to "Community (${activity.username})"
+        )
+        
+        db.collection("users").document(userId).collection("custom_dishes")
+            .document(activity.dishName?.lowercase() ?: UUID.randomUUID().toString())
+            .set(dishData)
+            .addOnSuccessListener {
+                Toast.makeText(context, "${activity.dishName} saved to your library! 📖", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "Failed to save dish", Toast.LENGTH_SHORT).show()
+            }
+    }
+
     private fun showCommentDialog(context: android.content.Context, activity: CommunityActivityModel) {
         val builder = AlertDialog.Builder(context)
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_add_comment, null)
@@ -126,11 +164,11 @@ class CommunityFeedAdapter(private var activities: List<CommunityActivityModel>)
         val dialog = builder.create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val editComment = view.findViewById<EditText>(R.id.edit_comment)
+        val editCommentView = view.findViewById<EditText>(R.id.edit_comment)
         val btnPost = view.findViewById<Button>(R.id.btn_post_comment)
 
         btnPost.setOnClickListener {
-            val commentText = editComment.text.toString().trim()
+            val commentText = editCommentView.text.toString().trim()
             if (commentText.isNotEmpty()) {
                 postComment(activity.id, commentText)
                 dialog.dismiss()

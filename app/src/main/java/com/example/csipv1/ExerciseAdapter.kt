@@ -8,10 +8,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-/**
- * Professional adapter for displaying individual exercises within a workout plan.
- * Handles both completion tracking and navigation to details.
- */
+
 class ExerciseAdapter(
     private val exercises: List<Exercise>,
     private val onCheckChanged: (Exercise, Boolean) -> Unit,

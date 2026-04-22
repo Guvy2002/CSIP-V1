@@ -61,7 +61,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- TIP -->
+            <!-- WORKOUT TIP -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="24dp">
 
-                <!-- PPL -->
+                <!-- PPL SPLIT-->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_view_plans"
                     android:layout_width="0dp"
@@ -219,7 +219,7 @@
                     </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Upper/Lower -->
+                <!-- Upper/Lower SPLIT -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_view_upper_lower_plans"
                     android:layout_width="0dp"
@@ -271,7 +271,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp" />
 
-            <!-- GRID FOR CATEGORIES -->
+            <!-- GRID LAYOUT CATEGORIES -->
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

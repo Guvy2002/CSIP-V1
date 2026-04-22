@@ -12,15 +12,12 @@ class FoodAdapter(
     private val onItemClicked: (Food) -> Unit
 ) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
 
-    // Store actual food objects so they persist across different search queries
+    // This stores objects across different search queries
     private val selectedFoods = mutableMapOf<String, Food>()
 
     fun getSelectedFoods(): List<Food> = selectedFoods.values.toList()
 
-    /**
-     * Replaces the adapter's data and refreshes the RecyclerView.
-     * Always call this instead of notifyDataSetChanged() directly.
-     */
+
     fun updateData(newItems: List<Food>) {
         this.items = newItems.toList()
         notifyDataSetChanged()

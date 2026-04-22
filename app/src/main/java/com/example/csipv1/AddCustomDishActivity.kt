@@ -1,6 +1,7 @@
 package com.example.csipv1
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -83,7 +84,6 @@ class AddCustomDishActivity : BaseActivity() {
 
     private fun saveDishToDiary() {
         val userId = auth.currentUser?.uid ?: return
-        val username = auth.currentUser?.displayName ?: "A User"
         val name = editName.text.toString().trim()
         val calories = editCalories.text.toString().toIntOrNull() ?: 0
         val protein = editProtein.text.toString().toIntOrNull() ?: 0
@@ -114,18 +114,18 @@ class AddCustomDishActivity : BaseActivity() {
         btnSave.isEnabled = false
         btnSave.text = "Saving..."
 
-        // 1. Add to today's log
+        //add to today's log
         firestore.collection("users").document(userId).collection("meals").document()
             .set(mealData)
             .addOnSuccessListener {
                 Toast.makeText(this, "$name added to $category", Toast.LENGTH_SHORT).show()
                 
-                // 2. Save to user's personal library
+                // save to user's personal library
                 saveToPersonalLibrary(name, calories, protein, carbs, fat, unit)
                 
-                // 3. Share with community if requested
+                //share with community if the user wants too
                 if (shouldShare) {
-                    shareWithCommunity(name, calories, protein, carbs, fat, unit, username)
+                    shareWithCommunity(name, calories, protein, carbs, fat, unit, category)
                 }
                 
                 finish()
@@ -153,19 +153,35 @@ class AddCustomDishActivity : BaseActivity() {
             .set(dishData)
     }
 
-    private fun shareWithCommunity(name: String, cal: Int, pro: Int, carb: Int, fat: Int, unit: String, author: String) {
-        val dishData = hashMapOf(
-            "name" to name,
-            "calories" to cal,
-            "protein" to pro,
-            "carbs" to carb,
-            "fat" to fat,
-            "unit" to unit,
-            "createdBy" to author,
-            "isCommunity" to true,
-            "timestamp" to System.currentTimeMillis()
-        )
-        // Store in global foods collection so everyone can search it
-        firestore.collection("foods").add(dishData)
+    private fun shareWithCommunity(dishName: String, cal: Int, pro: Int, carb: Int, fat: Int, unit: String, category: String) {
+        val userId = auth.currentUser?.uid ?: return
+        
+        firestore.collection("users").document(userId).get().addOnSuccessListener { userSnap ->
+            val username = userSnap.getString("username") ?: auth.currentUser?.displayName ?: "User"
+            
+            val feedRef = firestore.collection("activity_feed").document()
+            val activity = hashMapOf(
+                "id" to feedRef.id,
+                "userId" to userId,
+                "username" to username,
+                "type" to "MEAL",
+                "content" to "just created and logged a custom dish: $dishName for $category! 👨‍🍳✨",
+                "timestamp" to System.currentTimeMillis(),
+                "highFives" to emptyList<String>(),
+                "comments" to emptyList<Map<String, Any>>(),
+                
+                // sharable metadata
+                "isSharableDish" to true,
+                "dishName" to dishName,
+                "calories" to cal,
+                "protein" to pro,
+                "carbs" to carb,
+                "fat" to fat,
+                "unit" to unit
+            )
+            
+            firestore.collection("activity_feed").document(feedRef.id).set(activity)
+                .addOnFailureListener { e -> Log.e("CustomDish", "Feed post failed", e) }
+        }
     }
 }

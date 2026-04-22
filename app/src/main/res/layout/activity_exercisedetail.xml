@@ -7,7 +7,7 @@
     android:background="@drawable/pages_background"
     tools:context=".ExerciseDetailActivity">
 
-    <!-- Professional Rest Timer Bar at the bottom -->
+    <!-- rest timer -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/timer_container"
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Header with Back Button -->
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                 android:background="#33FFFFFF"
                 android:layout_marginBottom="24dp" />
 
-            <!-- Instructions Header -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -202,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
-                <!-- item_exercise_step.xml will be added here -->
+
             </LinearLayout>
 
         </LinearLayout>

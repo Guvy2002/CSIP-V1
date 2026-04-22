@@ -40,7 +40,7 @@ class RecipeAdapter(
             caloriesText.text = "${recipe.calories} kcal"
             proteinText.text = "${recipe.protein}g Protein"
             
-            // Load dynamic image from Firebase URL using Glide
+            // temporary placeholder images
             if (!recipe.imageUrl.isNullOrEmpty()) {
                 Glide.with(itemView.context)
                     .load(recipe.imageUrl)

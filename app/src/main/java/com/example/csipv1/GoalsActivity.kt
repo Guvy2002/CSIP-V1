@@ -8,9 +8,7 @@ import androidx.cardview.widget.CardView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-/**
- * Optimized Goals Activity extending BaseActivity for faster theme/setting application.
- */
+
 class GoalsActivity : BaseActivity() {
 
     private lateinit var ageInput: EditText
@@ -21,7 +19,6 @@ class GoalsActivity : BaseActivity() {
     private lateinit var activityLevelSpinner: Spinner
     private lateinit var saveButton: Button
 
-    // Result UI components
     private lateinit var resultsCard: CardView
     private lateinit var textCalcCalories: TextView
     private lateinit var textCalcProtein: TextView
@@ -42,8 +39,7 @@ class GoalsActivity : BaseActivity() {
 
         initializeViews()
         setupSpinners()
-        
-        // Load existing data if available
+
         loadExistingGoals()
 
         val sourceActivity = intent.getStringExtra("SOURCE_ACTIVITY")

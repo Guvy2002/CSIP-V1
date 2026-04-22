@@ -19,7 +19,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- HEADER with centered date -->
+            <!-- HEADER -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -46,7 +46,6 @@
                     app:tint="@color/white" />
             </RelativeLayout>
 
-            <!-- Underline for the date -->
             <View
                 android:layout_width="160dp"
                 android:layout_height="1dp"
@@ -65,7 +64,6 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- List of Exercises -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_exercises"
                 android:layout_width="match_parent"
@@ -73,7 +71,7 @@
                 android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/activity_workouts_exercises" />
 
-            <!-- Warming Up Section -->
+            <!-- Warming Up CARDS -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_warmup"
                 android:layout_width="match_parent"
@@ -132,7 +130,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Cooling Down Section -->
+            <!-- Cooling Down CARDS -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_cooldown"
                 android:layout_width="match_parent"

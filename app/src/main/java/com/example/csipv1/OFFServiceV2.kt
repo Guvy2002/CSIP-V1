@@ -6,9 +6,7 @@ import retrofit2.http.Header
 import retrofit2.http.Query
 
 interface OFFServiceV2 {
-    /**
-     * Updated to prefer English results and the UK market.
-     */
+
     @GET("cgi/search.pl")
     fun searchFood(
         @Query("search_terms") query: String,

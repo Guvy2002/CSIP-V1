@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-/**
- * Redesigned Recipes Activity with professional unified styling and instant-response navigation.
- */
+
 class RecipiesActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
@@ -32,6 +33,7 @@ class CommunityActivity : BaseActivity() {
     private lateinit var btnNotifications: FrameLayout
     private lateinit var btnFriendsList: FrameLayout
     private lateinit var notificationBadge: View
+    private lateinit var btnRefreshLiveFeed: ImageButton
     
     private lateinit var layoutActivityFeed: LinearLayout
     private lateinit var layoutLeaderboard: LinearLayout
@@ -100,6 +102,7 @@ class CommunityActivity : BaseActivity() {
         btnNotifications = findViewById(R.id.btn_notifications)
         btnFriendsList = findViewById(R.id.btn_friends_list)
         notificationBadge = findViewById(R.id.notification_badge)
+        btnRefreshLiveFeed = findViewById(R.id.btn_refresh_live_feed)
         
         layoutActivityFeed = findViewById(R.id.layout_activity_feed)
         layoutLeaderboard = findViewById(R.id.layout_leaderboard)
@@ -121,7 +124,11 @@ class CommunityActivity : BaseActivity() {
         receivedRequestsListener = firestore.collection("friend_requests")
             .whereEqualTo("toUid", currentUid)
             .whereEqualTo("status", "pending")
-            .addSnapshotListener { snapshots, _ ->
+            .addSnapshotListener { snapshots, error ->
+                if (error != null) {
+                    Log.e("Community", "Error fetching received requests", error)
+                    return@addSnapshotListener
+                }
                 if (snapshots != null) {
                     receivedRequests = snapshots.toObjects(FriendRequestDocument::class.java).toMutableList()
                     notificationBadge.visibility = if (receivedRequests.isNotEmpty()) View.VISIBLE else View.GONE
@@ -132,7 +139,11 @@ class CommunityActivity : BaseActivity() {
         sentRequestsListener = firestore.collection("friend_requests")
             .whereEqualTo("fromUid", currentUid)
             .whereEqualTo("status", "pending")
-            .addSnapshotListener { snapshots, _ ->
+            .addSnapshotListener { snapshots, error ->
+                if (error != null) {
+                    Log.e("Community", "Error fetching sent requests", error)
+                    return@addSnapshotListener
+                }
                 if (snapshots != null) {
                     sentRequests = snapshots.toObjects(FriendRequestDocument::class.java).toMutableList()
                 }
@@ -150,7 +161,11 @@ class CommunityActivity : BaseActivity() {
             .whereIn("uid", friendIds)
             .orderBy("points", Query.Direction.DESCENDING)
             .limit(20)
-            .addSnapshotListener { snapshots, _ ->
+            .addSnapshotListener { snapshots, error ->
+                if (error != null) {
+                    Log.e("Community", "Error fetching leaderboard", error)
+                    return@addSnapshotListener
+                }
                 if (snapshots != null) {
                     val users = snapshots.toObjects(User::class.java).mapIndexed { index, u ->
                         LeaderboardUser(
@@ -191,13 +206,16 @@ class CommunityActivity : BaseActivity() {
         if (visibleIds.isNotEmpty()) {
             feedListener = firestore.collection("activity_feed")
                 .whereIn("userId", visibleIds)
-                .whereGreaterThanOrEqualTo("timestamp", startOfDay.timeInMillis)
-                .whereLessThanOrEqualTo("timestamp", endOfDay.timeInMillis)
-                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(50)
-                .addSnapshotListener { snapshots, _ ->
+                .addSnapshotListener { snapshots, error ->
+                    if (error != null) {
+                        Log.e("Community", "Error fetching activity feed", error)
+                        return@addSnapshotListener
+                    }
                     if (snapshots != null) {
                         val activities = snapshots.toObjects(CommunityActivityModel::class.java)
+                            .filter { it.timestamp in startOfDay.timeInMillis..endOfDay.timeInMillis }
+                            .sortedByDescending { it.timestamp }
                         feedRecyclerView.adapter = CommunityFeedAdapter(activities)
                     }
                 }
@@ -205,13 +223,24 @@ class CommunityActivity : BaseActivity() {
             feedRecyclerView.adapter = CommunityFeedAdapter(emptyList())
         }
 
+        refreshLiveFeed()
+    }
+
+    private fun refreshLiveFeed() {
+        val currentUid = auth.currentUser?.uid ?: return
+        val friendIds = (currentUserData?.friends ?: emptyList()) + currentUid
+        
         leaderboardLiveFeedListener?.remove()
-        if (visibleIds.isNotEmpty()) {
+        if (friendIds.isNotEmpty()) {
             leaderboardLiveFeedListener = firestore.collection("activity_feed")
-                .whereIn("userId", visibleIds)
+                .whereIn("userId", friendIds)
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(10)
-                .addSnapshotListener { snapshots, _ ->
+                .addSnapshotListener { snapshots, error ->
+                    if (error != null) {
+                        Log.e("Community", "Error fetching live feed", error)
+                        return@addSnapshotListener
+                    }
                     if (snapshots != null) {
                         val activities = snapshots.toObjects(CommunityActivityModel::class.java)
                         leaderboardLiveFeedRecyclerView.adapter = CommunityFeedAdapter(activities)
@@ -246,11 +275,14 @@ class CommunityActivity : BaseActivity() {
         if (visibleIds.isNotEmpty()) {
             pulseListener = firestore.collection("activity_feed")
                 .whereIn("userId", visibleIds)
-                .whereGreaterThanOrEqualTo("timestamp", startOfDay.timeInMillis)
-                .whereLessThanOrEqualTo("timestamp", endOfDay.timeInMillis)
-                .addSnapshotListener { snapshots, _ ->
+                .addSnapshotListener { snapshots, error ->
+                    if (error != null) {
+                        Log.e("Community", "Error fetching pulse data", error)
+                        return@addSnapshotListener
+                    }
                     if (snapshots != null) {
                         val allActivities = snapshots.toObjects(CommunityActivityModel::class.java)
+                            .filter { it.timestamp in startOfDay.timeInMillis..endOfDay.timeInMillis }
                         val mealCount = allActivities.count { it.type == "MEAL" }
                         val workoutCount = allActivities.count { it.type == "WORKOUT" }
                         
@@ -288,7 +320,11 @@ class CommunityActivity : BaseActivity() {
         val user = auth.currentUser ?: return
         userListener?.remove()
         userListener = firestore.collection("users").document(user.uid)
-            .addSnapshotListener { snapshot, _ ->
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e("Community", "Error fetching current user data", error)
+                    return@addSnapshotListener
+                }
                 if (snapshot != null && snapshot.exists()) {
                     val userData = snapshot.toObject(User::class.java)
                     val firstLoad = currentUserData == null
@@ -323,6 +359,11 @@ class CommunityActivity : BaseActivity() {
 
         btnFriendsList.setOnClickListener {
             showFriendsListDialog()
+        }
+
+        btnRefreshLiveFeed.setOnClickListener {
+            refreshLiveFeed()
+            Toast.makeText(this, "Refreshing feed...", Toast.LENGTH_SHORT).show()
         }
 
         bottomNavigation.setOnItemSelectedListener { item ->

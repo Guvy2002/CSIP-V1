@@ -29,10 +29,10 @@ class RecipeDetailActivity : BaseActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "" // Title is handled by content layout
+        supportActionBar?.title = ""
         
         toolbar.setNavigationOnClickListener {
-            onBackPressed()
+            finish()
         }
 
         val recipeId = intent.getIntExtra("RECIPE_ID", -1)
@@ -96,15 +96,15 @@ class RecipeDetailActivity : BaseActivity() {
 
         val batch = firestore.batch()
         
-        // Add meal to user's collection
+
         val mealRef = firestore.collection("users").document(userId).collection("meals").document()
         batch.set(mealRef, mealData)
 
-        // Award 2 points for cooking a healthy recipe
+        // get 2 points for cooking a healthy recipe
         val userRef = firestore.collection("users").document(userId)
         batch.update(userRef, "points", FieldValue.increment(2))
 
-        // Add to community feed
+        // add to community feed
         val activityId = firestore.collection("activity_feed").document().id
         val activity = hashMapOf(
             "id" to activityId,

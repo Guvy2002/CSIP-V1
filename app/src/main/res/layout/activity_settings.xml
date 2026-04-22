@@ -30,7 +30,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="32dp" />
 
-            <!-- TEXT SIZE CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,7 +94,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- LANGUAGE CARD -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -145,7 +144,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- STEP GOAL CARD -->
+            <!-- STEPS CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -198,7 +197,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- UNIT SYSTEM CARD -->
+            <!-- UNIT PICKER CARD -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -240,6 +239,12 @@
                             android:textColor="@color/white" />
 
                         <Button
+                            android:id="@+id/btn_unit_metric_alternative"
+                            android:visibility="gone"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"/>
+
+                        <Button
                             android:id="@+id/btn_unit_imperial"
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="0dp"
@@ -251,10 +256,62 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- PRIVACY CARD -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#26FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PRIVACY"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.1"
+                        android:layout_marginBottom="16dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@id/switch_community_sharing"
+                            android:text="Share activity with community"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switch_community_sharing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:checked="true"
+                            app:thumbTint="@color/white"
+                            app:trackTint="@color/switch_track_tint" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
     </ScrollView>
 
-    <!-- FOOTER BUTTONS CONTAINER -->
+    <!-- FOOTER -->
     <LinearLayout
         android:id="@+id/button_container"
         android:layout_width="match_parent"

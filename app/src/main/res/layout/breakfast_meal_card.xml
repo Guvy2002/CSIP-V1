@@ -48,7 +48,6 @@
                 app:tint="@color/white" />
         </RelativeLayout>
 
-        <!-- List of added foods -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_meal_items"
             android:layout_width="match_parent"

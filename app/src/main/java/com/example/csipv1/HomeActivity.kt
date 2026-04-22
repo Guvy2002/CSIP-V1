@@ -116,10 +116,10 @@ class HomeActivity : BaseActivity(), SensorEventListener {
     }
 
     private fun setupRecipeSlideshow() {
-        // Clear default placeholders
+
         recipeFlipper.removeAllViews()
         
-        // Filter recipes with images
+
         val recipesWithImages = RecipeData.indianHealthyRecipes.filter { !it.imageUrl.isNullOrEmpty() }
         
         if (recipesWithImages.isNotEmpty()) {
