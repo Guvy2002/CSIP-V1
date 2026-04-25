@@ -98,6 +98,7 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
                     val user = auth.currentUser
                     user?.reload()?.addOnCompleteListener { reloadTask ->
                         val userId = user.uid

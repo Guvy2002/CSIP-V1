@@ -14,6 +14,8 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FieldValue
+import java.text.SimpleDateFormat
+import java.util.*
 
 class StepCounterService : Service(), SensorEventListener {
 
@@ -63,6 +65,8 @@ class StepCounterService : Service(), SensorEventListener {
     private fun updateStepsAndCheckPoints(steps: Int) {
         val userId = auth.currentUser?.uid ?: return
         val userRef = db.collection("users").document(userId)
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val dailyLeaderboardRef = db.collection("daily_leaderboard").document("${today}_$userId")
         
         userRef.get().addOnSuccessListener { doc ->
             if (!doc.exists()) return@addOnSuccessListener
@@ -71,12 +75,10 @@ class StepCounterService : Service(), SensorEventListener {
             var pointsToAdd = 0L
             var milestoneReached = ""
             
-            // 5k - +5 points
             if (steps >= 5000 && lastPointsSteps < 5000) {
                 pointsToAdd += 5
                 milestoneReached = "5,000 steps"
             }
-            // 10k - +5 more points
             if (steps >= 10000 && lastPointsSteps < 10000) {
                 pointsToAdd += 5
                 milestoneReached = "10,000 steps"
@@ -89,7 +91,16 @@ class StepCounterService : Service(), SensorEventListener {
             if (pointsToAdd > 0) {
                 updates["points"] = FieldValue.increment(pointsToAdd)
                 updates["lastPointsSteps"] = steps.toLong()
-                
+
+
+                db.runTransaction { transaction ->
+                    transaction.set(dailyLeaderboardRef, hashMapOf(
+                        "userId" to userId,
+                        "username" to (doc.getString("username") ?: "User"),
+                        "date" to today,
+                        "points" to FieldValue.increment(pointsToAdd)
+                    ), com.google.firebase.firestore.SetOptions.merge())
+                }
 
                 postMilestoneToFeed(userId, doc.getString("username") ?: "User", milestoneReached)
             }

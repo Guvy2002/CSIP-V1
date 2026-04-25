@@ -1,5 +1,6 @@
 package com.example.csipv1
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -48,7 +49,6 @@ class RecipeDetailActivity : BaseActivity() {
 
             val imageDetail = findViewById<ImageView>(R.id.image_recipe_detail)
             
-            // Load dynamic image using Glide if URL is available
             if (!r.imageUrl.isNullOrEmpty()) {
                 Glide.with(this)
                     .load(r.imageUrl)
@@ -68,12 +68,23 @@ class RecipeDetailActivity : BaseActivity() {
             findViewById<TextView>(R.id.text_detail_instructions).text = instructionsText
 
             findViewById<Button>(R.id.btn_add_to_tracker).setOnClickListener {
-                addRecipeToTracker(r)
+                showMealTypeSelection(r)
             }
         }
     }
 
-    private fun addRecipeToTracker(recipe: Recipe) {
+    private fun showMealTypeSelection(recipe: Recipe) {
+        val mealTypes = arrayOf("Breakfast", "Lunch", "Dinner", "Snacks")
+        AlertDialog.Builder(this)
+            .setTitle("Select Meal Type")
+            .setItems(mealTypes) { _, which ->
+                val selectedMealType = mealTypes[which]
+                addRecipeToTracker(recipe, selectedMealType)
+            }
+            .show()
+    }
+
+    private fun addRecipeToTracker(recipe: Recipe, mealType: String) {
         val userId = auth.currentUser?.uid ?: return
         val username = auth.currentUser?.displayName ?: "Someone"
         val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
@@ -90,28 +101,36 @@ class RecipeDetailActivity : BaseActivity() {
             "baseFat" to recipe.fat,
             "quantity" to 1.0,
             "unit" to "serving",
-            "mealType" to recipe.category,
+            "mealType" to mealType,
             "date" to today
         )
 
         val batch = firestore.batch()
         
-
         val mealRef = firestore.collection("users").document(userId).collection("meals").document()
         batch.set(mealRef, mealData)
 
-        // get 2 points for cooking a healthy recipe
+        //Update total points
         val userRef = firestore.collection("users").document(userId)
         batch.update(userRef, "points", FieldValue.increment(2))
+        
+        //points for leaderboard
+        val dailyLeaderboardRef = firestore.collection("daily_leaderboard").document("${today}_$userId")
+        batch.set(dailyLeaderboardRef, hashMapOf(
+            "userId" to userId,
+            "username" to username,
+            "date" to today,
+            "points" to FieldValue.increment(2)
+        ), com.google.firebase.firestore.SetOptions.merge())
 
-        // add to community feed
+        //Add to community feed
         val activityId = firestore.collection("activity_feed").document().id
         val activity = hashMapOf(
             "id" to activityId,
             "userId" to userId,
             "username" to username,
             "type" to "MEAL",
-            "content" to "just cooked and logged ${recipe.name}! 🍳 (+2 pts)",
+            "content" to "just cooked and logged ${recipe.name} for $mealType! 🍳 (+2 pts)",
             "timestamp" to System.currentTimeMillis(),
             "highFives" to emptyList<String>()
         )
@@ -119,7 +138,7 @@ class RecipeDetailActivity : BaseActivity() {
 
         batch.commit()
             .addOnSuccessListener {
-                Toast.makeText(this, "${recipe.name} added! You earned 2 points! 🌟", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "${recipe.name} added to $mealType! You earned 2 points! 🌟", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, CalorieTrackerActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 startActivity(intent)

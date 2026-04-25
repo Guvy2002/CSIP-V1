@@ -18,9 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 class WorkoutDetailActivity : BaseActivity() {
 
@@ -136,6 +134,7 @@ class WorkoutDetailActivity : BaseActivity() {
         val userId = auth.currentUser?.uid ?: return
         val userRef = firestore.collection("users").document(userId)
 
+
         val isSharingEnabled = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
             .getBoolean("community_sharing", true)
 
@@ -150,9 +149,11 @@ class WorkoutDetailActivity : BaseActivity() {
             
             val feedId = "feed_${userId}_${docId}"
             val feedRef = firestore.collection("activity_feed").document(feedId)
+            
+            val dailyLeaderboardRef = firestore.collection("daily_leaderboard").document("${selectedDateString}_$userId")
 
             if (completed && !exerciseExists) {
-
+                //Save completion
                 val data = hashMapOf(
                     "exerciseId" to exercise.id.toString(),
                     "workoutCategory" to workoutCategory,
@@ -160,7 +161,8 @@ class WorkoutDetailActivity : BaseActivity() {
                     "timestamp" to com.google.firebase.Timestamp.now()
                 )
                 transaction.set(exerciseRef, data)
-
+                
+                //Award total points
                 if (userSnap.exists()) {
                     transaction.update(userRef, "points", FieldValue.increment(2))
                 } else {
@@ -171,7 +173,16 @@ class WorkoutDetailActivity : BaseActivity() {
                         "points" to 2
                     ))
                 }
-
+                
+                //Award daily points
+                transaction.set(dailyLeaderboardRef, hashMapOf(
+                    "userId" to userId,
+                    "username" to username,
+                    "date" to selectedDateString,
+                    "points" to FieldValue.increment(2)
+                ), com.google.firebase.firestore.SetOptions.merge())
+                
+                //Post to Community Feed (if sharing is on)
                 if (isSharingEnabled) {
                     val activity = hashMapOf(
                         "id" to feedId,
@@ -187,16 +198,26 @@ class WorkoutDetailActivity : BaseActivity() {
                 }
 
             } else if (!completed && exerciseExists) {
+
                 transaction.delete(exerciseRef)
+                
+
                 if (userSnap.exists()) {
                     val pointsToDeduct = if (currentPoints >= 2) -2L else -currentPoints
                     transaction.update(userRef, "points", FieldValue.increment(pointsToDeduct))
                 }
+                
+
+                transaction.set(dailyLeaderboardRef, hashMapOf(
+                    "points" to FieldValue.increment(-2)
+                ), com.google.firebase.firestore.SetOptions.merge())
+                
 
                 transaction.delete(feedRef)
             }
             null
         }.addOnSuccessListener {
+
         }.addOnFailureListener { e ->
             Log.e("WorkoutDetail", "Transaction failed", e)
             Toast.makeText(this, "Sync error: ${e.message}", Toast.LENGTH_SHORT).show()

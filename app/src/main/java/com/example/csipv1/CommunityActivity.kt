@@ -48,6 +48,7 @@ class CommunityActivity : BaseActivity() {
 
     private var feedListener: ListenerRegistration? = null
     private var leaderboardListener: ListenerRegistration? = null
+    private var leaderboardAllTimeListener: ListenerRegistration? = null
     private var leaderboardLiveFeedListener: ListenerRegistration? = null
     private var pulseListener: ListenerRegistration? = null
     private var userListener: ListenerRegistration? = null
@@ -152,34 +153,86 @@ class CommunityActivity : BaseActivity() {
 
     private fun startLiveListeners() {
         updateActivityFeed()
+        updateLeaderboard()
+        startPulseListener()
+    }
 
+    private fun updateLeaderboard() {
         val currentUid = auth.currentUser?.uid ?: ""
-        val friendIds = (currentUserData?.friends ?: emptyList()) + currentUid
+        val friendIds = ((currentUserData?.friends ?: emptyList()) + currentUid).filter { it.isNotEmpty() }.distinct()
+        
+        val dateString = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedPulseDate.time)
+        val isToday = isToday(selectedPulseDate)
+        
+
+        val calendarNow = Calendar.getInstance()
+        val isFuture = selectedPulseDate.after(calendarNow) && !isToday
 
         leaderboardListener?.remove()
-        leaderboardListener = firestore.collection("users")
+        leaderboardAllTimeListener?.remove()
+        
+        if (friendIds.isEmpty() || isFuture) {
+            leaderboardRecyclerView.adapter = LeaderboardAdapter(emptyList())
+            return
+        }
+
+
+        leaderboardListener = firestore.collection("daily_leaderboard")
+            .whereEqualTo("date", dateString)
+            .whereIn("userId", friendIds)
+            .orderBy("points", Query.Direction.DESCENDING)
+            .limit(20)
+            .addSnapshotListener { snapshots, error ->
+                if (error != null) {
+                    Log.e("Community", "Daily Leaderboard Error: ${error.message}")
+                    if (isToday) loadAllTimeLeaderboard(friendIds)
+                    return@addSnapshotListener
+                }
+                
+                if (snapshots != null && !snapshots.isEmpty) {
+                    leaderboardAllTimeListener?.remove() // Stop all-time fallback if it was running
+                    val users = snapshots.documents.mapIndexed { index, doc ->
+                        LeaderboardUser(
+                            rank = index + 1,
+                            username = if (doc.getString("userId") == currentUid) "You" else doc.getString("username") ?: "User",
+                            points = doc.getLong("points")?.toInt() ?: 0,
+                            status = "Daily Rank"
+                        )
+                    }
+                    leaderboardRecyclerView.adapter = LeaderboardAdapter(users)
+                } else if (isToday) {
+                    loadAllTimeLeaderboard(friendIds)
+                } else {
+                    leaderboardRecyclerView.adapter = LeaderboardAdapter(emptyList())
+                }
+            }
+    }
+
+    private fun loadAllTimeLeaderboard(friendIds: List<String>) {
+        val currentUid = auth.currentUser?.uid ?: ""
+        leaderboardAllTimeListener?.remove()
+        
+        leaderboardAllTimeListener = firestore.collection("users")
             .whereIn("uid", friendIds)
             .orderBy("points", Query.Direction.DESCENDING)
             .limit(20)
             .addSnapshotListener { snapshots, error ->
                 if (error != null) {
-                    Log.e("Community", "Error fetching leaderboard", error)
+                    Log.e("Community", "All-Time Leaderboard Error: ${error.message}")
                     return@addSnapshotListener
                 }
                 if (snapshots != null) {
-                    val users = snapshots.toObjects(User::class.java).mapIndexed { index, u ->
+                    val users = snapshots.documents.mapIndexed { index, doc ->
                         LeaderboardUser(
                             rank = index + 1,
-                            username = if (u.uid == auth.currentUser?.uid) "You" else u.username,
-                            points = u.points,
-                            status = "Active Member"
+                            username = if (doc.getString("uid") == currentUid) "You" else doc.getString("username") ?: "User",
+                            points = doc.getLong("points")?.toInt() ?: 0,
+                            status = "All Time"
                         )
                     }
                     leaderboardRecyclerView.adapter = LeaderboardAdapter(users)
                 }
             }
-
-        startPulseListener()
     }
 
     private fun updateActivityFeed() {
@@ -299,7 +352,13 @@ class CommunityActivity : BaseActivity() {
     private fun updatePulseDateDisplay() {
         val today = Calendar.getInstance()
         val format = SimpleDateFormat("EEEE, MMM dd", Locale.getDefault())
-        textPulseDate.text = if (isSameDay(selectedPulseDate, today)) "Today" else format.format(selectedPulseDate.time)
+        textPulseDate.text = if (isToday(selectedPulseDate)) "Today" else format.format(selectedPulseDate.time)
+    }
+
+    private fun isToday(cal: Calendar): Boolean {
+        val today = Calendar.getInstance()
+        return cal.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+               cal.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)
     }
 
     private fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
@@ -312,6 +371,7 @@ class CommunityActivity : BaseActivity() {
             selectedPulseDate.set(year, month, day)
             updatePulseDateDisplay()
             updateActivityFeed()
+            updateLeaderboard()
             startPulseListener()
         }, selectedPulseDate.get(Calendar.YEAR), selectedPulseDate.get(Calendar.MONTH), selectedPulseDate.get(Calendar.DAY_OF_MONTH)).show()
     }
@@ -334,6 +394,7 @@ class CommunityActivity : BaseActivity() {
                         startLiveListeners()
                     } else {
                         updateActivityFeed()
+                        updateLeaderboard()
                         startPulseListener()
                     }
                 } else if (snapshot != null && !snapshot.exists()) {
@@ -609,6 +670,7 @@ class CommunityActivity : BaseActivity() {
         super.onDestroy()
         feedListener?.remove()
         leaderboardListener?.remove()
+        leaderboardAllTimeListener?.remove()
         leaderboardLiveFeedListener?.remove()
         pulseListener?.remove()
         userListener?.remove()

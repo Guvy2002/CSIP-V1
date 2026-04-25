@@ -168,7 +168,7 @@ class GoalsActivity : BaseActivity() {
         textCalcCarbs.text = getString(R.string.carbs_format, plan.carbs)
         textCalcFat.text = getString(R.string.fat_format, plan.fat)
         
-        saveButton.text = "Continue"
+        saveButton.text = "Continue and Save"
         isSaved = true
     }
 
@@ -201,7 +201,7 @@ class GoalsActivity : BaseActivity() {
             .collection("goals").document("current")
             .set(goalData)
             .addOnSuccessListener {
-                Toast.makeText(this, "Goals saved successfully!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Goals updated", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Error saving to cloud: ${e.message}", Toast.LENGTH_SHORT).show()

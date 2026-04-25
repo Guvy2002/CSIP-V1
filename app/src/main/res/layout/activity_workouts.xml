@@ -195,6 +195,7 @@
                         android:layout_height="match_parent"
                         android:padding="16dp">
                         <TextView
+                            android:id="@+id/text_ppl_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="PPL"
@@ -202,6 +203,15 @@
                             android:textSize="20sp"
                             android:textStyle="bold"
                             android:layout_alignParentTop="true" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Push Pull Legs"
+                            android:textColor="#FFFFFF"
+                            android:alpha="0.8"
+                            android:textSize="12sp"
+                            android:layout_below="@id/text_ppl_title"
+                            android:layout_marginTop="2dp" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -237,6 +247,7 @@
                         android:layout_height="match_parent"
                         android:padding="16dp">
                         <TextView
+                            android:id="@+id/text_ul_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="U/L Plans"
@@ -244,6 +255,15 @@
                             android:textSize="20sp"
                             android:textStyle="bold"
                             android:layout_alignParentTop="true" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upper / Lower Body"
+                            android:textColor="#FFFFFF"
+                            android:alpha="0.8"
+                            android:textSize="12sp"
+                            android:layout_below="@id/text_ul_title"
+                            android:layout_marginTop="2dp" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
